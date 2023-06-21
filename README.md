@@ -52,3 +52,10 @@ Atributos:
 - ID do usuário que realizou a curtida
 - ID do vídeo curtido
 - Data e hora da curtida
+
+## Entidade: Descurtida
+
+Atributos:
+- ID do usuário que realizou a curtida
+- ID do vídeo curtido
+- Data e hora da curtida
