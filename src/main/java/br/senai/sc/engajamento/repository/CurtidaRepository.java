@@ -1,4 +1,4 @@
 package br.senai.sc.engajamento.repository;
 
-public interface ComentarioRepository {
+public interface CurtidaRepository {
 }
