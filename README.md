@@ -1,52 +1,47 @@
 ## Entidade: Usuário
-
 Atributos:
-- Nome
 - ID de usuário
-- Senha
-- Endereço de e-mail
+- Nome
 - Foto de perfil
-- Data de registro
-- Lista de vídeos favoritos
-- Lista de canais inscritos
 
 ## Entidade: Vídeo
-
 Atributos:
-- Título
-- Descrição
-- URL do vídeo
-- Data de upload
-- Número de visualizações
-- Número de curtidas
-- Número de descurtidas
-- Lista de comentários
-- Duração
-- Categoria
+- ID de vídeo
+- Visualizações (Entidade)
+- Curtidas (Entidade)
+- Descurtidas (Entidade)
+- Comentários (Entidade)
 
 ## Entidade: Canal
-
 Atributos:
-- Nome
-- Descrição
-- URL do canal
-- Data de criação
-- Número de inscritos
-- Lista de vídeos do canal
+- ID do canal
+- Inscritos (Entidade) 
 
+## Entidade: Comentário
+Atributos:
+- Texto do comentário
+- Data e hora do comentário
+- Número de curtidas (Entidade curtida)
+- Número de descurtidas
+- ID do usuário que fez o comentário
+- ID do vídeo em que o comentário foi feito
+
+## Entidade: Inscritos
+Atributos:
+- ID do usuário que realizou a inscrição
+- ID do canal
 
 ## Entidade: Curtida
-
 Atributos:
 - ID do usuário que realizou a curtida
-- ID do vídeo curtido
-- Data e hora da curtida
+- ID do item curtido
 
 ## Entidade: Descurtida
-
 Atributos:
-- ID do usuário que realizou a curtida
-- ID do vídeo curtido
-- Data e hora da curtida
+- ID do usuário que realizou a descurtido
+- ID do vídeo descurtido
 
-
+## Entidade: Compartilhamento
+Atributos:
+- ID do usuário que realizou o compartilhamento
+- ID do item compartilhado
