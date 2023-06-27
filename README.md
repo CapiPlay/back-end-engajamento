@@ -45,3 +45,8 @@ Atributos:
 Atributos:
 - ID do usuário que realizou o compartilhamento
 - ID do item compartilhado
+
+## Entidade: Visualização
+Atributos:
+- ID do usuário que realizou o visualização
+- ID do vídeo visualizado
