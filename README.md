@@ -26,7 +26,7 @@ Atributos:
 - ID do usuário que fez o comentário
 - ID do vídeo em que o comentário foi feito
 
-## Entidade: Inscritos
+## Entidade: Inscrição
 Atributos:
 - ID do usuário que realizou a inscrição
 - ID do canal
