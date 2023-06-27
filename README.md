@@ -41,11 +41,6 @@ Atributos:
 - ID do usuário que realizou a descurtido
 - ID do vídeo descurtido
 
-## Entidade: Compartilhamento
-Atributos:
-- ID do usuário que realizou o compartilhamento
-- ID do item compartilhado
-
 ## Entidade: Visualização
 Atributos:
 - ID do usuário que realizou o visualização
