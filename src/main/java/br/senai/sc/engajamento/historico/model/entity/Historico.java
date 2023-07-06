@@ -20,10 +20,10 @@ public class Historico {
     @Column(columnDefinition = "char(36)")
     private UUID uuid;
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private Usuario usuario;
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private Video video;
     @Temporal(TemporalType.TIMESTAMP)
     private Date data_hora;
