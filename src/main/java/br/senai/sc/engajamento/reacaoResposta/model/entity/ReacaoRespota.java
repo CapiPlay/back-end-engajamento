@@ -1,7 +1,6 @@
-package br.senai.sc.engajamento.reacao.model.entity;
+package br.senai.sc.engajamento.reacaoResposta.model.entity;
 
-import br.senai.sc.engajamento.usuario.model.entity.Usuario;
-import br.senai.sc.engajamento.video.model.entity.Video;
+import br.senai.sc.engajamento.resposta.model.entity.Resposta;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,14 +15,12 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Reacao {
+public class ReacaoRespota {
     @Id
     @Column(columnDefinition = "char(36)")
     private UUID uuid;
     @ManyToOne
-    private Usuario usuario;
-    @ManyToOne
-    private Video video;
+    private Resposta resposta;
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
     private boolean curtida;
 }
