@@ -1,7 +1,7 @@
-package br.senai.sc.engajamento.historico.model.entity;
+package br.senai.sc.engajamento.resposta.model.entity;
 
+import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
-import br.senai.sc.engajamento.video.model.entity.Video;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,17 +14,17 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "THistorico")
-public class Historico {
+public class Resposta {
     @Id
     @Column(columnDefinition = "char(36)")
     private UUID uuid;
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Usuario usuario;
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Video video;
+    @Column(nullable = false)
+    private String texto;
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date data_hora;
+    @ManyToOne
+    private Usuario usuario;
+    @ManyToOne
+    private Comentario comentario;
 }

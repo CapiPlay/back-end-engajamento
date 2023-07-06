@@ -1,9 +1,10 @@
-package br.senai.sc.engajamento.video.model.entity;
+package br.senai.sc.engajamento.reacaoResposta.model.entity;
 
+import br.senai.sc.engajamento.resposta.model.entity.Resposta;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,11 +15,12 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "TVideo")
-public class Video {
+public class ReacaoRespota {
     @Id
     @Column(columnDefinition = "char(36)")
     private UUID uuid;
-    @Column(nullable = false)
-    private Long visualizacao;
+    @ManyToOne
+    private Resposta resposta;
+    @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+    private boolean curtida;
 }
