@@ -17,10 +17,15 @@ import java.util.List;
 public class ReacaoService {
     private final ReacaoRepository repository;
 
-    public Reacao criar(CriarReacaoCommand cmd) {
-        Reacao reacao = new Reacao();
-        BeanUtils.copyProperties(cmd, reacao);
-        return repository.save(reacao);
+    public void criar(CriarReacaoCommand cmd) {
+        try {
+            repository.findById(cmd.getIdReacao()).orElseThrow();
+            repository.deleteById(cmd.getIdReacao());
+        } catch (Exception e) {
+            Reacao reacao = new Reacao();
+            BeanUtils.copyProperties(cmd, reacao);
+            repository.save(reacao);
+        }
     }
 
     public Reacao buscarUm(BuscarUmReacaoCommand cmd) {

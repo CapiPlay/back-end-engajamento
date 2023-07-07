@@ -2,7 +2,6 @@ package br.senai.sc.engajamento.inscricao.service;
 
 import br.senai.sc.engajamento.inscricao.model.command.BuscarUmInscricaoCommand;
 import br.senai.sc.engajamento.inscricao.model.command.CriarInscricaoCommand;
-import br.senai.sc.engajamento.inscricao.model.command.DeletarUmInscricaoCommand;
 import br.senai.sc.engajamento.inscricao.model.entity.Inscricao;
 import br.senai.sc.engajamento.inscricao.repository.InscricaoRepository;
 import lombok.AllArgsConstructor;
@@ -16,22 +15,24 @@ import java.util.List;
 public class InscricaoService {
     private final InscricaoRepository repository;
 
-    public Inscricao criar(CriarInscricaoCommand cmd) {
-        Inscricao inscricao = new Inscricao();
-        BeanUtils.copyProperties(cmd, inscricao);
-        return repository.save(inscricao);
+    public void criar(CriarInscricaoCommand cmd) {
+//        TODO fazer exception
+        try {
+            repository.findById(cmd.getIdReacao()).orElseThrow();
+            repository.deleteById(cmd.getIdReacao());
+        } catch (Exception e) {
+            Inscricao inscricao = new Inscricao();
+            BeanUtils.copyProperties(cmd, inscricao);
+            repository.save(inscricao);
+        }
     }
 
     public Inscricao buscarUm(BuscarUmInscricaoCommand cmd) {
 //        TODO fazer exception
-        return repository.findById(cmd.getId()).orElseThrow();
+        return repository.findById(cmd.getIdReacao()).orElseThrow();
     }
 
     public List<Inscricao> buscarTodos() {
         return repository.findAll();
-    }
-
-    public void deletar(DeletarUmInscricaoCommand cmd) {
-        repository.deleteById(cmd.getId());
     }
 }

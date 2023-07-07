@@ -1,12 +1,11 @@
 package br.senai.sc.engajamento.reacao.model.command;
 
+import br.senai.sc.engajamento.reacao.model.id.ReacaoId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 public class BuscarUmReacaoCommand {
-    private UUID idReacao;
+    private ReacaoId idReacao;
 }

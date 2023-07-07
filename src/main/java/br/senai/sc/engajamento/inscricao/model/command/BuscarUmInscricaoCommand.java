@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BuscarUmInscricaoCommand {
-    private InscricaoId id;
+    private InscricaoId idReacao;
 }
