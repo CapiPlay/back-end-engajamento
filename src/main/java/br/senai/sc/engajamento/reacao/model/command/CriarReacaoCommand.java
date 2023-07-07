@@ -1,4 +1,4 @@
-package br.senai.sc.engajamento.nome.reacao.model.command;
+package br.senai.sc.engajamento.reacao.model.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
