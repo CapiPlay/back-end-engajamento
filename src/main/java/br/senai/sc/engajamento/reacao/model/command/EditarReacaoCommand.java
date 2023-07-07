@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class EditarUmReacaoCommand {
+public class EditarReacaoCommand {
     private UUID idReacao;
     private boolean curtida;
 }
