@@ -1,6 +1,7 @@
 package br.senai.sc.engajamento.reacao.model.entity;
 
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
+import br.senai.sc.engajamento.utils.GeradorUUIDUtils;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,13 +9,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Data
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
 public class Reacao {
     @Id
@@ -26,4 +25,8 @@ public class Reacao {
     private Video video;
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
     private boolean curtida;
+
+    public Reacao() {
+        this.uuid = GeradorUUIDUtils.gerarUuid();
+    }
 }

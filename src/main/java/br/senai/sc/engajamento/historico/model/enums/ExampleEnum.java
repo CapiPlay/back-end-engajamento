@@ -1,4 +1,4 @@
-package br.senai.sc.engajamento.historico.model.enums;
+package br.senai.sc.engajamento.nome.historico.model.enums;
 
 public enum ExampleEnum {
 }

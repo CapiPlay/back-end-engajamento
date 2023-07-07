@@ -1,4 +1,4 @@
-package br.senai.sc.engajamento.resposta.model.exception;
+package br.senai.sc.engajamento.nome.resposta.model.exception;
 
 public class ExampleException {
 }

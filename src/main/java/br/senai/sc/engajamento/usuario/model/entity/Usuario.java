@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.File;
 import java.util.UUID;
 
 @Data
@@ -21,5 +20,9 @@ public class Usuario {
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false)
-    private File foto;
+    private String foto;
+    @Column(nullable = false)
+    private int inscricoes;
+    @Column(nullable = false)
+    private int inscritos;
 }

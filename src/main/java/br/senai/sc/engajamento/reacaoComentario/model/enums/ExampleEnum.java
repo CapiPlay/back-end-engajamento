@@ -1,4 +1,4 @@
-package br.senai.sc.engajamento.reacaoComentario.model.enums;
+package br.senai.sc.engajamento.nome.reacaoComentario.model.enums;
 
 public enum ExampleEnum {
 }
