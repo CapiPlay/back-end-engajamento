@@ -1,4 +1,4 @@
-package br.senai.sc.engajamento.usuario.model.enums;
+package br.senai.sc.engajamento.nome.usuario.model.enums;
 
 public enum ExampleEnum {
 }
