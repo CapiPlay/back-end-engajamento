@@ -1,5 +1,6 @@
 package br.senai.sc.engajamento.reacoes.controller;
 
+import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.AlternarReacaoComentarioCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.BuscarUmReacaoComentarioCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.DeletarUmReacaoComentarioCommand;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -26,7 +28,14 @@ public class ReacaoComentarioController {
 
     @GetMapping
     public ResponseEntity<ReacaoComentario> buscarUm(@RequestBody @Valid BuscarUmReacaoComentarioCommand cmd) {
-        return ResponseEntity.ok(service.buscarUm(cmd));
+        ReacaoComentario reacaoComentario = null;
+        try {
+            reacaoComentario = service.buscarUm(cmd);
+        } catch (NaoEncontradoException e) {
+            System.out.println(e.getMessage());
+            System.out.println(Arrays.toString(e.getStackTrace()));
+        }
+        return ResponseEntity.ok(reacaoComentario);
     }
 
     @GetMapping
@@ -36,7 +45,14 @@ public class ReacaoComentarioController {
 
     @PutMapping
     public ResponseEntity<ReacaoComentario> alternar(@RequestBody @Valid AlternarReacaoComentarioCommand cmd) {
-        return ResponseEntity.ok(service.alternar(cmd));
+        ReacaoComentario reacaoComentario = null;
+        try {
+            reacaoComentario = service.alternar(cmd);
+        } catch (NaoEncontradoException e) {
+            System.out.println(e.getMessage());
+            System.out.println(Arrays.toString(e.getStackTrace()));
+        }
+        return ResponseEntity.ok(reacaoComentario);
     }
 
     @DeleteMapping
