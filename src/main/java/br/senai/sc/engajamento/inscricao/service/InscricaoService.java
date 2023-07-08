@@ -1,5 +1,6 @@
 package br.senai.sc.engajamento.inscricao.service;
 
+import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.inscricao.model.command.BuscarUmInscricaoCommand;
 import br.senai.sc.engajamento.inscricao.model.command.CriarInscricaoCommand;
 import br.senai.sc.engajamento.inscricao.model.entity.Inscricao;
@@ -16,9 +17,8 @@ public class InscricaoService {
     private final InscricaoRepository repository;
 
     public void criar(CriarInscricaoCommand cmd) {
-//        TODO fazer exception
         try {
-            repository.findById(cmd.getIdReacao()).orElseThrow();
+            repository.findById(cmd.getIdReacao()).orElseThrow(NaoEncontradoException::new);
             repository.deleteById(cmd.getIdReacao());
         } catch (Exception e) {
             Inscricao inscricao = new Inscricao();
@@ -28,8 +28,7 @@ public class InscricaoService {
     }
 
     public Inscricao buscarUm(BuscarUmInscricaoCommand cmd) {
-//        TODO fazer exception
-        return repository.findById(cmd.getIdReacao()).orElseThrow();
+        return repository.findById(cmd.getIdReacao()).orElseThrow(NaoEncontradoException::new);
     }
 
     public List<Inscricao> buscarTodos() {
