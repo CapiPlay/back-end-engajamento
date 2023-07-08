@@ -1,5 +1,6 @@
 package br.senai.sc.engajamento.reacoes.service;
 
+import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.reacoes.model.command.reacao.BuscarUmReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacao.CriarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacao.DeletarUmReacaoCommand;
@@ -19,9 +20,9 @@ public class ReacaoService {
 
     public void criar(CriarReacaoCommand cmd) {
         try {
-            repository.findById(cmd.getIdReacao()).orElseThrow();
+            repository.findById(cmd.getIdReacao()).orElseThrow(NaoEncontradoException::new);
             repository.deleteById(cmd.getIdReacao());
-        } catch (Exception e) {
+        } catch (NaoEncontradoException e) {
             Reacao reacao = new Reacao();
             BeanUtils.copyProperties(cmd, reacao);
             repository.save(reacao);
@@ -29,8 +30,7 @@ public class ReacaoService {
     }
 
     public Reacao buscarUm(BuscarUmReacaoCommand cmd) {
-//        TODO fazer exception
-        return repository.findById(cmd.getIdReacao()).orElseThrow();
+        return repository.findById(cmd.getIdReacao()).orElseThrow(NaoEncontradoException::new);
     }
 
     public List<Reacao> buscarTodos() {

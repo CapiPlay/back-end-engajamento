@@ -1,8 +1,9 @@
 package br.senai.sc.engajamento.reacoes.service;
 
-import br.senai.sc.engajamento.reacoes.model.command.reacao.DeletarUmReacaoCommand;
+import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.BuscarUmReacaoComentarioCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.CriarReacaoComentarioCommand;
+import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.DeletarUmReacaoComentarioCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.EditarReacaoComentarioCommand;
 import br.senai.sc.engajamento.reacoes.model.entity.ReacaoComentario;
 import br.senai.sc.engajamento.reacoes.repository.ReacaoComentarioRepository;
@@ -24,8 +25,7 @@ public class ReacaoComentarioService {
     }
 
     public ReacaoComentario buscarUm(BuscarUmReacaoComentarioCommand cmd) {
-//        TODO fazer exception
-        return repository.findById(cmd.getIdReacaoComentario()).orElseThrow();
+        return repository.findById(cmd.getIdReacaoComentario()).orElseThrow(NaoEncontradoException::new);
     }
 
     public List<ReacaoComentario> buscarTodos() {
@@ -38,7 +38,7 @@ public class ReacaoComentarioService {
         return repository.save(reacaoComentario);
     }
 
-    public void deletar(DeletarUmReacaoCommand cmd) {
-        repository.deleteById(cmd.getIdReacao());
+    public void deletar(DeletarUmReacaoComentarioCommand cmd) {
+        repository.deleteById(cmd.getIdReacaoComentario());
     }
 }
