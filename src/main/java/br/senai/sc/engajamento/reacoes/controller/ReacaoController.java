@@ -1,9 +1,8 @@
 package br.senai.sc.engajamento.reacoes.controller;
 
+import br.senai.sc.engajamento.reacoes.model.command.reacao.AlternarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacao.BuscarUmReacaoCommand;
-import br.senai.sc.engajamento.reacoes.model.command.reacao.CriarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacao.DeletarUmReacaoCommand;
-import br.senai.sc.engajamento.reacoes.model.command.reacao.EditarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.entity.Reacao;
 import br.senai.sc.engajamento.reacoes.service.ReacaoService;
 import jakarta.validation.Valid;
@@ -21,8 +20,9 @@ public class ReacaoController {
     private final ReacaoService service;
 
     @PostMapping
-    public ResponseEntity<Reacao> criar(@RequestBody @Valid CriarReacaoCommand cmd) {
-        return ResponseEntity.ok(service.criar(cmd));
+    public ResponseEntity<Void> criar(@RequestBody @Valid AlternarReacaoCommand cmd) {
+        service.criar(cmd);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
@@ -36,8 +36,8 @@ public class ReacaoController {
     }
 
     @PutMapping
-    public ResponseEntity<Reacao> editar(@RequestBody @Valid EditarReacaoCommand cmd) {
-        return ResponseEntity.ok(service.editar(cmd));
+    public ResponseEntity<Reacao> alternar(@RequestBody @Valid AlternarReacaoCommand cmd) {
+        return ResponseEntity.ok(service.alternar(cmd));
     }
 
     @DeleteMapping

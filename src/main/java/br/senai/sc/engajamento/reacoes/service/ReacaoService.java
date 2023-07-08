@@ -1,10 +1,9 @@
 package br.senai.sc.engajamento.reacoes.service;
 
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
+import br.senai.sc.engajamento.reacoes.model.command.reacao.AlternarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacao.BuscarUmReacaoCommand;
-import br.senai.sc.engajamento.reacoes.model.command.reacao.CriarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacao.DeletarUmReacaoCommand;
-import br.senai.sc.engajamento.reacoes.model.command.reacao.EditarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.entity.Reacao;
 import br.senai.sc.engajamento.reacoes.repository.ReacaoRepository;
 import lombok.AllArgsConstructor;
@@ -18,7 +17,7 @@ import java.util.List;
 public class ReacaoService {
     private final ReacaoRepository repository;
 
-    public void criar(CriarReacaoCommand cmd) {
+    public void criar(AlternarReacaoCommand cmd) {
         try {
             repository.findById(cmd.getIdReacao()).orElseThrow(NaoEncontradoException::new);
             repository.deleteById(cmd.getIdReacao());
@@ -37,9 +36,9 @@ public class ReacaoService {
         return repository.findAll();
     }
 
-    public Reacao editar(EditarReacaoCommand cmd) {
-        Reacao reacao = new Reacao();
-        BeanUtils.copyProperties(cmd, reacao);
+    public Reacao alternar(AlternarReacaoCommand cmd) {
+        Reacao reacao = repository.findById(cmd.getIdReacao()).orElseThrow(NaoEncontradoException::new);
+        reacao.setCurtida(!reacao.isCurtida());
         return repository.save(reacao);
     }
 

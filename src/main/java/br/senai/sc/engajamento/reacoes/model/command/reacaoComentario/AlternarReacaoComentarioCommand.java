@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CriarReacaoComentarioCommand {
+public class AlternarReacaoComentarioCommand {
     private ReacaoComentarioId idReacaoComentario;
-    private boolean curtida;
 }

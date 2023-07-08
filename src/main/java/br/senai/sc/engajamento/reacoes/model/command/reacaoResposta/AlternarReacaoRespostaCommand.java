@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class EditarReacaoRespostaCommand {
+public class AlternarReacaoRespostaCommand {
     private ReacaoRespostaId idReacaoResposta;
-    private boolean curtida;
 }

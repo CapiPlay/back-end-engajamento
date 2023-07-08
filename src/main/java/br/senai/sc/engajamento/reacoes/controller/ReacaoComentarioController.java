@@ -1,9 +1,8 @@
 package br.senai.sc.engajamento.reacoes.controller;
 
-import br.senai.sc.engajamento.reacoes.model.command.reacao.DeletarUmReacaoCommand;
+import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.AlternarReacaoComentarioCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.BuscarUmReacaoComentarioCommand;
-import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.CriarReacaoComentarioCommand;
-import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.EditarReacaoComentarioCommand;
+import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.DeletarUmReacaoComentarioCommand;
 import br.senai.sc.engajamento.reacoes.model.entity.ReacaoComentario;
 import br.senai.sc.engajamento.reacoes.service.ReacaoComentarioService;
 import jakarta.validation.Valid;
@@ -21,7 +20,7 @@ public class ReacaoComentarioController {
     private final ReacaoComentarioService service;
 
     @PostMapping
-    public ResponseEntity<ReacaoComentario> criar(@RequestBody @Valid CriarReacaoComentarioCommand cmd) {
+    public ResponseEntity<ReacaoComentario> criar(@RequestBody @Valid AlternarReacaoComentarioCommand cmd) {
         return ResponseEntity.ok(service.criar(cmd));
     }
 
@@ -36,12 +35,12 @@ public class ReacaoComentarioController {
     }
 
     @PutMapping
-    public ResponseEntity<ReacaoComentario> editar(@RequestBody @Valid EditarReacaoComentarioCommand cmd) {
-        return ResponseEntity.ok(service.editar(cmd));
+    public ResponseEntity<ReacaoComentario> alternar(@RequestBody @Valid AlternarReacaoComentarioCommand cmd) {
+        return ResponseEntity.ok(service.alternar(cmd));
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deletar(@RequestBody @Valid DeletarUmReacaoCommand cmd) {
+    public ResponseEntity<Void> deletar(@RequestBody @Valid DeletarUmReacaoComentarioCommand cmd) {
         service.deletar(cmd);
         return ResponseEntity.ok().build();
     }
