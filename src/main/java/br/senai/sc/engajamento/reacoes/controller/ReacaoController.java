@@ -45,15 +45,14 @@ public class ReacaoController {
     }
 
     @PutMapping
-    public ResponseEntity<Reacao> alternar(@RequestBody @Valid AlternarReacaoCommand cmd) {
-        Reacao reacao = null;
+    public ResponseEntity<Void> alternar(@RequestBody @Valid AlternarReacaoCommand cmd) {
         try {
-            reacao = service.alternar(cmd);
+            service.alternar(cmd);
         } catch (NaoEncontradoException e) {
             System.out.println(e.getMessage());
             System.out.println(Arrays.toString(e.getStackTrace()));
         }
-        return ResponseEntity.ok(reacao);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping

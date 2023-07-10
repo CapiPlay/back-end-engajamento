@@ -19,7 +19,8 @@ public class ReacaoService {
 
     public void criar(AlternarReacaoCommand cmd) {
         try {
-            repository.findById(cmd.getIdReacao()).orElseThrow(NaoEncontradoException::new);
+            repository.findById(cmd.getIdReacao()).
+                    orElseThrow(NaoEncontradoException::new);
             repository.deleteById(cmd.getIdReacao());
         } catch (NaoEncontradoException e) {
             Reacao reacao = new Reacao();
@@ -29,17 +30,28 @@ public class ReacaoService {
     }
 
     public Reacao buscarUm(BuscarUmReacaoCommand cmd) {
-        return repository.findById(cmd.getIdReacao()).orElseThrow(NaoEncontradoException::new);
+        return repository.findById(cmd.getIdReacao()).
+                orElseThrow(NaoEncontradoException::new);
     }
 
     public List<Reacao> buscarTodos() {
         return repository.findAll();
     }
 
-    public Reacao alternar(AlternarReacaoCommand cmd) {
-        Reacao reacao = repository.findById(cmd.getIdReacao()).orElseThrow(NaoEncontradoException::new);
-        reacao.setCurtida(!reacao.isCurtida());
-        return repository.save(reacao);
+    public void alternar(AlternarReacaoCommand cmd) {
+        try {
+            Reacao reacao = repository.findById(cmd.getIdReacao()).
+                    orElseThrow(NaoEncontradoException::new);
+            if (reacao.isCurtida() == cmd.isCurtida()) {
+                repository.deleteById(cmd.getIdReacao());
+            } else {
+                reacao.setCurtida(!reacao.isCurtida());
+            }
+        } catch (NaoEncontradoException e) {
+            Reacao reacao = new Reacao();
+            BeanUtils.copyProperties(cmd, reacao);
+            repository.save(reacao);
+        }
     }
 
     public void deletar(DeletarUmReacaoCommand cmd) {

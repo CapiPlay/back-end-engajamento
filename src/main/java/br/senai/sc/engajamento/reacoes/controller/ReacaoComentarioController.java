@@ -22,8 +22,9 @@ public class ReacaoComentarioController {
     private final ReacaoComentarioService service;
 
     @PostMapping
-    public ResponseEntity<ReacaoComentario> criar(@RequestBody @Valid AlternarReacaoComentarioCommand cmd) {
-        return ResponseEntity.ok(service.criar(cmd));
+    public ResponseEntity<Void> criar(@RequestBody @Valid AlternarReacaoComentarioCommand cmd) {
+        service.criar(cmd);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
@@ -44,15 +45,14 @@ public class ReacaoComentarioController {
     }
 
     @PutMapping
-    public ResponseEntity<ReacaoComentario> alternar(@RequestBody @Valid AlternarReacaoComentarioCommand cmd) {
-        ReacaoComentario reacaoComentario = null;
+    public ResponseEntity<Void> alternar(@RequestBody @Valid AlternarReacaoComentarioCommand cmd) {
         try {
-            reacaoComentario = service.alternar(cmd);
+            service.alternar(cmd);
         } catch (NaoEncontradoException e) {
             System.out.println(e.getMessage());
             System.out.println(Arrays.toString(e.getStackTrace()));
         }
-        return ResponseEntity.ok(reacaoComentario);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping

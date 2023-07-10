@@ -18,10 +18,16 @@ import java.util.List;
 public class ReacaoRespostaService {
     private final ReacaoRespostaRepository repository;
 
-    public ReacaoRespota criar(CriarReacaoRespostaCommand cmd) {
-        ReacaoRespota reacaoRespota = new ReacaoRespota();
-        BeanUtils.copyProperties(cmd, reacaoRespota);
-        return repository.save(reacaoRespota);
+    public void criar(CriarReacaoRespostaCommand cmd) {
+        try {
+            repository.findById(cmd.getIdReacaoResposta()).
+                    orElseThrow(NaoEncontradoException::new);
+            repository.deleteById(cmd.getIdReacaoResposta());
+        } catch (NaoEncontradoException e) {
+            ReacaoRespota reacao = new ReacaoRespota();
+            BeanUtils.copyProperties(cmd, reacao);
+            repository.save(reacao);
+        }
     }
 
     public ReacaoRespota buscarUm(BuscarUmReacaoRespostaCommand cmd) {
@@ -32,10 +38,20 @@ public class ReacaoRespostaService {
         return repository.findAll();
     }
 
-    public ReacaoRespota alternar(AlternarReacaoRespostaCommand cmd) {
-        ReacaoRespota reacao = repository.findById(cmd.getIdReacaoResposta()).orElseThrow(NaoEncontradoException::new);
-        reacao.setCurtida(!reacao.isCurtida());
-        return repository.save(reacao);
+    public void alternar(AlternarReacaoRespostaCommand cmd) {
+        try {
+            ReacaoRespota reacao = repository.findById(cmd.getIdReacaoResposta()).
+                    orElseThrow(NaoEncontradoException::new);
+            if (reacao.isCurtida() == cmd.isCurtida()) {
+                repository.deleteById(cmd.getIdReacaoResposta());
+            } else {
+                reacao.setCurtida(!reacao.isCurtida());
+            }
+        } catch (NaoEncontradoException e) {
+            ReacaoRespota reacao = new ReacaoRespota();
+            BeanUtils.copyProperties(cmd, reacao);
+            repository.save(reacao);
+        }
     }
 
     public void deletar(DeletarUmReacaoRespostaCommand cmd) {

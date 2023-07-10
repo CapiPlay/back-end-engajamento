@@ -17,24 +17,41 @@ import java.util.List;
 public class ReacaoComentarioService {
     private final ReacaoComentarioRepository repository;
 
-    public ReacaoComentario criar(AlternarReacaoComentarioCommand cmd) {
-        ReacaoComentario reacaoComentario = new ReacaoComentario();
-        BeanUtils.copyProperties(cmd, reacaoComentario);
-        return reacaoComentario;
+    public void criar(AlternarReacaoComentarioCommand cmd) {
+        try {
+            repository.findById(cmd.getIdReacaoComentario()).
+                    orElseThrow(NaoEncontradoException::new);
+            repository.deleteById(cmd.getIdReacaoComentario());
+        } catch (NaoEncontradoException e) {
+            ReacaoComentario reacao = new ReacaoComentario();
+            BeanUtils.copyProperties(cmd, reacao);
+            repository.save(reacao);
+        }
     }
 
     public ReacaoComentario buscarUm(BuscarUmReacaoComentarioCommand cmd) {
-        return repository.findById(cmd.getIdReacaoComentario()).orElseThrow(NaoEncontradoException::new);
+        return repository.findById(cmd.getIdReacaoComentario()).
+                orElseThrow(NaoEncontradoException::new);
     }
 
     public List<ReacaoComentario> buscarTodos() {
         return repository.findAll();
     }
 
-    public ReacaoComentario alternar(AlternarReacaoComentarioCommand cmd) {
-        ReacaoComentario reacao = repository.findById(cmd.getIdReacaoComentario()).orElseThrow(NaoEncontradoException::new);
-        reacao.setCurtida(!reacao.isCurtida());
-        return repository.save(reacao);
+    public void alternar(AlternarReacaoComentarioCommand cmd) {
+        try {
+            ReacaoComentario reacao = repository.findById(cmd.getIdReacaoComentario()).
+                    orElseThrow(NaoEncontradoException::new);
+            if (reacao.isCurtida() == cmd.isCurtida()) {
+                repository.deleteById(cmd.getIdReacaoComentario());
+            } else {
+                reacao.setCurtida(!reacao.isCurtida());
+            }
+        } catch (NaoEncontradoException e) {
+            ReacaoComentario reacao = new ReacaoComentario();
+            BeanUtils.copyProperties(cmd, reacao);
+            repository.save(reacao);
+        }
     }
 
     public void deletar(DeletarUmReacaoComentarioCommand cmd) {

@@ -8,4 +8,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class AlternarReacaoCommand {
     private ReacaoId idReacao;
+    private boolean curtida;
 }
