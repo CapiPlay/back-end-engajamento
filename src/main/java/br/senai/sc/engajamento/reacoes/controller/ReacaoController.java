@@ -1,16 +1,18 @@
 package br.senai.sc.engajamento.reacoes.controller;
 
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
-import br.senai.sc.engajamento.reacoes.model.command.reacao.AlternarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacao.BuscarUmReacaoCommand;
-import br.senai.sc.engajamento.reacoes.model.command.reacao.DeletarUmReacaoCommand;
+import br.senai.sc.engajamento.reacoes.model.command.reacao.CriarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.entity.Reacao;
 import br.senai.sc.engajamento.reacoes.service.ReacaoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +24,7 @@ public class ReacaoController {
     private final ReacaoService service;
 
     @PostMapping
-    public ResponseEntity<Void> criar(@RequestBody @Valid AlternarReacaoCommand cmd) {
+    public ResponseEntity<Void> criar(@RequestBody @Valid CriarReacaoCommand cmd) {
         service.criar(cmd);
         return ResponseEntity.ok().build();
     }
@@ -39,25 +41,8 @@ public class ReacaoController {
         return ResponseEntity.ok(reacao);
     }
 
-    @GetMapping
+    @GetMapping("/todos")
     public ResponseEntity<List<Reacao>> buscarTodos() {
         return ResponseEntity.ok(service.buscarTodos());
-    }
-
-    @PutMapping
-    public ResponseEntity<Void> alternar(@RequestBody @Valid AlternarReacaoCommand cmd) {
-        try {
-            service.alternar(cmd);
-        } catch (NaoEncontradoException e) {
-            System.out.println(e.getMessage());
-            System.out.println(Arrays.toString(e.getStackTrace()));
-        }
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping
-    public ResponseEntity<Void> deletar(@RequestBody @Valid DeletarUmReacaoCommand cmd) {
-        service.deletar(cmd);
-        return ResponseEntity.ok().build();
     }
 }

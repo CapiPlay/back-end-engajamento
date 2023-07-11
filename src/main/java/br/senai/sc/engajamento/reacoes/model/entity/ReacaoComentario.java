@@ -16,10 +16,10 @@ import lombok.NoArgsConstructor;
 public class ReacaoComentario {
     @Id
     @ManyToOne
-    private Usuario usuario;
+    private Usuario idUsuario;
     @Id
     @ManyToOne
-    private Comentario comentario;
+    private Comentario idComentario;
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
     private boolean curtida;
 }

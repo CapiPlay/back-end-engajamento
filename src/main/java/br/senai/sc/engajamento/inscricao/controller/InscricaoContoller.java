@@ -35,7 +35,7 @@ public class InscricaoContoller {
         return ResponseEntity.ok(service.buscarUm(cmd));
     }
 
-    @GetMapping
+    @GetMapping("/todos")
     public ResponseEntity<List<Inscricao>> buscarTodos() {
         return ResponseEntity.ok(service.buscarTodos());
     }
