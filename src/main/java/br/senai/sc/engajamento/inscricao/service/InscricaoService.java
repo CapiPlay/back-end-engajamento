@@ -23,9 +23,11 @@ public class InscricaoService {
         try {
             Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
             Usuario canal = usuarioService.retornaUsuario(cmd.getIdCanal());
-            repository.findByIdUsuarioAndIdCanal(usuario, canal) == null ? throw new NaoEncontradoException();
+            if (repository.findByIdUsuarioAndIdCanal(usuario, canal) == null) {
+                throw new NaoEncontradoException();
+            }
             repository.deleteByIdUsuarioAndIdCanal(usuario, canal);
-        } catch (Exception e) {
+        } catch (NaoEncontradoException e) {
             Inscricao inscricao = new Inscricao();
             BeanUtils.copyProperties(cmd, inscricao);
             repository.save(inscricao);
@@ -33,7 +35,9 @@ public class InscricaoService {
     }
 
     public Inscricao buscarUm(BuscarUmInscricaoCommand cmd) {
-        return repository.findById(cmd.getIdReacao()).orElseThrow(NaoEncontradoException::new);
+        Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
+        Usuario canal = usuarioService.retornaUsuario(cmd.getIdCanal());
+        return repository.findByIdUsuarioAndIdCanal(usuario, canal);
     }
 
     public List<Inscricao> buscarTodos() {
