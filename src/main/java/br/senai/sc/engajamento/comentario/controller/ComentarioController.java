@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@AllArgsConstructor
 @CrossOrigin
-@RequestMapping("/comentario")
+@AllArgsConstructor
+@RequestMapping("/api/engajamento/comentario")
 public class ComentarioController {
 
     private ComentarioService comentarioService;

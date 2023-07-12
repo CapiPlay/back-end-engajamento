@@ -16,7 +16,7 @@ import java.util.UUID;
 public class Usuario {
     @Id
     @Column(columnDefinition = "char(36)")
-    private UUID uuid;
+    private UUID idUsuario;
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false)

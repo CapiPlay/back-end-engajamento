@@ -18,8 +18,8 @@ import lombok.NoArgsConstructor;
 public class Inscricao {
     @Id
     @ManyToOne
-    private Usuario usuario;
+    private Usuario idUsuario;
     @Id
     @ManyToOne
-    private Usuario canal;
+    private Usuario idCanal;
 }

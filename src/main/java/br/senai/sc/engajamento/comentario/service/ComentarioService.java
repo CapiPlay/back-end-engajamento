@@ -3,6 +3,7 @@ package br.senai.sc.engajamento.comentario.service;
 import br.senai.sc.engajamento.comentario.model.command.*;
 import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.comentario.repository.ComentarioRepository;
+import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.service.UsuarioService;
 import br.senai.sc.engajamento.video.model.entity.Video;
@@ -46,7 +47,7 @@ public class ComentarioService {
     public List<Comentario> buscarTodosPorVideo(
             BuscarTodosPorVideoComentarioCommand cmd
     ) {
-        return comentarioRepository.findAllByVideo(videoService.buscarUm(cmd.getIdVideo()));
+        return comentarioRepository.findAllByVideo(videoService.retornaVideo(cmd.getIdVideo()));
     }
 
     public void adicionarResposta(
@@ -63,9 +64,8 @@ public class ComentarioService {
     ) {
         Comentario comentario = retornaComentario(cmd.getIdComentario());
         Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
-        if (usuario.getId() != comentario.getIdResposta()) {
-            /*MUDAR - criar nossa exception*/
-            throw new IllegalArgumentException();
+        if (usuario.getIdUsuario() != comentario.getIdComentario()) {
+            throw new NaoEncontradoException();
         } else {
             comentarioRepository.delete(comentario);
         }
@@ -76,8 +76,7 @@ public class ComentarioService {
         if (optional.isPresent()) {
             return optional.get();
         }
-        /*MUDAR - criar exeption*/
-        throw new IllegalArgumentException();
+        throw new NaoEncontradoException();
     }
 
 }

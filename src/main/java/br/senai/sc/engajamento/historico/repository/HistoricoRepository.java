@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HistoricoRepository extends JpaRepository<Historico, HistoricoId> {
 
-    Historico findByUsuarioAndVideo(Usuario usuario, Video video);
+    Historico findByIdUsuarioAndIdVideo(Usuario usuario, Video video);
 }

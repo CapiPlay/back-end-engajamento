@@ -1,15 +1,16 @@
 package br.senai.sc.engajamento.historico.model.entity;
 
-import br.senai.sc.engajamento.model.entity.Usuario;
-import br.senai.sc.engajamento.model.entity.Video;
+import br.senai.sc.engajamento.usuario.model.entity.Usuario;
+import br.senai.sc.engajamento.video.model.entity.Video;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
-import java.util.UUID;
-import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 @Entity
@@ -20,11 +21,11 @@ public class Historico {
 
     @ManyToOne
     @Id
-    private Usuario usuario;
+    private Usuario idUsuario;
 
     @ManyToOne
     @Id
-    private Video video;
+    private Video idVideo;
 
     /*Formato no MYSQL 'YYYY-MM-DD HH:MM:SS'*/
     private ZonedDateTime dataHora;
@@ -32,8 +33,8 @@ public class Historico {
     public Historico(
             Usuario usuario,
             Video video) {
-        this.usuario = usuario;
-        this.video = video;
+        this.idUsuario = usuario;
+        this.idVideo = video;
         this.dataHora = ZonedDateTime.now();
     }
 }

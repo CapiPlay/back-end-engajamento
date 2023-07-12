@@ -60,8 +60,7 @@ public class RespostaService {
     ) {
         Resposta resposta = retornaResposta(cmd.getIdResposta());
         Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
-        if (usuario.getId() != cmd.getIdResposta()) {
-            /*MUDAR - criar nossa exception*/
+        if (usuario.getIdUsuario() != cmd.getIdResposta()) {
             throw new NaoEncontradoException();
         } else {
             respostaRepository.delete(resposta);

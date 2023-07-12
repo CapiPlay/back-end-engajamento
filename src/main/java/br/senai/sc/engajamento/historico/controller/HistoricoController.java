@@ -7,30 +7,30 @@ import br.senai.sc.engajamento.historico.model.entity.Historico;
 import br.senai.sc.engajamento.historico.service.HistoricoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@CrossOrigin
 @AllArgsConstructor
+@RequestMapping("/api/engajamento/historico")
 public class HistoricoController {
 
-    private HistoricoService historicoService;
+    private final HistoricoService historicoService;
 
     @PostMapping()
     private ResponseEntity<Void> criar(
             @RequestBody @Valid CriarHistoricoCommand criarHistoricoCommand
-            ){
+    ) {
         historicoService.criar(criarHistoricoCommand);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping()
     private ResponseEntity<Historico> buscarUm(
             @RequestBody @Valid BuscarUmHistoricoCommand buscarUmHistoricoCommand
-    ){
+    ) {
         return ResponseEntity.ok(historicoService.buscarUm(buscarUmHistoricoCommand));
     }
 
