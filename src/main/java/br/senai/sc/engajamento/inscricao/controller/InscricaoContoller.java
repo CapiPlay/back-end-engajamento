@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @CrossOrigin
 @AllArgsConstructor
@@ -25,16 +23,12 @@ public class InscricaoContoller {
         Inscricao inscricao = new Inscricao();
         BeanUtils.copyProperties(cmd, inscricao);
         service.criar(cmd);
+        
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
     public ResponseEntity<Inscricao> buscarUm(@RequestBody @Valid BuscarUmInscricaoCommand cmd) {
         return ResponseEntity.ok(service.buscarUm(cmd));
-    }
-
-    @GetMapping("/todos")
-    public ResponseEntity<List<Inscricao>> buscarTodos() {
-        return ResponseEntity.ok(service.buscarTodos());
     }
 }
