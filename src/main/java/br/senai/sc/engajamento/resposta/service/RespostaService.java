@@ -17,7 +17,6 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -68,11 +67,7 @@ public class RespostaService {
     }
 
     public Resposta retornaResposta(UUID idResposta) {
-        Optional<Resposta> optional = respostaRepository.findById(idResposta);
-        if (optional.isPresent()) {
-            return optional.get();
-        }
-        throw new NaoEncontradoException();
+        return respostaRepository.findById(idResposta).orElseThrow(NaoEncontradoException::new);
     }
 
 }
