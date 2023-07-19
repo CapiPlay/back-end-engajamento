@@ -1,17 +1,14 @@
 package br.senai.sc.engajamento.comentario.model.command;
 
-
-import br.senai.sc.engajamento.usuario.model.entity.Usuario;
-import br.senai.sc.engajamento.video.model.entity.Video;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.Date;
-import java.util.UUID;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class BuscarTodosPorVideoComentarioCommand {
-
-    private UUID idVideo;
+    @NotNull
+    private String idVideo;
 }

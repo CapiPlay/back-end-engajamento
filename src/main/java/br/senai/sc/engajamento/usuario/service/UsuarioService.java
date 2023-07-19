@@ -14,11 +14,7 @@ import java.util.UUID;
 public class UsuarioService {
     private final UsuarioRepository repository;
 
-    public Usuario retornaUsuario(UUID idUsuario) {
-        Optional<Usuario> usuario = repository.findById(idUsuario);
-        if (usuario.isPresent()) {
-            return usuario.get();
-        }
-        throw new NaoEncontradoException();
+    public Usuario retornaUsuario(String idUsuario) {
+        return repository.findById(idUsuario).orElseThrow(NaoEncontradoException::new);
     }
 }

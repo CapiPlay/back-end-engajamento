@@ -13,8 +13,6 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -41,13 +39,14 @@ public class ComentarioService {
     public Comentario buscarUm(
             BuscarUmComentarioCommand cmd
     ) {
-        return retornaComentario(cmd.getIdComentario());
+        return comentarioRepository.findByIdComentario(cmd.getIdComentario()).orElseThrow(NaoEncontradoException::new);
+//        return retornaComentario(cmd.getIdComentario());
     }
 
     public List<Comentario> buscarTodosPorVideo(
             BuscarTodosPorVideoComentarioCommand cmd
     ) {
-        return comentarioRepository.findAllByVideo(videoService.retornaVideo(cmd.getIdVideo()));
+        return comentarioRepository.findAllByIdVideo(videoService.retornaVideo(cmd.getIdVideo()));
     }
 
     public void adicionarResposta(
@@ -57,26 +56,26 @@ public class ComentarioService {
         comentario.setQtdRespostas(
                 comentario.getQtdRespostas() + 1
         );
+        comentarioRepository.save(comentario);
     }
 
     public void deletar(
             DeletarComentarioCommand cmd
     ) {
-        Comentario comentario = retornaComentario(cmd.getIdComentario());
-        Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
-        if (usuario.getIdUsuario() != comentario.getIdComentario()) {
-            throw new NaoEncontradoException();
-        } else {
+        try {
+            Comentario comentario = retornaComentario(cmd.getIdComentario());
+            if (!(cmd.getIdUsuario().equals(comentario.getIdUsuario().getIdUsuario()))) {
+                throw new NaoEncontradoException();
+            }
             comentarioRepository.delete(comentario);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    public Comentario retornaComentario(UUID idComentario) {
-        Optional<Comentario> optional = comentarioRepository.findById(idComentario);
-        if (optional.isPresent()) {
-            return optional.get();
-        }
-        throw new NaoEncontradoException();
+    public Comentario retornaComentario(String idComentario) {
+        return comentarioRepository.findByIdComentario(idComentario).orElseThrow(NaoEncontradoException::new);
     }
 
 }

@@ -1,15 +1,16 @@
 package br.senai.sc.engajamento.historico.model.commands;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
-@AllArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CriarHistoricoCommand {
-
-    private UUID idUsuario;
-
-    private UUID idVideo;
+    @NotNull
+    private String idUsuario;
+    @NotNull
+    private String idVideo;
 }

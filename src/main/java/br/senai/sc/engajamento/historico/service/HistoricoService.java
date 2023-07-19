@@ -1,5 +1,6 @@
 package br.senai.sc.engajamento.historico.service;
 
+import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.historico.model.commands.BuscarUmHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.commands.CriarHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.entity.Historico;
@@ -25,8 +26,9 @@ public class HistoricoService {
     private final VideoService videoService;
 
     public void criar(CriarHistoricoCommand cmd) {
-        Historico historico = new Historico();
-        BeanUtils.copyProperties(cmd, historico);
+        Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
+        Video video = videoService.retornaVideo(cmd.getIdVideo());
+        Historico historico = new Historico(usuario, video);
         historicoRepository.save(historico);
     }
 
@@ -34,14 +36,21 @@ public class HistoricoService {
         return retornaHistorico(cmd.getIdUsuario(), cmd.getIdVideo());
     }
 
-    public Historico retornaHistorico(UUID idUsuario, UUID idVideo) {
+    public Historico retornaHistorico(String idUsuario, String idVideo) {
         Historico historico = null;
         try {
             Usuario usuario = usuarioService.retornaUsuario(idUsuario);
             Video video = videoService.retornaVideo(idVideo);
+
+            System.out.println(usuario);
+            System.out.println(video);
             historico = historicoRepository.findByIdUsuarioAndIdVideo(usuario, video);
-        } catch (Exception e) {
-            System.out.printf(e.getMessage());
+            System.out.println(historico);
+            if(historico == null){
+                throw new NaoEncontradoException();
+            }
+        } catch (NaoEncontradoException e) {
+            e.printStackTrace();
         }
         return historico;
     }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface RespostaRepository extends JpaRepository<Resposta, UUID> {
+public interface RespostaRepository extends JpaRepository<Resposta, String> {
 
     List<Resposta> findAllByComentario(Comentario comentario);
 }

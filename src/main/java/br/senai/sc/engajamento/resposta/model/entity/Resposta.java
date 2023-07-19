@@ -2,9 +2,11 @@ package br.senai.sc.engajamento.resposta.model.entity;
 
 import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
+import br.senai.sc.engajamento.utils.GeradorUUIDUtils;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -13,10 +15,11 @@ import java.util.UUID;
 @Data
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 public class Resposta {
     @Id
-    @Column(columnDefinition = "char(36)")
-    private UUID idResposta;
+    @Column
+    private String idResposta;
     @Column(nullable = false)
     private String texto;
     @Column(nullable = false)
@@ -32,14 +35,11 @@ public class Resposta {
             Usuario usuario,
             Comentario comentario) {
 
+        this.idResposta = GeradorUUIDUtils.gerarUuid();
         this.dataHora = ZonedDateTime.now();
 
         this.texto = texto;
         this.usuario = usuario;
         this.comentario = comentario;
     }
-
-    //    public Resposta() {
-//        this.uuid = GeradorUUIDUtils.gerarUuid();
-//    }
 }

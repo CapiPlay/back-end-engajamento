@@ -1,13 +1,15 @@
 package br.senai.sc.engajamento.resposta.model.command;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import java.util.UUID;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class BuscarUmaRespostaCommand {
-
-    private UUID idResposta;
+    @NotNull
+    private String idResposta;
 
 }

@@ -10,7 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BuscarUmInscricaoCommand {
     @NotNull
-    private UUID idUsuario;
+    private String idUsuario;
     @NotNull
-    private UUID idCanal;
+    private String idCanal;
 }

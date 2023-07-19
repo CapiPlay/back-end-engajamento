@@ -7,9 +7,13 @@ import br.senai.sc.engajamento.video.model.entity.Video;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ReacaoRepository extends JpaRepository<Reacao, ReacaoId> {
     Reacao findByIdUsuarioAndIdVideo(Usuario idUsuario, Video idVideo);
+
+    List<Reacao> findAllByIdVideo(Video idVideo);
 
     void deleteByIdUsuarioAndIdVideo(Usuario idUsuario, Video idVideo);
 }

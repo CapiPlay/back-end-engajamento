@@ -9,8 +9,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CriarComentarioCommand {
 
-    private UUID idUsuario;
-    private UUID idVideo;
+    private String idUsuario;
+    private String idVideo;
     private String texto;
 
 }

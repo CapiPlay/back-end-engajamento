@@ -7,8 +7,8 @@ public final class GeradorUUIDUtils {
     private GeradorUUIDUtils() {
     }
 
-    public static UUID gerarUuid() {
-        return UUID.randomUUID();
+    public static String gerarUuid() {
+        return UUID.randomUUID().toString();
     }
 
 }

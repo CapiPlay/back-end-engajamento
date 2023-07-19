@@ -11,6 +11,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReacaoRespostaId implements Serializable {
-    private UUID idUsuario;
-    private UUID idResposta;
+    private String idUsuario;
+    private String idResposta;
 }

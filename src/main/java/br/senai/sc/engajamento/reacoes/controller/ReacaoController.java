@@ -1,6 +1,6 @@
 package br.senai.sc.engajamento.reacoes.controller;
 
-import br.senai.sc.engajamento.exception.NaoEncontradoException;
+import br.senai.sc.engajamento.reacoes.model.command.reacao.BuscarTodosPorVideoReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacao.BuscarUmReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacao.CriarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.entity.Reacao;
@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -29,18 +28,11 @@ public class ReacaoController {
 
     @GetMapping
     public ResponseEntity<Reacao> buscarUm(@RequestBody @Valid BuscarUmReacaoCommand cmd) {
-        Reacao reacao = null;
-        try {
-            reacao = service.buscarUm(cmd);
-        } catch (NaoEncontradoException e) {
-            System.out.println(e.getMessage());
-            System.out.println(Arrays.toString(e.getStackTrace()));
-        }
-        return ResponseEntity.ok(reacao);
+        return ResponseEntity.ok(service.buscarUm(cmd));
     }
 
-    @GetMapping("/todos")
-    public ResponseEntity<List<Reacao>> buscarTodos() {
-        return ResponseEntity.ok(service.buscarTodos());
+    @GetMapping("/buscar-todos-por-video")
+    public ResponseEntity<List<Reacao>> buscarTodosPorVideo(@RequestBody @Valid BuscarTodosPorVideoReacaoCommand cmd) {
+        return ResponseEntity.ok(service.buscarTodosPorVideo(cmd));
     }
 }

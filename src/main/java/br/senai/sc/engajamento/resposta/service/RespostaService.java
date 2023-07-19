@@ -17,7 +17,6 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -50,23 +49,26 @@ public class RespostaService {
     public List<Resposta> buscarTodosPorComentario(
             BuscarTodosPorComentarioRespostaCommand cmd
     ) {
-        BuscarUmComentarioCommand cmd2 = new BuscarUmComentarioCommand(cmd.getIdComentario());
-        return respostaRepository.findAllByComentario(comentarioService.buscarUm(cmd2));
+        BuscarUmComentarioCommand comentario = new BuscarUmComentarioCommand(cmd.getIdComentario());
+        return respostaRepository.findAllByComentario(comentarioService.buscarUm(comentario));
     }
 
     public void deletar(
             DeletarRespostaCommand cmd
     ) {
-        Resposta resposta = retornaResposta(cmd.getIdResposta());
-        Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
-        if (usuario.getIdUsuario() != cmd.getIdResposta()) {
-            throw new NaoEncontradoException();
-        } else {
+        try {
+            Resposta resposta = retornaResposta(cmd.getIdResposta());
+            if (!(cmd.getIdUsuario().equals(resposta.getIdResposta()))) {
+                throw new NaoEncontradoException();
+            }
             respostaRepository.delete(resposta);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    public Resposta retornaResposta(UUID idResposta) {
+    public Resposta retornaResposta(String idResposta) {
         return respostaRepository.findById(idResposta).orElseThrow(NaoEncontradoException::new);
     }
 

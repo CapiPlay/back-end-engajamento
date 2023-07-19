@@ -10,7 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CriarInscricaoCommand {
     @NotNull
-    private UUID idUsuario;
+    private String idUsuario;
     @NotNull
-    private UUID idCanal;
+    private String idCanal;
 }

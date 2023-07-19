@@ -19,14 +19,14 @@ public class ComentarioController {
 
     private ComentarioService comentarioService;
 
-    @PostMapping()
+    @PostMapping
     private ResponseEntity<Comentario> criar(
             @RequestBody @Valid CriarComentarioCommand criarComentarioCommand
     ) {
         return ResponseEntity.ok(comentarioService.criar(criarComentarioCommand));
     }
 
-    @GetMapping()
+    @GetMapping
     private ResponseEntity<Comentario> buscarUm(
             @RequestBody @Valid BuscarUmComentarioCommand buscarUmComentarioCommand
     ) {
@@ -56,7 +56,7 @@ public class ComentarioController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping()
+    @DeleteMapping
     private ResponseEntity<Void> deletar(
             @RequestBody @Valid DeletarComentarioCommand deletarComentarioCommand
     ) {

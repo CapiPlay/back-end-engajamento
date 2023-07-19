@@ -11,6 +11,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InscricaoId implements Serializable {
-    private UUID idUsuario;
-    private UUID idCanal;
+    private String idUsuario;
+    private String idCanal;
 }

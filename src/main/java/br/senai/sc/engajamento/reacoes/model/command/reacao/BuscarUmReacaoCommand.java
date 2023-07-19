@@ -3,15 +3,14 @@ package br.senai.sc.engajamento.reacoes.model.command.reacao;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.UUID;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class BuscarUmReacaoCommand {
     @NotNull
+    private String idUsuario;
     @NotNull
-    private UUID idUsuario;
-    @NotNull
-    private UUID idVideo;
+    private String idVideo;
 }

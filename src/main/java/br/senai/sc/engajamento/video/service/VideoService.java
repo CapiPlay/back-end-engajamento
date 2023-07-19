@@ -12,7 +12,7 @@ import java.util.UUID;
 public class VideoService {
     private final VideoRepository repository;
 
-    public Video retornaVideo(UUID idVideo) {
+    public Video retornaVideo(String idVideo) {
         return repository.findById(idVideo).orElseThrow();
     }
 }

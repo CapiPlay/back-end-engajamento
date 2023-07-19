@@ -1,4 +1,4 @@
-package br.senai.sc.engajamento.comentario.model.command;
+package br.senai.sc.engajamento.reacoes.model.command.reacaoResposta;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BuscarUmComentarioCommand {
+public class BuscarTodosPorComentarioReacaoRespostaCommand {
     @NotNull
-    private String idComentario;
-
+    private String idResposta;
 }
-
