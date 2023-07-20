@@ -9,8 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.UUID;
 
 @Data
 @Entity
@@ -26,20 +24,20 @@ public class Resposta {
     @Temporal(TemporalType.TIMESTAMP)
     private ZonedDateTime dataHora;
     @ManyToOne
-    private Usuario usuario;
+    private Usuario idUsuario;
     @ManyToOne
-    private Comentario comentario;
+    private Comentario idComentario;
 
     public Resposta(
             String texto,
-            Usuario usuario,
-            Comentario comentario) {
+            Usuario idUsuario,
+            Comentario idComentario) {
 
         this.idResposta = GeradorUUIDUtils.gerarUuid();
         this.dataHora = ZonedDateTime.now();
 
         this.texto = texto;
-        this.usuario = usuario;
-        this.comentario = comentario;
+        this.idUsuario = idUsuario;
+        this.idComentario = idComentario;
     }
 }

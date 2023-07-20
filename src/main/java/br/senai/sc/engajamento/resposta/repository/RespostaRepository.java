@@ -6,10 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
 public interface RespostaRepository extends JpaRepository<Resposta, String> {
 
-    List<Resposta> findAllByComentario(Comentario comentario);
+    List<Resposta> findAllByIdComentario(Comentario idComentario);
 }

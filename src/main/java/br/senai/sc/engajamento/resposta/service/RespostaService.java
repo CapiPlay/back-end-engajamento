@@ -50,7 +50,7 @@ public class RespostaService {
             BuscarTodosPorComentarioRespostaCommand cmd
     ) {
         BuscarUmComentarioCommand comentario = new BuscarUmComentarioCommand(cmd.getIdComentario());
-        return respostaRepository.findAllByComentario(comentarioService.buscarUm(comentario));
+        return respostaRepository.findAllByIdComentario(comentarioService.buscarUm(comentario));
     }
 
     public void deletar(
@@ -58,7 +58,7 @@ public class RespostaService {
     ) {
         try {
             Resposta resposta = retornaResposta(cmd.getIdResposta());
-            if (!(cmd.getIdUsuario().equals(resposta.getIdResposta()))) {
+            if (!(cmd.getIdUsuario().equals(resposta.getIdUsuario().getIdUsuario()))) {
                 throw new NaoEncontradoException();
             }
             respostaRepository.delete(resposta);

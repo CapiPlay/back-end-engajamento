@@ -33,6 +33,7 @@ public class ReacaoComentarioService {
                 repository.deleteByIdUsuarioAndIdComentario(usuario, comentario);
             } else {
                 reacao.setCurtida(!reacao.isCurtida());
+                repository.save(reacao);
             }
         } catch (NaoEncontradoException e) {
             ReacaoComentario reacao = new ReacaoComentario();

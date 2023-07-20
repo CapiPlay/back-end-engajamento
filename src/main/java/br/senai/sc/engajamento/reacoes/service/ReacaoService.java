@@ -34,6 +34,7 @@ public class ReacaoService {
                 repository.deleteByIdUsuarioAndIdVideo(usuario, video);
             } else {
                 reacao.setCurtida(!reacao.isCurtida());
+                repository.save(reacao);
             }
         } catch (NaoEncontradoException e) {
             Reacao reacao = new Reacao();
