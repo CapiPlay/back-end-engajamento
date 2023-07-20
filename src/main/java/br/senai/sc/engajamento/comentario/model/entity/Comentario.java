@@ -11,7 +11,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
-import java.util.UUID;
+
+import static java.time.ZoneOffset.UTC;
 
 @Entity
 @Data
@@ -40,7 +41,7 @@ public class Comentario {
             @JsonProperty("idVideo") Video idVideo) {
 
         this.idComentario = GeradorUUIDUtils.gerarUuid();
-        this.dataHora = ZonedDateTime.now();
+        this.dataHora = ZonedDateTime.now(UTC);
         this.qtdRespostas = 0;
 
         this.texto = texto;

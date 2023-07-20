@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
 
+import static java.time.ZoneOffset.UTC;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -35,6 +37,6 @@ public class Historico {
             Video video) {
         this.idUsuario = usuario;
         this.idVideo = video;
-        this.dataHora = ZonedDateTime.now();
+        this.dataHora = ZonedDateTime.now(UTC);
     }
 }
