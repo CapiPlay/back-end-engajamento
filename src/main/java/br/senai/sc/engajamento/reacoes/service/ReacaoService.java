@@ -5,6 +5,7 @@ import br.senai.sc.engajamento.reacoes.model.command.reacao.BuscarTodosPorVideoR
 import br.senai.sc.engajamento.reacoes.model.command.reacao.BuscarUmReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacao.CriarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.entity.Reacao;
+import br.senai.sc.engajamento.reacoes.model.exception.NaoEncontradoReacaoException;
 import br.senai.sc.engajamento.reacoes.repository.ReacaoRepository;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.service.UsuarioService;
@@ -29,7 +30,7 @@ public class ReacaoService {
             Video video = videoService.retornaVideo(cmd.getIdVideo());
             Reacao reacao = repository.findByIdUsuarioAndIdVideo(usuario, video);
             if (reacao == null) {
-                throw new NaoEncontradoException();
+                throw new NaoEncontradoReacaoException();
             } else if (reacao.isCurtida() == cmd.getCurtida()) {
                 repository.deleteByIdUsuarioAndIdVideo(usuario, video);
             } else {
@@ -55,7 +56,7 @@ public class ReacaoService {
             Video video = videoService.retornaVideo(cmd.getIdVideo());
             reacao = repository.findByIdUsuarioAndIdVideo(usuario, video);
             if (reacao == null) {
-                throw new NaoEncontradoException();
+                throw new NaoEncontradoReacaoException();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
