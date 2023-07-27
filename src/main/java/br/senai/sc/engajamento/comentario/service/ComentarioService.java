@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,6 +49,28 @@ public class ComentarioService {
             BuscarTodosPorVideoComentarioCommand cmd
     ) {
         return comentarioRepository.findAllByIdVideo(videoService.retornaVideo(cmd.getIdVideo()));
+    }
+
+    public List<Comentario> buscarTodosPorData(
+            BuscarTodosPorDataComentarioCommand cmd
+    ) {
+        List<Comentario> listaComentariosFiltrados = new ArrayList<>();
+
+        List<Comentario> listaComentarios =
+                comentarioRepository.findAllByIdVideo(videoService.retornaVideo(cmd.getIdVideo()));
+        for (Comentario comentario: listaComentarios) {
+            if(comentario.getDataHora().toLocalDate().equals(cmd.getData())) {
+                listaComentariosFiltrados.add(comentario);
+            }
+        }
+        return listaComentariosFiltrados;
+    }
+
+    public Integer buscarQuantidadeRespostas(
+            BuscarQuantidadeRepostasComentarioCommand cmd
+    ) {
+        Comentario comentario = retornaComentario(cmd.getIdComentario());
+        return comentario.getQtdRespostas();
     }
 
     public void adicionarResposta(

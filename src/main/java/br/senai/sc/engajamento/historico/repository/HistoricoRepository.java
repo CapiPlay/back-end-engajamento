@@ -7,8 +7,12 @@ import br.senai.sc.engajamento.video.model.entity.Video;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface HistoricoRepository extends JpaRepository<Historico, HistoricoId> {
 
     Historico findByIdUsuarioAndIdVideo(Usuario idUsuario, Video idVideo);
+
+    List<Historico> findAllByIdUsuario(Usuario idUsuario);
 }
