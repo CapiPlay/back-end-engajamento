@@ -26,21 +26,19 @@ public class ReacaoRespostaService {
         try {
             Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
             Resposta resposta = respostaService.retornaResposta(cmd.getIdResposta());
-            ReacaoRespota reacao = repository.findByIdUsuarioAndIdResposta(usuario, resposta);
-            if (reacao == null) {
-                throw new NaoEncontradoException();
-            } else if (reacao.isCurtida() == cmd.getCurtida()) {
+            ReacaoRespota reacaoExistente = repository.findByIdUsuarioAndIdResposta(usuario, resposta);
+            if (reacaoExistente == null) {
+                ReacaoRespota reacao = new ReacaoRespota();
+                reacao.setIdResposta(respostaService.retornaResposta(cmd.getIdResposta()));
+                reacao.setIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
+                reacao.setCurtida(cmd.getCurtida());
+                repository.save(reacao);
+            } else if (reacaoExistente.isCurtida() == cmd.getCurtida()) {
                 repository.deleteByIdUsuarioAndIdResposta(usuario, resposta);
             } else {
-                reacao.setCurtida(!reacao.isCurtida());
-                repository.save(reacao);
+                reacaoExistente.setCurtida(!reacaoExistente.isCurtida());
+                repository.save(reacaoExistente);
             }
-        } catch (NaoEncontradoException e) {
-            ReacaoRespota reacao = new ReacaoRespota();
-            reacao.setIdResposta(respostaService.retornaResposta(cmd.getIdResposta()));
-            reacao.setIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
-            reacao.setCurtida(cmd.getCurtida());
-            repository.save(reacao);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -54,11 +52,10 @@ public class ReacaoRespostaService {
             Resposta resposta = respostaService.retornaResposta(cmd.getIdResposta());
             reacao = repository.findByIdUsuarioAndIdResposta(usuario, resposta);
             if (reacao == null) {
-                throw new NaoEncontradoException();
+                throw new NaoEncontradoException("Reação da resposta não encontrada!");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            e.printStackTrace();
         }
         return reacao;
     }
