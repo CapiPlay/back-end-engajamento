@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Data
 @Entity
@@ -16,10 +18,14 @@ import lombok.NoArgsConstructor;
 public class ReacaoComentario {
     @Id
     @ManyToOne
+    @Cascade(CascadeType.ALL)
     private Usuario idUsuario;
+
     @Id
     @ManyToOne
+    @Cascade(CascadeType.ALL)
     private Comentario idComentario;
+
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
     private boolean curtida;
 }

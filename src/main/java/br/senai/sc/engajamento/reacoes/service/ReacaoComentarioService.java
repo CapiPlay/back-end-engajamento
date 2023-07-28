@@ -32,7 +32,6 @@ public class ReacaoComentarioService {
                 reacao.setIdComentario(comentarioService.retornaComentario(cmd.getIdComentario()));
                 reacao.setIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
                 reacao.setCurtida(cmd.getCurtida());
-
                 repository.save(reacao);
             } else if (reacaoExistente.isCurtida() == cmd.getCurtida()) {
                 repository.deleteByIdUsuarioAndIdComentario(usuario, comentario);

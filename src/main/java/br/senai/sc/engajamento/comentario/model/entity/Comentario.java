@@ -3,12 +3,12 @@ package br.senai.sc.engajamento.comentario.model.entity;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.utils.GeradorUUIDUtils;
 import br.senai.sc.engajamento.video.model.entity.Video;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.time.ZonedDateTime;
 
@@ -20,25 +20,30 @@ import static java.time.ZoneOffset.UTC;
 @NoArgsConstructor
 public class Comentario {
     @Id
-    @Column
     private String idComentario;
+
     @Column(nullable = false)
     private String texto;
+
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private ZonedDateTime dataHora;
+
     @Column(nullable = false)
     private Integer qtdRespostas;
+
     @ManyToOne
+    @Cascade(CascadeType.ALL)
     private Usuario idUsuario;
+
     @ManyToOne
+    @Cascade(CascadeType.ALL)
     private Video idVideo;
 
-    @JsonCreator
     public Comentario(
-            @JsonProperty("texto") String texto,
-            @JsonProperty("idUsuario") Usuario idUsuario,
-            @JsonProperty("idVideo") Video idVideo) {
+            String texto,
+            Usuario idUsuario,
+            Video idVideo) {
 
         this.idComentario = GeradorUUIDUtils.gerarUuid();
         this.dataHora = ZonedDateTime.now(UTC);
@@ -48,5 +53,4 @@ public class Comentario {
         this.idUsuario = idUsuario;
         this.idVideo = idVideo;
     }
-
 }

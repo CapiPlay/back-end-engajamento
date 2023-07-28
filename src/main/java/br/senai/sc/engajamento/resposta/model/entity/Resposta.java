@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.time.ZonedDateTime;
 
@@ -18,14 +20,20 @@ public class Resposta {
     @Id
     @Column
     private String idResposta;
+
     @Column(nullable = false)
     private String texto;
+
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private ZonedDateTime dataHora;
+
     @ManyToOne
+    @Cascade(CascadeType.ALL)
     private Usuario idUsuario;
+
     @ManyToOne
+    @Cascade(CascadeType.ALL)
     private Comentario idComentario;
 
     public Resposta(

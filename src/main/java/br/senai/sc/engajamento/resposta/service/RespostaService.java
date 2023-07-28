@@ -3,6 +3,7 @@ package br.senai.sc.engajamento.resposta.service;
 import br.senai.sc.engajamento.comentario.model.command.BuscarUmComentarioCommand;
 import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.comentario.service.ComentarioService;
+import br.senai.sc.engajamento.exception.AcaoNaoPermitidaException;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.resposta.model.command.BuscarTodosPorComentarioRespostaCommand;
 import br.senai.sc.engajamento.resposta.model.command.BuscarUmaRespostaCommand;
@@ -17,6 +18,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -59,7 +61,7 @@ public class RespostaService {
         try {
             Resposta resposta = retornaResposta(cmd.getIdResposta());
             if (!(cmd.getIdUsuario().equals(resposta.getIdUsuario().getIdUsuario()))) {
-                throw new NaoEncontradoException("Resposta não encontrada!");
+                throw new AcaoNaoPermitidaException();
             }
             respostaRepository.delete(resposta);
         } catch (Exception e) {
@@ -69,7 +71,11 @@ public class RespostaService {
     }
 
     public Resposta retornaResposta(String idResposta) {
-        return respostaRepository.findById(idResposta).orElseThrow(NaoEncontradoException::new);
+        Optional<Resposta> resposta = respostaRepository.findById(idResposta);
+        if (resposta.isPresent()) {
+            return resposta.get();
+        }
+        throw new NaoEncontradoException("Resposta não encontrada!");
     }
 
 }

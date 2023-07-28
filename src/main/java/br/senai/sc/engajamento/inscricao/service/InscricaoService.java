@@ -1,5 +1,6 @@
 package br.senai.sc.engajamento.inscricao.service;
 
+import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.inscricao.model.command.BuscarUmInscricaoCommand;
 import br.senai.sc.engajamento.inscricao.model.command.CriarInscricaoCommand;
 import br.senai.sc.engajamento.inscricao.model.entity.Inscricao;
@@ -23,7 +24,6 @@ public class InscricaoService {
                 Inscricao inscricao = new Inscricao();
                 inscricao.setIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
                 inscricao.setIdCanal(usuarioService.retornaUsuario(cmd.getIdCanal()));
-
                 repository.save(inscricao);
             }
             repository.deleteByIdUsuarioAndIdCanal(usuario, canal);
@@ -33,8 +33,20 @@ public class InscricaoService {
     }
 
     public Inscricao buscarUm(BuscarUmInscricaoCommand cmd) {
-        Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
-        Usuario canal = usuarioService.retornaUsuario(cmd.getIdCanal());
-        return repository.findByIdUsuarioAndIdCanal(usuario, canal);
+        Inscricao inscricao = null;
+        try {
+            Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
+            Usuario canal = usuarioService.retornaUsuario(cmd.getIdCanal());
+
+            inscricao = repository.findByIdUsuarioAndIdCanal(usuario, canal);
+            if (inscricao == null) {
+                throw new NaoEncontradoException("Inscrição não encontrado!");
+            }
+            return inscricao;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return inscricao;
     }
 }

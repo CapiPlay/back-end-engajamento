@@ -2,7 +2,6 @@ package br.senai.sc.engajamento.inscricao.model.entity;
 
 import br.senai.sc.engajamento.inscricao.model.id.InscricaoId;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
-import br.senai.sc.engajamento.usuario.service.UsuarioService;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -10,8 +9,8 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Data
 @Entity
@@ -19,12 +18,14 @@ import java.util.UUID;
 @AllArgsConstructor
 @IdClass(InscricaoId.class)
 public class Inscricao {
+    @Id
+    @ManyToOne
+    @Cascade(CascadeType.ALL)
+    private Usuario idUsuario;
 
     @Id
     @ManyToOne
-    private Usuario idUsuario;
-    @Id
-    @ManyToOne
+    @Cascade(CascadeType.ALL)
     private Usuario idCanal;
 
 }
