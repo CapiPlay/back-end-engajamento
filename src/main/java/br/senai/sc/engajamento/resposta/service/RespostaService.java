@@ -59,7 +59,7 @@ public class RespostaService {
         try {
             Resposta resposta = retornaResposta(cmd.getIdResposta());
             if (!(cmd.getIdUsuario().equals(resposta.getIdUsuario().getIdUsuario()))) {
-                throw new NaoEncontradoException();
+                throw new NaoEncontradoException("Resposta não encontrada!");
             }
             respostaRepository.delete(resposta);
         } catch (Exception e) {

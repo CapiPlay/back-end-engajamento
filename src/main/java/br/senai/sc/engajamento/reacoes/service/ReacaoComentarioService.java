@@ -26,23 +26,22 @@ public class ReacaoComentarioService {
         try {
             Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
             Comentario comentario = comentarioService.retornaComentario(cmd.getIdComentario());
-            ReacaoComentario reacao = repository.findByIdUsuarioAndIdComentario(usuario, comentario);
-            if (reacao == null) {
-                throw new NaoEncontradoException();
-            } else if (reacao.isCurtida() == cmd.getCurtida()) {
+            ReacaoComentario reacaoExistente = repository.findByIdUsuarioAndIdComentario(usuario, comentario);
+            if (reacaoExistente == null) {
+                ReacaoComentario reacao = new ReacaoComentario();
+                reacao.setIdComentario(comentarioService.retornaComentario(cmd.getIdComentario()));
+                reacao.setIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
+                reacao.setCurtida(cmd.getCurtida());
+
+                repository.save(reacao);
+            } else if (reacaoExistente.isCurtida() == cmd.getCurtida()) {
                 repository.deleteByIdUsuarioAndIdComentario(usuario, comentario);
             } else {
-                reacao.setCurtida(!reacao.isCurtida());
-                repository.save(reacao);
+                reacaoExistente.setCurtida(!reacaoExistente.isCurtida());
+                repository.save(reacaoExistente);
             }
-        } catch (NaoEncontradoException e) {
-            ReacaoComentario reacao = new ReacaoComentario();
-            reacao.setIdComentario(comentarioService.retornaComentario(cmd.getIdComentario()));
-            reacao.setIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
-            reacao.setCurtida(cmd.getCurtida());
-
-            repository.save(reacao);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -54,7 +53,7 @@ public class ReacaoComentarioService {
             Comentario comentario = comentarioService.retornaComentario(cmd.getIdComentario());
             reacaoComentario = repository.findByIdUsuarioAndIdComentario(usuario, comentario);
             if (reacaoComentario == null) {
-                throw new NaoEncontradoException();
+                throw new NaoEncontradoException("Reação do comentário não encontrado!");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

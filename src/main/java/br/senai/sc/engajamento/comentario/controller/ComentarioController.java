@@ -41,12 +41,21 @@ public class ComentarioController {
         return ResponseEntity.ok(comentarioService.buscarTodosPorVideo(buscarTodosPorVideoComentarioCommand));
     }
 
-//    @PutMapping()
-//    private ResponseEntity<Comentario> editar(
-//            @RequestBody @Valid EditarComentarioCommand editarComentarioCommand
-//    ){
-//        return ResponseEntity.ok(comentarioService.editar(editarComentarioCommand));
-//    }
+    /*Busca todos os comentários de um vídeo com base na data*/
+    @GetMapping("/buscar-todos-por-data")
+    private ResponseEntity<List<Comentario>> buscarTodosPorData(
+            @RequestBody @Valid BuscarTodosPorDataComentarioCommand buscarTodosPorDataComentarioCommand
+    ) {
+        return ResponseEntity.ok(comentarioService.buscarTodosPorData(buscarTodosPorDataComentarioCommand));
+    }
+
+    /*Buscar quantidade de respostas de um comentário*/
+    @GetMapping("/buscar-quantidade-respostas")
+    private ResponseEntity<Integer> buscarQuantidadeRespostas(
+            @RequestBody @Valid BuscarQuantidadeRepostasComentarioCommand buscarQuantidadeRepostasComentarioCommand
+    ) {
+        return ResponseEntity.ok(comentarioService.buscarQuantidadeRespostas(buscarQuantidadeRepostasComentarioCommand));
+    }
 
     @PutMapping("/adicionar-resposta")
     private ResponseEntity<Comentario> adicionarResposta(

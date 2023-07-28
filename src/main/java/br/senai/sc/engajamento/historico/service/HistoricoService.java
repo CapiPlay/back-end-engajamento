@@ -1,6 +1,8 @@
 package br.senai.sc.engajamento.historico.service;
 
+import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
+import br.senai.sc.engajamento.historico.model.commands.BuscarTodosPorDataHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.commands.BuscarUmHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.commands.CriarHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.entity.Historico;
@@ -14,6 +16,8 @@ import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -53,5 +57,18 @@ public class HistoricoService {
             e.printStackTrace();
         }
         return historico;
+    }
+
+    public List<Historico> buscarTodosPorData(BuscarTodosPorDataHistoricoCommand cmd){
+        List<Historico> listaHistoricosFiltrados = new ArrayList<>();
+
+        List<Historico> listaHistoricos =
+                historicoRepository.findAllByIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
+        for (Historico historico: listaHistoricos) {
+            if(historico.getDataHora().toLocalDate().equals(cmd.getData())) {
+                listaHistoricosFiltrados.add(historico);
+            }
+        }
+        return listaHistoricosFiltrados;
     }
 }
