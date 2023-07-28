@@ -20,7 +20,7 @@ public class UsuarioController {
     private UsuarioRepository repository;
 
     @PostMapping
-    private ResponseEntity<Usuario> criar(@Valid @RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> criar(@Valid @RequestBody Usuario usuario) {
         Usuario usuarioNovo = new Usuario();
         BeanUtils.copyProperties(usuario, usuarioNovo);
         return ResponseEntity.ok(repository.save(usuarioNovo));
