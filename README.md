@@ -84,3 +84,5 @@ Atributos:
 - ID do usuário que realizou a visualização
 - ID do vídeo visualizado
 - Data e hora (gerado automaticamente)
+
+<h5>Qualquer dúvida, tratar com Lucas e Ana </h5>
