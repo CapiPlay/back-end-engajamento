@@ -21,7 +21,6 @@ public class InscriçãoTeste {
     private UsuarioController usuarioController;
     private final Usuario usuario = new Usuario();
     private final Usuario usuario2 = new Usuario();
-    private Inscricao inscricao;
 
 
     @BeforeEach
