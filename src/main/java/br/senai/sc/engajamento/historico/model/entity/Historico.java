@@ -9,6 +9,8 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.time.ZonedDateTime;
 
@@ -21,12 +23,14 @@ import static java.time.ZoneOffset.UTC;
 @IdClass(HistoricoId.class)
 public class Historico {
 
-    @ManyToOne
     @Id
+    @ManyToOne
+    @Cascade(CascadeType.ALL)
     private Usuario idUsuario;
 
-    @ManyToOne
     @Id
+    @ManyToOne
+    @Cascade(CascadeType.ALL)
     private Video idVideo;
 
     /*Formato no MYSQL 'YYYY-MM-DD HH:MM:SS'*/

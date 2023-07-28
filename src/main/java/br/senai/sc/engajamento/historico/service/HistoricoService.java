@@ -3,6 +3,7 @@ package br.senai.sc.engajamento.historico.service;
 import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.historico.model.commands.BuscarTodosPorDataHistoricoCommand;
+import br.senai.sc.engajamento.historico.model.commands.BuscarTodosPorUsuarioHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.commands.BuscarUmHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.commands.CriarHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.entity.Historico;
@@ -40,25 +41,6 @@ public class HistoricoService {
         return retornaHistorico(cmd.getIdUsuario(), cmd.getIdVideo());
     }
 
-    public Historico retornaHistorico(String idUsuario, String idVideo) {
-        Historico historico = null;
-        try {
-            Usuario usuario = usuarioService.retornaUsuario(idUsuario);
-            Video video = videoService.retornaVideo(idVideo);
-
-            System.out.println(usuario);
-            System.out.println(video);
-            historico = historicoRepository.findByIdUsuarioAndIdVideo(usuario, video);
-            System.out.println(historico);
-            if(historico == null){
-                throw new NaoEncontradoException();
-            }
-        } catch (NaoEncontradoException e) {
-            e.printStackTrace();
-        }
-        return historico;
-    }
-
     public List<Historico> buscarTodosPorData(BuscarTodosPorDataHistoricoCommand cmd){
         List<Historico> listaHistoricosFiltrados = new ArrayList<>();
 
@@ -70,5 +52,26 @@ public class HistoricoService {
             }
         }
         return listaHistoricosFiltrados;
+    }
+
+    public List<Historico> buscarTodosPorUsuario(BuscarTodosPorUsuarioHistoricoCommand cmd){
+        return historicoRepository.findAllByIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
+    }
+
+    public Historico retornaHistorico(String idUsuario, String idVideo) {
+        Historico historico = null;
+        try {
+            Usuario usuario = usuarioService.retornaUsuario(idUsuario);
+            Video video = videoService.retornaVideo(idVideo);
+
+            historico = historicoRepository.findByIdUsuarioAndIdVideo(usuario, video);
+            if(historico == null){
+                throw new NaoEncontradoException("Histórico não encontrado!");
+            }
+        } catch (NaoEncontradoException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return historico;
     }
 }

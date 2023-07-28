@@ -21,55 +21,55 @@ public class ComentarioController {
 
     @PostMapping
     private ResponseEntity<Comentario> criar(
-            @RequestBody @Valid CriarComentarioCommand criarComentarioCommand
+            @RequestBody @Valid CriarComentarioCommand cmd
     ) {
-        return ResponseEntity.ok(comentarioService.criar(criarComentarioCommand));
+        return ResponseEntity.ok(comentarioService.criar(cmd));
     }
 
     @GetMapping
     private ResponseEntity<Comentario> buscarUm(
-            @RequestBody @Valid BuscarUmComentarioCommand buscarUmComentarioCommand
+            @RequestBody @Valid BuscarUmComentarioCommand cmd
     ) {
-        return ResponseEntity.ok(comentarioService.buscarUm(buscarUmComentarioCommand));
+        return ResponseEntity.ok(comentarioService.buscarUm(cmd));
     }
 
     /*Pega todos os comentários referentes a um vídeo*/
     @GetMapping("/buscar-todos-por-video")
     private ResponseEntity<List<Comentario>> buscarTodosPorVideo(
-            @RequestBody @Valid BuscarTodosPorVideoComentarioCommand buscarTodosPorVideoComentarioCommand
+            @RequestBody @Valid BuscarTodosPorVideoComentarioCommand cmd
     ) {
-        return ResponseEntity.ok(comentarioService.buscarTodosPorVideo(buscarTodosPorVideoComentarioCommand));
+        return ResponseEntity.ok(comentarioService.buscarTodosPorVideo(cmd));
     }
 
     /*Busca todos os comentários de um vídeo com base na data*/
     @GetMapping("/buscar-todos-por-data")
     private ResponseEntity<List<Comentario>> buscarTodosPorData(
-            @RequestBody @Valid BuscarTodosPorDataComentarioCommand buscarTodosPorDataComentarioCommand
+            @RequestBody @Valid BuscarTodosPorDataComentarioCommand cmd
     ) {
-        return ResponseEntity.ok(comentarioService.buscarTodosPorData(buscarTodosPorDataComentarioCommand));
+        return ResponseEntity.ok(comentarioService.buscarTodosPorData(cmd));
     }
 
     /*Buscar quantidade de respostas de um comentário*/
     @GetMapping("/buscar-quantidade-respostas")
     private ResponseEntity<Integer> buscarQuantidadeRespostas(
-            @RequestBody @Valid BuscarQuantidadeRepostasComentarioCommand buscarQuantidadeRepostasComentarioCommand
+            @RequestBody @Valid BuscarQuantidadeRepostasComentarioCommand cmd
     ) {
-        return ResponseEntity.ok(comentarioService.buscarQuantidadeRespostas(buscarQuantidadeRepostasComentarioCommand));
+        return ResponseEntity.ok(comentarioService.buscarQuantidadeRespostas(cmd));
     }
 
     @PutMapping("/adicionar-resposta")
     private ResponseEntity<Comentario> adicionarResposta(
-            @RequestBody @Valid AdicionarRespostaComentarioCommand adicionarRespostaComentarioCommand
+            @RequestBody @Valid AdicionarRespostaComentarioCommand cmd
     ) {
-        comentarioService.adicionarResposta(adicionarRespostaComentarioCommand);
+        comentarioService.adicionarResposta(cmd);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping
     private ResponseEntity<Void> deletar(
-            @RequestBody @Valid DeletarComentarioCommand deletarComentarioCommand
+            @RequestBody @Valid DeletarComentarioCommand cmd
     ) {
-        comentarioService.deletar(deletarComentarioCommand);
+        comentarioService.deletar(cmd);
         return ResponseEntity.ok().build();
     }
 

@@ -3,6 +3,7 @@ package br.senai.sc.engajamento.historico.controller;
 
 import br.senai.sc.engajamento.comentario.model.command.BuscarQuantidadeRepostasComentarioCommand;
 import br.senai.sc.engajamento.historico.model.commands.BuscarTodosPorDataHistoricoCommand;
+import br.senai.sc.engajamento.historico.model.commands.BuscarTodosPorUsuarioHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.commands.BuscarUmHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.commands.CriarHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.entity.Historico;
@@ -25,27 +26,32 @@ public class HistoricoController {
 
     @PostMapping()
     private ResponseEntity<Void> criar(
-            @RequestBody @Valid CriarHistoricoCommand criarHistoricoCommand
+            @RequestBody @Valid CriarHistoricoCommand cmd
     ) {
-        historicoService.criar(criarHistoricoCommand);
+        historicoService.criar(cmd);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping()
     private ResponseEntity<Historico> buscarUm(
-            @RequestBody @Valid BuscarUmHistoricoCommand buscarUmHistoricoCommand
+            @RequestBody @Valid BuscarUmHistoricoCommand cmd
     ) {
-        return ResponseEntity.ok(historicoService.buscarUm(buscarUmHistoricoCommand));
+        return ResponseEntity.ok(historicoService.buscarUm(cmd));
     }
 
     /*Buscar históricos de um usuário por data*/
     @GetMapping("/buscar-todos-históricos-por-data")
     private ResponseEntity<List<Historico>> buscarTodosHistoricosPorData(
-            @RequestBody @Valid BuscarTodosPorDataHistoricoCommand buscarQuantidadeRepostasComentarioCommand
+            @RequestBody @Valid BuscarTodosPorDataHistoricoCommand cmd
             ) {
-        return ResponseEntity.ok(historicoService.buscarTodosPorData(buscarQuantidadeRepostasComentarioCommand));
+        return ResponseEntity.ok(historicoService.buscarTodosPorData(cmd));
     }
 
-//    Buscar histórico só pelo user ou vídeo
-
+    /*Buscar históricos de um usuário*/
+    @GetMapping("/buscar-todos-históricos-por-usuario")
+    private ResponseEntity<List<Historico>> buscarTodosHistoricosPorUsuario(
+            @RequestBody @Valid BuscarTodosPorUsuarioHistoricoCommand cmd
+    ) {
+        return ResponseEntity.ok(historicoService.buscarTodosPorUsuario(cmd));
+    }
 }

@@ -3,6 +3,7 @@ package br.senai.sc.engajamento.comentario.service;
 import br.senai.sc.engajamento.comentario.model.command.*;
 import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.comentario.repository.ComentarioRepository;
+import br.senai.sc.engajamento.exception.AcaoNaoPermitidaException;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.service.UsuarioService;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -41,8 +43,7 @@ public class ComentarioService {
     public Comentario buscarUm(
             BuscarUmComentarioCommand cmd
     ) {
-        return comentarioRepository.findByIdComentario(cmd.getIdComentario()).orElseThrow(NaoEncontradoException::new);
-//        return retornaComentario(cmd.getIdComentario());
+        return retornaComentario(cmd.getIdComentario());
     }
 
     public List<Comentario> buscarTodosPorVideo(
@@ -89,7 +90,7 @@ public class ComentarioService {
         try {
             Comentario comentario = retornaComentario(cmd.getIdComentario());
             if (!(cmd.getIdUsuario().equals(comentario.getIdUsuario().getIdUsuario()))) {
-                throw new NaoEncontradoException();
+                throw new AcaoNaoPermitidaException();
             }
             comentarioRepository.delete(comentario);
         } catch (Exception e) {
@@ -99,7 +100,11 @@ public class ComentarioService {
     }
 
     public Comentario retornaComentario(String idComentario) {
-        return comentarioRepository.findByIdComentario(idComentario).orElseThrow(NaoEncontradoException::new);
+        Optional<Comentario> comentario = comentarioRepository.findByIdComentario(idComentario);
+        if (comentario.isPresent()) {
+            return comentario.get();
+        }
+        throw new NaoEncontradoException("Comentário não encontrado!");
     }
 
 }

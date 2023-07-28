@@ -24,39 +24,31 @@ public class RespostaController {
 
     @PostMapping()
     private ResponseEntity<Resposta> criar(
-            @RequestBody @Valid CriarRespostaCommand criarRespostaCommand
+            @RequestBody @Valid CriarRespostaCommand cmd
     ) {
-        return ResponseEntity.ok(respostaService.criar(criarRespostaCommand));
+        return ResponseEntity.ok(respostaService.criar(cmd));
     }
 
     @GetMapping()
     private ResponseEntity<Resposta> buscarUm(
-            @RequestBody @Valid BuscarUmaRespostaCommand buscarUmaRespostaCommand
+            @RequestBody @Valid BuscarUmaRespostaCommand cmd
     ) {
-        return ResponseEntity.ok(respostaService.buscarUm(buscarUmaRespostaCommand));
+        return ResponseEntity.ok(respostaService.buscarUm(cmd));
     }
 
     /*Pega todos os comentários referentes a um vídeo*/
     @GetMapping("/buscar-todos-por-comentario")
     private ResponseEntity<List<Resposta>> buscarTodosPorComentario(
-            @RequestBody @Valid BuscarTodosPorComentarioRespostaCommand buscarTodosPorComentarioCommand
+            @RequestBody @Valid BuscarTodosPorComentarioRespostaCommand cmd
     ) {
-        return ResponseEntity.ok(respostaService.buscarTodosPorComentario(buscarTodosPorComentarioCommand));
+        return ResponseEntity.ok(respostaService.buscarTodosPorComentario(cmd));
     }
-
-//    @PutMapping()
-//    private ResponseEntity<Resposta> editar(
-//            @RequestBody @Valid EditarRespostaCommand editarRespostaCommand
-//    ){
-//        return ResponseEntity.ok(respostaService.editar(editarRespostaCommand));
-//    }
-
 
     @DeleteMapping()
     private ResponseEntity<Void> deletar(
-            @RequestBody DeletarRespostaCommand deletarRespostaCommand
+            @RequestBody DeletarRespostaCommand cmd
     ) {
-        respostaService.deletar(deletarRespostaCommand);
+        respostaService.deletar(cmd);
         return ResponseEntity.ok().build();
     }
 
