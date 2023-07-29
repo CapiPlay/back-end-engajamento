@@ -1,6 +1,5 @@
 package br.senai.sc.engajamento.video.controller;
 
-import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
 import jakarta.validation.Valid;
@@ -19,7 +18,7 @@ public class VideoController {
     private VideoRepository repository;
 
     @PostMapping
-    private ResponseEntity<Video> criar(@Valid @RequestBody Video video) {
+    public ResponseEntity<Video> criar(@Valid @RequestBody Video video) {
         Video videoNovo = new Video();
         BeanUtils.copyProperties(video, videoNovo);
         return ResponseEntity.ok(repository.save(videoNovo));
