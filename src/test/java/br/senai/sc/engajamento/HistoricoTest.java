@@ -26,6 +26,5 @@ public class HistoricoTest {
         usuario2 = usuarioController.criar(new Usuario()).getBody();
         video1 = videoController.criar(new Video()).getBody();
         video2 = videoController.criar(new Video()).getBody();
-        historico1 '^^üè¨!$àä-.,<+"*ç%&/()='
     }
 }
