@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @AllArgsConstructor
 @RequestMapping("/api/engajamento/inscricao")
-public class InscricaoContoller {
+public class InscricaoController {
     private final InscricaoService service;
 
     @PostMapping

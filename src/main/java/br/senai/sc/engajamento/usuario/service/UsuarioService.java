@@ -15,6 +15,10 @@ public class UsuarioService {
     private final UsuarioRepository repository;
 
     public Usuario retornaUsuario(String idUsuario) {
-        return repository.findById(idUsuario).orElseThrow(NaoEncontradoException::new);
+        Optional<Usuario> optionalUsuario = repository.findById(idUsuario);
+        if(optionalUsuario.isPresent()){
+            return optionalUsuario.get();
+        }
+        throw new NaoEncontradoException("Usuário encontrado");
     }
 }

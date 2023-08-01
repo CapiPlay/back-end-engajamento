@@ -28,6 +28,7 @@ public class InscricaoService {
             }
             repository.deleteByIdUsuarioAndIdCanal(usuario, canal);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
