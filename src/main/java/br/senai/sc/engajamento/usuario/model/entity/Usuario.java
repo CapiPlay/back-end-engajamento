@@ -1,14 +1,10 @@
 package br.senai.sc.engajamento.usuario.model.entity;
 
-import br.senai.sc.engajamento.utils.GeradorUUIDUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 @Data
 @Entity
@@ -22,11 +18,13 @@ public class Usuario {
     @Column(nullable = false)
     private String foto;
     @Column(nullable = false)
-    private int inscricoes;
-    @Column(nullable = false)
-    private int inscritos;
+    private int quantidadeInscritos;
 
-    public Usuario() {
-        this.idUsuario = GeradorUUIDUtils.gerarUuid();
+    public Usuario(String idUsuario, String nome, String foto) {
+        this.idUsuario = idUsuario;
+        this.nome = nome;
+        this.foto = foto;
+        this.quantidadeInscritos = 0;
     }
+
 }

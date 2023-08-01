@@ -14,6 +14,11 @@ import java.util.UUID;
 public class UsuarioService {
     private final UsuarioRepository repository;
 
+    public Usuario criar(){
+
+    }
+
+
     public Usuario retornaUsuario(String idUsuario) {
         Optional<Usuario> optionalUsuario = repository.findById(idUsuario);
         if(optionalUsuario.isPresent()){
