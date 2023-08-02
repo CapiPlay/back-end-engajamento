@@ -20,7 +20,10 @@ public class UsuarioController {
     private UsuarioService service;
 
     @PostMapping
-    public ResponseEntity<Usuario> criar(@Valid @RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> criar(
+            @Valid @RequestBody Usuario usuario,
+            @RequestHeader String id
+    ) {
         return ResponseEntity.ok(service.criar(usuario));
     }
 
