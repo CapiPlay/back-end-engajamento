@@ -1,5 +1,6 @@
 package br.senai.sc.engajamento;
 
+import br.senai.sc.engajamento.comentario.model.command.AdicionarRespostaComentarioCommand;
 import br.senai.sc.engajamento.comentario.model.command.BuscarUmComentarioCommand;
 import br.senai.sc.engajamento.comentario.model.command.CriarComentarioCommand;
 import br.senai.sc.engajamento.comentario.model.command.DeletarComentarioCommand;
@@ -40,5 +41,12 @@ public class ComentarioTest {
         assertEquals(comentario, comentarioService.buscarUm(new BuscarUmComentarioCommand(comentario.getIdComentario())));
         comentarioService.deletar(new DeletarComentarioCommand(comentario.getIdComentario(), usuario1.getIdUsuario()));
         assertNull(comentarioService.buscarUm(new BuscarUmComentarioCommand(comentario.getIdComentario())));
+    }
+
+    @Test
+    public void adicionarResposta() {
+        assertEquals(0, comentario.getQtdRespostas());
+        comentarioService.adicionarResposta(new AdicionarRespostaComentarioCommand(comentario.getIdComentario()));
+        assertEquals(1, comentario.getQtdRespostas());
     }
 }

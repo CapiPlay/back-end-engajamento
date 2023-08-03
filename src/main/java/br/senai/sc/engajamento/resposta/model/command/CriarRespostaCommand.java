@@ -10,10 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CriarRespostaCommand {
     @NotNull
-    private String texto;
-    @NotNull
     private String idUsuario;
     @NotNull
     private String idComentario;
-
+    @NotNull
+    private String texto;
 }

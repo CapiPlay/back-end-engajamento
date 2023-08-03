@@ -21,7 +21,9 @@ public class ReacaoComentarioController {
     private final ReacaoComentarioService service;
 
     @PostMapping
-    public ResponseEntity<Void> criar(@RequestBody @Valid CriarReacaoComentarioCommand cmd) {
+    public ResponseEntity<Void> criar(@RequestBody @Valid CriarReacaoComentarioCommand cmd
+//            , @RequestHeader String usuarioId
+    ) {
         service.criar(cmd);
         return ResponseEntity.ok().build();
     }
