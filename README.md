@@ -15,7 +15,8 @@ Atributos:
 Atributos:
 
 - ID de vídeo
-- Visualização
+- Qtd. visualização
+- Qtd. like
 
 ## Entidade: Comentário
 
