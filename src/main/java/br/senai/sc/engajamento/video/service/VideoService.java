@@ -5,7 +5,6 @@ import br.senai.sc.engajamento.video.amqp.events.VideoSalvoEvent;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,7 +14,7 @@ import java.util.Optional;
 public class VideoService {
     private final VideoRepository repository;
 
-    public Video criar(Video video){
+    public Video criar(Video video) {
         return repository.save(video);
     }
 
@@ -26,23 +25,28 @@ public class VideoService {
                 return optionalVideo.get();
             }
             throw new NaoEncontradoException("Vídeo não encontrado");
-        }catch (NaoEncontradoException e){
+        } catch (NaoEncontradoException e) {
             System.out.print(e.getMessage());
             e.printStackTrace();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
     public void handle(VideoSalvoEvent event) {
-        repository.findById(event.id()).ifPresentOrElse((video)-> {
+        repository.findById(event.id()).ifPresentOrElse((video) -> {
             //existe
-            BeanUtils.copyProperties(event, video);
+            video.setId(event.id());
+            video.setEhInativado(event.ehInativado());
+//            video.setVisualizacao(0L);
             repository.save(video);
-        }, ()-> {
+        }, () -> {
             //não existe
-            Video video = new Video(event);
+            Video video = new Video();
+            video.setId(event.id());
+            video.setEhInativado(event.ehInativado());
+            video.setVisualizacao(0L);
             repository.save(video);
         });
     }

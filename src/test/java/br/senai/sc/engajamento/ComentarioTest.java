@@ -29,10 +29,10 @@ public class ComentarioTest {
 
     @BeforeEach
     public void setup() {
-        usuarioService.criar(usuario);
+        usuarioService.criar(usuario1);
         usuarioService.criar(usuario2);
         videoService.criar(video);
-        comentario = comentarioService.criar(new CriarComentarioCommand(usuario1.getIdUsuario(), video.getIdVideo(), "teste1"));
+        comentario = comentarioService.criar(new CriarComentarioCommand(usuario1.getIdUsuario(), video.getId(), "teste1"));
     }
 
     @Test

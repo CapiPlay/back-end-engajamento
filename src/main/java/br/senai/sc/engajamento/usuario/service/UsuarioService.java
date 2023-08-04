@@ -5,7 +5,6 @@ import br.senai.sc.engajamento.usuario.amqp.events.UsuarioSalvoEvent;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -38,11 +37,22 @@ public class UsuarioService {
     public void handle(UsuarioSalvoEvent event) {
         repository.findById(event.id()).ifPresentOrElse((usuario) -> {
             //existe
-            BeanUtils.copyProperties(event, usuario);
+            usuario.setIdUsuario(event.id());
+            usuario.setNomeCanal(event.nomeCanal());
+            usuario.setNomePerfil(event.nomePerfil());
+            usuario.setFoto(event.foto());
+//            usuario.setQuantidadeInscritos(0);
+            usuario.setDescricao(event.descricao());
             repository.save(usuario);
         }, () -> {
             //não existe
-            Usuario usuario = new Usuario(event);
+            Usuario usuario = new Usuario();
+            usuario.setIdUsuario(event.id());
+            usuario.setNomeCanal(event.nomeCanal());
+            usuario.setNomePerfil(event.nomePerfil());
+            usuario.setFoto(event.foto());
+            usuario.setQuantidadeInscritos(0);
+            usuario.setDescricao(event.descricao());
             repository.save(usuario);
         });
     }
