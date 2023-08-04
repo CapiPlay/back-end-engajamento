@@ -9,6 +9,7 @@ Atributos:
 - Foto de perfil
 - Inscrições
 - Inscritos
+- Ativado
 
 ## Entidade: Vídeo
 
@@ -17,6 +18,7 @@ Atributos:
 - ID de vídeo
 - Qtd. visualização
 - Qtd. like
+- ehInativado
 
 ## Entidade: Comentário
 
