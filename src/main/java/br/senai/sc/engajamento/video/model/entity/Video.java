@@ -1,6 +1,5 @@
 package br.senai.sc.engajamento.video.model.entity;
 
-import br.senai.sc.engajamento.video.amqp.events.VideoSalvoEvent;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -21,10 +20,31 @@ public class Video {
     private Long visualizacao;
 
     @Column(nullable = false)
+    private Long qtdCurtidas;
+
+    @Column(nullable = false)
+    private Long qtdDescurtidas;
+
+    @Column(nullable = false)
+    private Long qtdComentarios;
+
+    @Column(nullable = false)
+    private Long qtdRespostas;
+
+    @Column(nullable = false)
     private Boolean ehInativado;
 
-    public Video(VideoSalvoEvent event) {
-        this.id = event.id();
-        this.ehInativado = event.ehInativado();
+    @Column(nullable = false)
+    private Double pontuacao;
+
+    public Video(String id, Boolean ehInativado) {
+        this.id = id;
+        this.visualizacao = 0L;
+        this.qtdCurtidas = 0L;
+        this.qtdDescurtidas = 0L;
+        this.qtdComentarios = 0L;
+        this.qtdRespostas = 0L;
+        this.ehInativado = ehInativado;
+        this.pontuacao = 0.0;
     }
 }
