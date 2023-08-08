@@ -26,9 +26,7 @@ public class ComentarioService {
     private UsuarioService usuarioService;
     private VideoService videoService;
 
-    public Comentario criar(
-            CriarComentarioCommand cmd
-    ) {
+    public Comentario criar(CriarComentarioCommand cmd) {
         Video video = videoService.retornaVideo(cmd.getIdVideo());
         Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
         Comentario comentario = new Comentario(
@@ -39,43 +37,33 @@ public class ComentarioService {
         return comentarioRepository.save(comentario);
     }
 
-    public Comentario buscarUm(
-            BuscarUmComentarioCommand cmd
-    ) {
+    public Comentario buscarUm(BuscarUmComentarioCommand cmd) {
         return retornaComentario(cmd.getIdComentario());
     }
 
-    public List<Comentario> buscarTodosPorVideo(
-            BuscarTodosPorVideoComentarioCommand cmd
-    ) {
+    public List<Comentario> buscarTodosPorVideo(BuscarTodosPorVideoComentarioCommand cmd) {
         return comentarioRepository.findAllByIdVideo(videoService.retornaVideo(cmd.getIdVideo()));
     }
 
-    public List<Comentario> buscarTodosPorData(
-            BuscarTodosPorDataComentarioCommand cmd
-    ) {
+    public List<Comentario> buscarTodosPorData(BuscarTodosPorDataComentarioCommand cmd) {
         List<Comentario> listaComentariosFiltrados = new ArrayList<>();
 
         List<Comentario> listaComentarios =
                 comentarioRepository.findAllByIdVideo(videoService.retornaVideo(cmd.getIdVideo()));
-        for (Comentario comentario: listaComentarios) {
-            if(comentario.getDataHora().toLocalDate().equals(cmd.getData())) {
+        for (Comentario comentario : listaComentarios) {
+            if (comentario.getDataHora().toLocalDate().equals(cmd.getData())) {
                 listaComentariosFiltrados.add(comentario);
             }
         }
         return listaComentariosFiltrados;
     }
 
-    public Integer buscarQuantidadeRespostas(
-            BuscarQuantidadeRepostasComentarioCommand cmd
-    ) {
+    public Integer buscarQuantidadeRespostas(BuscarQuantidadeRepostasComentarioCommand cmd) {
         Comentario comentario = retornaComentario(cmd.getIdComentario());
         return comentario.getQtdRespostas();
     }
 
-    public void adicionarResposta(
-            AdicionarRespostaComentarioCommand cmd
-    ) {
+    public void adicionarResposta(AdicionarRespostaComentarioCommand cmd) {
         Comentario comentario = retornaComentario(cmd.getIdComentario());
         comentario.setQtdRespostas(
                 comentario.getQtdRespostas() + 1
@@ -83,9 +71,7 @@ public class ComentarioService {
         comentarioRepository.save(comentario);
     }
 
-    public void deletar(
-            DeletarComentarioCommand cmd
-    ) {
+    public void deletar(DeletarComentarioCommand cmd) {
         try {
             Comentario comentario = retornaComentario(cmd.getIdComentario());
             if (!(cmd.getIdUsuario().equals(comentario.getIdUsuario().getIdUsuario()))) {

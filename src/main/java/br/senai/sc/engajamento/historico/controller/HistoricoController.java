@@ -1,7 +1,6 @@
 package br.senai.sc.engajamento.historico.controller;
 
 
-import br.senai.sc.engajamento.comentario.model.command.BuscarQuantidadeRepostasComentarioCommand;
 import br.senai.sc.engajamento.historico.model.commands.BuscarTodosPorDataHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.commands.BuscarTodosPorUsuarioHistoricoCommand;
 import br.senai.sc.engajamento.historico.model.commands.BuscarUmHistoricoCommand;
@@ -25,7 +24,7 @@ public class HistoricoController {
     private final HistoricoService historicoService;
 
     @PostMapping()
-    private ResponseEntity<Void> criar(
+    public ResponseEntity<Void> criar(
             @RequestBody @Valid CriarHistoricoCommand cmd
     ) {
         historicoService.criar(cmd);
@@ -33,7 +32,7 @@ public class HistoricoController {
     }
 
     @GetMapping()
-    private ResponseEntity<Historico> buscarUm(
+    public ResponseEntity<Historico> buscarUm(
             @RequestBody @Valid BuscarUmHistoricoCommand cmd
     ) {
         return ResponseEntity.ok(historicoService.buscarUm(cmd));
@@ -41,15 +40,15 @@ public class HistoricoController {
 
     /*Buscar históricos de um usuário por data*/
     @GetMapping("/buscar-todos-históricos-por-data")
-    private ResponseEntity<List<Historico>> buscarTodosHistoricosPorData(
+    public ResponseEntity<List<Historico>> buscarTodosHistoricosPorData(
             @RequestBody @Valid BuscarTodosPorDataHistoricoCommand cmd
-            ) {
+    ) {
         return ResponseEntity.ok(historicoService.buscarTodosPorData(cmd));
     }
 
     /*Buscar históricos de um usuário*/
     @GetMapping("/buscar-todos-históricos-por-usuario")
-    private ResponseEntity<List<Historico>> buscarTodosHistoricosPorUsuario(
+    public ResponseEntity<List<Historico>> buscarTodosHistoricosPorUsuario(
             @RequestBody @Valid BuscarTodosPorUsuarioHistoricoCommand cmd
     ) {
         return ResponseEntity.ok(historicoService.buscarTodosPorUsuario(cmd));

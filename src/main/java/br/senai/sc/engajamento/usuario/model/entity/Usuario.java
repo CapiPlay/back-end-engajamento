@@ -6,9 +6,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 @AllArgsConstructor
 public class Usuario {
     @Id
@@ -26,7 +28,7 @@ public class Usuario {
     private String descricao;
 
 
-    public Usuario(String idUsuario,  String nomePerfil,
+    public Usuario(String idUsuario, String nomePerfil,
                    String nomeCanal, String foto,
                    String descricao) {
         this.idUsuario = idUsuario;

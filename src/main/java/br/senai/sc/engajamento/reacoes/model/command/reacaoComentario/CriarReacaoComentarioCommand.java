@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CriarReacaoComentarioCommand {
+
     @NotNull
     private String idUsuario;
     @NotNull
