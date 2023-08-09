@@ -7,8 +7,8 @@ import br.senai.sc.engajamento.historico.repository.HistoricoRepository;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.service.UsuarioService;
 import br.senai.sc.engajamento.video.model.entity.Video;
-import br.senai.sc.engajamento.video.service.VideoService;
-import lombok.AllArgsConstructor;
+import br.senai.sc.engajamento.video.repository.VideoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -16,16 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class HistoricoService {
 
     private final HistoricoRepository historicoRepository;
     private final UsuarioService usuarioService;
-    private final VideoService videoService;
+    private final VideoRepository videoRepository;
 
     public void criar(CriarHistoricoCommand cmd) {
         Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
-        Video video = videoService.retornaVideo(cmd.getIdVideo());
+        Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
         if(historicoRepository.findByIdUsuarioAndIdVideo(usuario, video) != null){
             Historico historico = new Historico(usuario, video, cmd.getPercentagemSomada());
             historicoRepository.save(historico);
@@ -34,6 +34,7 @@ public class HistoricoService {
             historico.setQtdVisualizadas(historico.getQtdVisualizadas() + 1);
             historico.setPercentagemSomada(historico.getPercentagemSomada() + cmd.getPercentagemSomada());
             historico.setDataHora(ZonedDateTime.now());
+            historicoRepository.save(historico);
         }
     }
 
@@ -66,7 +67,7 @@ public class HistoricoService {
         Historico historico = null;
         try {
             Usuario usuario = usuarioService.retornaUsuario(idUsuario);
-            Video video = videoService.retornaVideo(idVideo);
+            Video video = videoRepository.findById(idVideo).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
 
             historico = historicoRepository.findByIdUsuarioAndIdVideo(usuario, video);
             if(historico == null){
