@@ -3,6 +3,7 @@ package br.senai.sc.engajamento.comentario.repository;
 import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.comentario.service.ComentarioService;
 import br.senai.sc.engajamento.video.model.entity.Video;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

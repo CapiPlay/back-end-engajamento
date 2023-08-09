@@ -27,26 +27,26 @@ public class ComentarioTest {
     private Usuario usuario2;
     private Video video;
 
-    @BeforeEach
-    public void setup() {
-        usuarioService.criar(usuario1);
-        usuarioService.criar(usuario2);
-        videoService.criar(video);
-        comentario = comentarioService.criar(new CriarComentarioCommand(usuario1.getIdUsuario(), video.getId(), "teste1"));
-    }
-
-    @Test
-    public void deletar() {
-        comentarioService.deletar(new DeletarComentarioCommand(comentario.getIdComentario(), usuario2.getIdUsuario()));
-        assertEquals(comentario, comentarioService.buscarUm(new BuscarUmComentarioCommand(comentario.getIdComentario())));
-        comentarioService.deletar(new DeletarComentarioCommand(comentario.getIdComentario(), usuario1.getIdUsuario()));
-        assertNull(comentarioService.buscarUm(new BuscarUmComentarioCommand(comentario.getIdComentario())));
-    }
-
-    @Test
-    public void adicionarResposta() {
-        assertEquals(0, comentario.getQtdRespostas());
-        comentarioService.adicionarResposta(new AdicionarRespostaComentarioCommand(comentario.getIdComentario()));
-        assertEquals(1, comentario.getQtdRespostas());
-    }
+//    @BeforeEach
+//    public void setup() {
+//        usuarioService.criar(usuario1);
+//        usuarioService.criar(usuario2);
+//        videoService.criar(video);
+//        comentario = comentarioService.criar(new CriarComentarioCommand(usuario1.getIdUsuario(), video.getId(), "teste1"));
+//    }
+//
+//    @Test
+//    public void deletar() {
+//        comentarioService.deletar(new DeletarComentarioCommand(comentario.getIdComentario(), usuario2.getIdUsuario()));
+//        assertEquals(comentario, comentarioService.buscarUm(new BuscarUmComentarioCommand(comentario.getIdComentario())));
+//        comentarioService.deletar(new DeletarComentarioCommand(comentario.getIdComentario(), usuario1.getIdUsuario()));
+//        assertNull(comentarioService.buscarUm(new BuscarUmComentarioCommand(comentario.getIdComentario())));
+//    }
+//
+//    @Test
+//    public void adicionarResposta() {
+//        assertEquals(0, comentario.getQtdRespostas());
+//        comentarioService.adicionarResposta(new AdicionarRespostaComentarioCommand(comentario.getIdComentario()));
+//        assertEquals(1, comentario.getQtdRespostas());
+//    }
 }

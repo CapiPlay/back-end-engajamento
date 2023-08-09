@@ -13,4 +13,9 @@ public class CriarComentarioCommand {
     private String idVideo;
     private String texto;
 
+    public CriarComentarioCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
+
 }

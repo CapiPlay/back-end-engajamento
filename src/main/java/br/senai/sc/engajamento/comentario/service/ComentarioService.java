@@ -13,9 +13,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.awt.print.Pageable;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -34,6 +33,8 @@ public class ComentarioService {
                 usuario,
                 video
         );
+        video.setQtdComentarios(video.getQtdComentarios() + 1);
+        videoService.editarPontuacao(video);
         return comentarioRepository.save(comentario);
     }
 
@@ -42,7 +43,9 @@ public class ComentarioService {
     }
 
     public List<Comentario> buscarTodosPorVideo(BuscarTodosPorVideoComentarioCommand cmd) {
-        return comentarioRepository.findAllByIdVideo(videoService.retornaVideo(cmd.getIdVideo()));
+        List<Comentario> list = comentarioRepository.findAllByIdVideo(videoService.retornaVideo(cmd.getIdVideo()));
+        Collections.sort(list, Comparator.comparing(Comentario::getDataHora).reversed());
+        return list;
     }
 
     public List<Comentario> buscarTodosPorData(BuscarTodosPorDataComentarioCommand cmd) {
@@ -74,9 +77,11 @@ public class ComentarioService {
     public void deletar(DeletarComentarioCommand cmd) {
         try {
             Comentario comentario = retornaComentario(cmd.getIdComentario());
+            Video video = videoService.retornaVideo(comentario.getIdVideo().getId());
             if (!(cmd.getIdUsuario().equals(comentario.getIdUsuario().getIdUsuario()))) {
                 throw new AcaoNaoPermitidaException();
             }
+            video.setQtdComentarios(video.getQtdComentarios() - 1);
             comentarioRepository.delete(comentario);
         } catch (Exception e) {
             System.out.println(e.getMessage());

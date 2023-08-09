@@ -27,6 +27,8 @@ public class Usuario {
     @Column(nullable = false)
     private String descricao;
 
+    /*Se o usuário estiver inativado, o token não será enviado. Logo, não é necessário este atributo*/
+
 
     public Usuario(String idUsuario, String nomePerfil,
                    String nomeCanal, String foto,

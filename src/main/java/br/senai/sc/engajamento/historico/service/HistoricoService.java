@@ -1,11 +1,7 @@
 package br.senai.sc.engajamento.historico.service;
 
-import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
-import br.senai.sc.engajamento.historico.model.commands.BuscarTodosPorDataHistoricoCommand;
-import br.senai.sc.engajamento.historico.model.commands.BuscarTodosPorUsuarioHistoricoCommand;
-import br.senai.sc.engajamento.historico.model.commands.BuscarUmHistoricoCommand;
-import br.senai.sc.engajamento.historico.model.commands.CriarHistoricoCommand;
+import br.senai.sc.engajamento.historico.model.commands.*;
 import br.senai.sc.engajamento.historico.model.entity.Historico;
 import br.senai.sc.engajamento.historico.repository.HistoricoRepository;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
@@ -13,17 +9,14 @@ import br.senai.sc.engajamento.usuario.service.UsuarioService;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.service.VideoService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-@Data
 public class HistoricoService {
 
     private final HistoricoRepository historicoRepository;
@@ -33,8 +26,15 @@ public class HistoricoService {
     public void criar(CriarHistoricoCommand cmd) {
         Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
         Video video = videoService.retornaVideo(cmd.getIdVideo());
-        Historico historico = new Historico(usuario, video);
-        historicoRepository.save(historico);
+        if(historicoRepository.findByIdUsuarioAndIdVideo(usuario, video) != null){
+            Historico historico = new Historico(usuario, video, cmd.getPercentagemSomada());
+            historicoRepository.save(historico);
+        } else {
+            Historico historico = retornaHistorico(cmd.getIdUsuario(), cmd.getIdVideo());
+            historico.setQtdVisualizadas(historico.getQtdVisualizadas() + 1);
+            historico.setPercentagemSomada(historico.getPercentagemSomada() + cmd.getPercentagemSomada());
+            historico.setDataHora(ZonedDateTime.now());
+        }
     }
 
     public Historico buscarUm(BuscarUmHistoricoCommand cmd) {
@@ -58,6 +58,10 @@ public class HistoricoService {
         return historicoRepository.findAllByIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
     }
 
+    public List<Historico> buscarTodosPorVideo(Video video){
+        return historicoRepository.findAllByIdVideo(video);
+    }
+
     public Historico retornaHistorico(String idUsuario, String idVideo) {
         Historico historico = null;
         try {
@@ -75,3 +79,4 @@ public class HistoricoService {
         return historico;
     }
 }
+

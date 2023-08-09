@@ -37,6 +37,9 @@ public class Video {
     @Column(nullable = false)
     private Double pontuacao;
 
+    @Column(nullable = false)
+    private Double percentagemSomada;
+
     public Video(String id, Boolean ehInativado) {
         this.id = id;
         this.visualizacao = 0L;

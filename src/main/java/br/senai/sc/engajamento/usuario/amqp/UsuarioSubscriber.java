@@ -13,9 +13,9 @@ public class UsuarioSubscriber {
 
     private final UsuarioService service;
 
-    @RabbitListener(queues = "usuarios.v1.usuario-salvo.engajamento")
-    public void on(@RequestHeader UsuarioSalvoEvent event){
-        service.handle(event);
-    }
+//    @RabbitListener(queues = "usuarios.v1.usuario-salvo.engajamento")
+//    public void on(@RequestHeader UsuarioSalvoEvent event){
+//        service.handle(event);
+//    }
 
 }

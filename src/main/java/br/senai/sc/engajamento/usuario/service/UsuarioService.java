@@ -34,26 +34,24 @@ public class UsuarioService {
         return null;
     }
 
-    public void handle(UsuarioSalvoEvent event) {
-        repository.findById(event.id()).ifPresentOrElse((usuario) -> {
-            //existe
-            usuario.setIdUsuario(event.id());
-            usuario.setNomeCanal(event.nomeCanal());
-            usuario.setNomePerfil(event.nomePerfil());
-            usuario.setFoto(event.foto());
+//    public void handle(UsuarioSalvoEvent event) {
+//        repository.findById(event.id()).ifPresentOrElse((usuario) -> {
+//            //existe
+//            usuario.setNomeCanal(event.nomeCanal());
+//            usuario.setNomePerfil(event.nomePerfil());
+//            usuario.setFoto(event.foto());
+//            usuario.setDescricao(event.descricao());
+//            repository.save(usuario);
+//        }, () -> {
+//            //não existe
+//            Usuario usuario = new Usuario();
+//            usuario.setIdUsuario(event.id());
+//            usuario.setNomeCanal(event.nomeCanal());
+//            usuario.setNomePerfil(event.nomePerfil());
+//            usuario.setFoto(event.foto());
 //            usuario.setQuantidadeInscritos(0);
-            usuario.setDescricao(event.descricao());
-            repository.save(usuario);
-        }, () -> {
-            //não existe
-            Usuario usuario = new Usuario();
-            usuario.setIdUsuario(event.id());
-            usuario.setNomeCanal(event.nomeCanal());
-            usuario.setNomePerfil(event.nomePerfil());
-            usuario.setFoto(event.foto());
-            usuario.setQuantidadeInscritos(0);
-            usuario.setDescricao(event.descricao());
-            repository.save(usuario);
-        });
-    }
+//            usuario.setDescricao(event.descricao());
+//            repository.save(usuario);
+//        });
+//    }
 }
