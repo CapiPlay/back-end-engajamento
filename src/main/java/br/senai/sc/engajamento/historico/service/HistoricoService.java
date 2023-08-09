@@ -9,7 +9,6 @@ import br.senai.sc.engajamento.usuario.service.UsuarioService;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.service.VideoService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -18,7 +17,6 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-@Data
 public class HistoricoService {
 
     private final HistoricoRepository historicoRepository;
@@ -81,3 +79,4 @@ public class HistoricoService {
         return historico;
     }
 }
+

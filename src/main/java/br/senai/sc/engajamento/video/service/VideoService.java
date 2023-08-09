@@ -2,24 +2,26 @@ package br.senai.sc.engajamento.video.service;
 
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.historico.model.entity.Historico;
-import br.senai.sc.engajamento.historico.repository.HistoricoRepository;
 import br.senai.sc.engajamento.historico.service.HistoricoService;
-import br.senai.sc.engajamento.messaging.Publisher;
+//import br.senai.sc.engajamento.messaging.Publisher;
 import br.senai.sc.engajamento.video.amqp.events.VideoSalvoEvent;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@NoArgsConstructor
 public class VideoService {
-    private final VideoRepository repository;
-    private final HistoricoService historicoService;
-    private final Publisher publisher;
+    private VideoRepository repository;
+    private HistoricoService historicoService;
+//    private Publisher publisher;
 
     public Video retornaVideo(String idVideo) {
         Optional<Video> optionalVideo = repository.findById(idVideo);
@@ -39,17 +41,17 @@ public class VideoService {
         return null;
     }
 
-    public void handle(VideoSalvoEvent event) {
-        repository.findById(event.id()).ifPresentOrElse((video) -> {
-            //existe
-            video.setEhInativado(event.ehInativado());
-            repository.save(video);
-        }, () -> {
-            //não existe
-            Video video = new Video(event.id(), event.ehInativado());
-            repository.save(video);
-        });
-    }
+//    public void handle(VideoSalvoEvent event) {
+//        repository.findById(event.id()).ifPresentOrElse((video) -> {
+//            //existe
+//            video.setEhInativado(event.ehInativado());
+//            repository.save(video);
+//        }, () -> {
+//            //não existe
+//            Video video = new Video(event.id(), event.ehInativado());
+//            repository.save(video);
+//        });
+//    }
 
     public void editarPontuacao(Video video) {
         Double pontuacao = video.getPontuacao();
@@ -58,7 +60,7 @@ public class VideoService {
         Long qtdDescurtidas = video.getQtdDescurtidas();
         Long qtdComentarios = video.getQtdComentarios();
         Long qtdRespostas = video.getQtdRespostas();
-        Float percentagemSomadaUsuario = 0f;
+        float percentagemSomadaUsuario = 0f;
         Integer qtdVistaPeloUsuario = 0;
         /*
             1. Visualizações: peso 1 (cada visualização conta como 1 ponto)
@@ -95,11 +97,11 @@ public class VideoService {
         visualizacao =  qtdVistaPeloUsuario * 2L - listaHistorico.size();
 
         pontuacao = visualizacao + 2 * qtdCurtidas - 2 * qtdDescurtidas + 3 *
-                qtdComentarios + 2 * qtdRespostas + 0.25 * percentagemSomadaUsuario; /*ver depois a percentagem*/
+                qtdComentarios + 2 * qtdRespostas + 0.25 * percentagemSomadaUsuario;
 
         video.setPontuacao(pontuacao);
 
         repository.save(video);
-        publisher.publish(video);
+//        publisher.publish(video);
     }
 }

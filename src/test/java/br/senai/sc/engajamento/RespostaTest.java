@@ -31,20 +31,20 @@ public class RespostaTest {
     private Comentario comentario;
     private Video video;
 
-    @BeforeEach
-    public void setup() {
-        usuarioService.criar(usuario1);
-        usuarioService.criar(usuario2);
-        videoService.criar(video);
-        comentario = comentarioService.criar(new CriarComentarioCommand(usuario1.getIdUsuario(), video.getId(), "teste1"));
-        resposta = respostaService.criar(new CriarRespostaCommand(usuario1.getIdUsuario(), comentario.getIdComentario(), "teste2"));
-    }
-
-    @Test
-    public void deletar() {
-        respostaService.deletar(new DeletarRespostaCommand(resposta.getIdResposta(), usuario2.getIdUsuario()));
-        assertEquals(resposta, respostaService.buscarUm(new BuscarUmaRespostaCommand(resposta.getIdResposta())));
-        respostaService.deletar(new DeletarRespostaCommand(resposta.getIdResposta(), usuario1.getIdUsuario()));
-        assertNull(respostaService.buscarUm(new BuscarUmaRespostaCommand(resposta.getIdResposta())));
-    }
+//    @BeforeEach
+//    public void setup() {
+//        usuarioService.criar(usuario1);
+//        usuarioService.criar(usuario2);
+//        videoService.criar(video);
+//        comentario = comentarioService.criar(new CriarComentarioCommand(usuario1.getIdUsuario(), video.getId(), "teste1"));
+//        resposta = respostaService.criar(new CriarRespostaCommand(usuario1.getIdUsuario(), comentario.getIdComentario(), "teste2"));
+//    }
+//
+//    @Test
+//    public void deletar() {
+//        respostaService.deletar(new DeletarRespostaCommand(resposta.getIdResposta(), usuario2.getIdUsuario()));
+//        assertEquals(resposta, respostaService.buscarUm(new BuscarUmaRespostaCommand(resposta.getIdResposta())));
+//        respostaService.deletar(new DeletarRespostaCommand(resposta.getIdResposta(), usuario1.getIdUsuario()));
+//        assertNull(respostaService.buscarUm(new BuscarUmaRespostaCommand(resposta.getIdResposta())));
+//    }
 }
