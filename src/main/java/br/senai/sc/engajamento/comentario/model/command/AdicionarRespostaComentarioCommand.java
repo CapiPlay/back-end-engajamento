@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdicionarRespostaComentarioCommand {
-    @NotNull
+    @NotNull(message = "")
     private String idComentario;
 
 }
