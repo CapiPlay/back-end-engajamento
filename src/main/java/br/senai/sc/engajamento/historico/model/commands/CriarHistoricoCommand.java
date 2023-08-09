@@ -13,4 +13,6 @@ public class CriarHistoricoCommand {
     private String idUsuario;
     @NotNull
     private String idVideo;
+    @NotNull
+    private float percentagemSomada;
 }

@@ -32,15 +32,19 @@ public class Historico {
     @ManyToOne
     @Cascade(CascadeType.ALL)
     private Video idVideo;
-
     /*Formato no MYSQL 'YYYY-MM-DD HH:MM:SS'*/
     private ZonedDateTime dataHora;
+    private Integer qtdVisualizadas;
+    private float percentagemSomada;
 
     public Historico(
             Usuario usuario,
-            Video video) {
+            Video video,
+            float percentagemSomada) {
         this.idUsuario = usuario;
         this.idVideo = video;
+        this.qtdVisualizadas = 1;
+        this.percentagemSomada = percentagemSomada;
         this.dataHora = ZonedDateTime.now(UTC);
     }
 }

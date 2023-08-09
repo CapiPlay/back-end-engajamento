@@ -33,8 +33,23 @@ public class ReacaoService {
                 reacao.setIdVideo(videoService.retornaVideo(cmd.getIdVideo()));
                 reacao.setCurtida(cmd.getCurtida());
 
+                if(cmd.getCurtida()){
+                    video.setQtdCurtidas(video.getQtdCurtidas() + 1);
+                } else {
+                    video.setQtdDescurtidas(video.getQtdDescurtidas() + 1);
+                }
+                videoService.editarPontuacao(video);
+
                 repository.save(reacao);
             } else if (reacaoExistente.isCurtida() == cmd.getCurtida()) {
+
+                if(cmd.getCurtida()){
+                    video.setQtdCurtidas(video.getQtdCurtidas() - 1);
+                } else {
+                    video.setQtdDescurtidas(video.getQtdDescurtidas() - 1);
+                }
+                videoService.editarPontuacao(video);
+
                 repository.deleteByIdUsuarioAndIdVideo(usuario, video);
             } else {
                 reacaoExistente.setCurtida(!reacaoExistente.isCurtida());

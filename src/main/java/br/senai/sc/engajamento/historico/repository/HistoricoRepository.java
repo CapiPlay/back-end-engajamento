@@ -15,4 +15,6 @@ public interface HistoricoRepository extends JpaRepository<Historico, HistoricoI
     Historico findByIdUsuarioAndIdVideo(Usuario idUsuario, Video idVideo);
 
     List<Historico> findAllByIdUsuario(Usuario idUsuario);
+
+    List<Historico> findAllByIdVideo(Video idVideo);
 }

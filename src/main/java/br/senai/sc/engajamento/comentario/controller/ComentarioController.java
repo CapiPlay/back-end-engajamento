@@ -20,10 +20,10 @@ public class ComentarioController {
     private ComentarioService comentarioService;
 
     @PostMapping
-    private ResponseEntity<Comentario> criar(
+    private ResponseEntity<Comentario> criar(@RequestHeader String usuarioId,
             @RequestBody @Valid CriarComentarioCommand cmd
     ) {
-        return ResponseEntity.ok(comentarioService.criar(cmd));
+        return ResponseEntity.ok(comentarioService.criar(cmd.from(usuarioId)));
     }
 
     @GetMapping

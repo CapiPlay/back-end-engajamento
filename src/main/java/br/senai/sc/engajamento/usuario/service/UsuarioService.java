@@ -37,11 +37,9 @@ public class UsuarioService {
     public void handle(UsuarioSalvoEvent event) {
         repository.findById(event.id()).ifPresentOrElse((usuario) -> {
             //existe
-            usuario.setIdUsuario(event.id());
             usuario.setNomeCanal(event.nomeCanal());
             usuario.setNomePerfil(event.nomePerfil());
             usuario.setFoto(event.foto());
-//            usuario.setQuantidadeInscritos(0);
             usuario.setDescricao(event.descricao());
             repository.save(usuario);
         }, () -> {
