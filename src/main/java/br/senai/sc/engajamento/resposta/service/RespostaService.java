@@ -22,9 +22,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@Data
 @Service
 @AllArgsConstructor
-@Data
 public class RespostaService {
 
     private RespostaRepository respostaRepository;

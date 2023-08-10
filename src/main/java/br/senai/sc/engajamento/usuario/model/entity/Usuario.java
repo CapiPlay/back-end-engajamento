@@ -1,6 +1,5 @@
 package br.senai.sc.engajamento.usuario.model.entity;
 
-import br.senai.sc.engajamento.usuario.amqp.events.UsuarioSalvoEvent;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -29,7 +28,6 @@ public class Usuario {
 
     /*Se o usuário estiver inativado, o token não será enviado. Logo, não é necessário este atributo*/
 
-
     public Usuario(String idUsuario, String nomePerfil,
                    String nomeCanal, String foto,
                    String descricao) {
@@ -39,14 +37,5 @@ public class Usuario {
         this.foto = foto;
         this.quantidadeInscritos = 0;
         this.descricao = descricao;
-    }
-
-    public Usuario(UsuarioSalvoEvent event) {
-        this.idUsuario = event.id();
-        this.nomePerfil = event.nomePerfil();
-        this.nomeCanal = event.nomeCanal();
-        this.foto = event.foto();
-        this.quantidadeInscritos = 0;
-        this.descricao = event.descricao();
     }
 }

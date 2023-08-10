@@ -23,23 +23,23 @@ public class VideoService {
     private HistoricoService historicoService;
 //    private Publisher publisher;
 
-    public Video retornaVideo(String idVideo) {
-        Optional<Video> optionalVideo = repository.findById(idVideo);
-        try {
-            if (optionalVideo.isPresent()) {
-                if(!optionalVideo.get().getEhInativado()){
-                    return optionalVideo.get();
-                }
-            }
-            throw new NaoEncontradoException("Vídeo não encontrado");
-        } catch (NaoEncontradoException e) {
-            System.out.print(e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    // public Video retornaVideo(String idVideo) {
+    //     Optional<Video> optionalVideo = repository.findById(idVideo);
+    //     try {
+    //         if (optionalVideo.isPresent()) {
+    //             if(!optionalVideo.get().getEhInativado()){
+    //                 return optionalVideo.get();
+    //             }
+    //         }
+    //         throw new NaoEncontradoException("Vídeo não encontrado");
+    //     } catch (NaoEncontradoException e) {
+    //         System.out.print(e.getMessage());
+    //         e.printStackTrace();
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    //     return null;
+    // }
 
 //    public void handle(VideoSalvoEvent event) {
 //        repository.findById(event.id()).ifPresentOrElse((video) -> {
@@ -54,8 +54,8 @@ public class VideoService {
 //    }
 
     public void editarPontuacao(Video video) {
-        Double pontuacao = video.getPontuacao();
-        Long visualizacao = video.getVisualizacao();
+        Double pontuacao;
+        Long visualizacao;
         Long qtdCurtidas = video.getQtdCurtidas();
         Long qtdDescurtidas = video.getQtdDescurtidas();
         Long qtdComentarios = video.getQtdComentarios();

@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface RespostaRepository extends JpaRepository<Resposta, String> {
-
+    
     List<Resposta> findAllByIdComentario(Comentario idComentario);
 }
