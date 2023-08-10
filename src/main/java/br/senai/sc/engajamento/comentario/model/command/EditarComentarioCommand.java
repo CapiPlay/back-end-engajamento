@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EditarComentarioCommand {
-    @NotNull
+    @NotNull(message = "ID do comentário não informado")
     private String idComentario;
-    @NotNull
-    private String idUsuario;
-    @NotNull
-    private String texto;
 
+    @NotNull(message = "ID do usuário não informado")
+    private String idUsuario;
+
+    @NotNull(message = "Texto do comentário não informado")
+    private String texto;
 }

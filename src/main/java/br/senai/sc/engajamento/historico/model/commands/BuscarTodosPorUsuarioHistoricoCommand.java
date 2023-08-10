@@ -12,6 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class BuscarTodosPorUsuarioHistoricoCommand {
 
-    @NotNull
+    @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
 }

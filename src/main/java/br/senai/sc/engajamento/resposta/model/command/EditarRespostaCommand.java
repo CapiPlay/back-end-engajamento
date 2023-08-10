@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EditarRespostaCommand {
-    @NotNull
+    @NotNull(message = "ID da resposta não informado")
     private String idResposta;
-    @NotNull
-    private String texto;
-    @NotNull
-    private String idUsuario;
 
+    @NotNull(message = "Texto da resposta não informado")
+    private String texto;
+
+    @NotNull(message = "ID do usuário não informado")
+    private String idUsuario;
 }

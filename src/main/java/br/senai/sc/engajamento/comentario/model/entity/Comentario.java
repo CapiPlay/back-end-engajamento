@@ -1,6 +1,5 @@
 package br.senai.sc.engajamento.comentario.model.entity;
 
-import br.senai.sc.engajamento.anotacoes.CustomNotNull;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.utils.GeradorUUIDUtils;
 import br.senai.sc.engajamento.video.model.entity.Video;
@@ -24,7 +23,6 @@ public class Comentario {
     private String idComentario;
 
     @Column(nullable = false)
-    @CustomNotNull
     private String texto;
 
     @Column(nullable = false)

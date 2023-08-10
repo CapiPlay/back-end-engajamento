@@ -9,8 +9,9 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class DeletarUmReacaoRespostaCommand {
-    @NotNull
+    @NotNull(message = "ID do usuário não informado")
     private UUID idUsuario;
-    @NotNull
+
+    @NotNull(message = "ID da resposta não informado")
     private UUID idResposta;
 }

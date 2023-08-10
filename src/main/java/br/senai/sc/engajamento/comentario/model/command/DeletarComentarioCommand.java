@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeletarComentarioCommand {
-    @NotNull
+    @NotNull(message = "ID do comentário não informado")
     private String idComentario;
-    @NotNull
-    private String idUsuario;
 
+    @NotNull(message = "ID do usuário não informado")
+    private String idUsuario;
 }
