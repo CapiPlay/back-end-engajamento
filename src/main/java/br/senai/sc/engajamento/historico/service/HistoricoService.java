@@ -73,7 +73,7 @@ public class HistoricoService {
             if(historico == null){
                 throw new NaoEncontradoException("Histórico não encontrado!");
             }
-        } catch (NaoEncontradoException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }

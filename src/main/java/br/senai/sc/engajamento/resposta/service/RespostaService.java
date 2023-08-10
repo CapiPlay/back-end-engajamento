@@ -43,8 +43,13 @@ public class RespostaService {
                 usuario,
                 comentario
         );
+        comentario.setQtdRespostas(comentario.getQtdRespostas() + 1);
+
 
         video.setQtdRespostas(video.getQtdRespostas() + 1);
+
+
+
         videoService.editarPontuacao(video);
 
         return respostaRepository.save(resposta);

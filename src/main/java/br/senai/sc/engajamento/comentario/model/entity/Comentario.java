@@ -33,11 +33,9 @@ public class Comentario {
     private Integer qtdRespostas;
 
     @ManyToOne
-    @Cascade(CascadeType.ALL)
     private Usuario idUsuario;
 
     @ManyToOne
-    @Cascade(CascadeType.ALL)
     private Video idVideo;
 
     public Comentario(

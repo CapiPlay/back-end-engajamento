@@ -14,7 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.*;
 
 @Service
@@ -53,7 +52,7 @@ public class ComentarioService {
 
     public List<Comentario> buscarTodosPorData(BuscarTodosPorDataComentarioCommand cmd) {
         List<Comentario> listaComentariosFiltrados = new ArrayList<>();
-        Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
+        Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()-> new NaoEncontradoException("Vídeo não encontrado!"));
         List<Comentario> listaComentarios =
                 comentarioRepository.findAllByIdVideo(video);
         for (Comentario comentario : listaComentarios) {
@@ -65,26 +64,18 @@ public class ComentarioService {
     }
 
     public Integer buscarQuantidadeRespostas(BuscarQuantidadeRepostasComentarioCommand cmd) {
-        Comentario comentario = retornaComentario(cmd.getIdComentario());
-        return comentario.getQtdRespostas();
-    }
-
-    public void adicionarResposta(AdicionarRespostaComentarioCommand cmd) {
-        Comentario comentario = retornaComentario(cmd.getIdComentario());
-        comentario.setQtdRespostas(
-                comentario.getQtdRespostas() + 1
-        );
-        comentarioRepository.save(comentario);
+        return retornaComentario(cmd.getIdComentario()).getQtdRespostas();
     }
 
     public void deletar(DeletarComentarioCommand cmd) {
         try {
             Comentario comentario = retornaComentario(cmd.getIdComentario());
-            Video video = videoRepository.findById(comentario.getIdVideo().getId()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
+            Video video = videoRepository.findById(comentario.getIdVideo().getId()).orElseThrow(()-> new NaoEncontradoException("Vídeo não encontrado!"));
             if (!(cmd.getIdUsuario().equals(comentario.getIdUsuario().getIdUsuario()))) {
                 throw new AcaoNaoPermitidaException();
             }
             video.setQtdComentarios(video.getQtdComentarios() - 1);
+            videoRepository.save(video);
             comentarioRepository.delete(comentario);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -93,11 +84,17 @@ public class ComentarioService {
     }
 
     public Comentario retornaComentario(String idComentario) {
-        Optional<Comentario> comentario = comentarioRepository.findByIdComentario(idComentario);
-        if (comentario.isPresent()) {
-            return comentario.get();
+        try{
+            Optional<Comentario> optional = comentarioRepository.findById(idComentario);
+            if (optional.isPresent()) {
+                return optional.get();
+            }
+            throw new NaoEncontradoException("Comentário não encontrado!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
-        throw new NaoEncontradoException("Comentário não encontrado!");
+        return null;
     }
 
 }

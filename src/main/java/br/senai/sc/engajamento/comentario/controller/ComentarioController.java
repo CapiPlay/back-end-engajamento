@@ -20,11 +20,10 @@ public class ComentarioController {
     private ComentarioService comentarioService;
 
     @PostMapping
-    private ResponseEntity<Comentario> criar(@RequestHeader String usuarioId,
+    private ResponseEntity<Comentario> criar(@RequestHeader String idUsuario,
             @RequestBody @Valid CriarComentarioCommand cmd
     ) {
-
-        return ResponseEntity.ok(comentarioService.criar(cmd.from(usuarioId)));
+        return ResponseEntity.ok(comentarioService.criar(cmd.from(idUsuario)));
     }
 
     @GetMapping
@@ -58,16 +57,8 @@ public class ComentarioController {
         return ResponseEntity.ok(comentarioService.buscarQuantidadeRespostas(cmd));
     }
 
-    @PutMapping("/adicionar-resposta")
-    private ResponseEntity<Comentario> adicionarResposta(
-            @RequestBody @Valid AdicionarRespostaComentarioCommand cmd
-    ) {
-        comentarioService.adicionarResposta(cmd);
-        return ResponseEntity.ok().build();
-    }
-
     @DeleteMapping
-    private ResponseEntity<Void> deletar(
+    private ResponseEntity<Void> deletar(@RequestHeader String idUsuario,
             @RequestBody @Valid DeletarComentarioCommand cmd
     ) {
         comentarioService.deletar(cmd);
