@@ -4,21 +4,19 @@ import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.utils.GeradorUUIDUtils;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import jakarta.persistence.JoinColumn;
 
 import java.time.ZonedDateTime;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 public class Resposta {
     @Id
-    @Column
     private String idResposta;
 
     @Column(nullable = false)
@@ -30,17 +28,19 @@ public class Resposta {
 
     @ManyToOne
     @Cascade(CascadeType.ALL)
+    @JoinColumn(nullable = false)
     private Usuario idUsuario;
 
     @ManyToOne
     @Cascade(CascadeType.ALL)
+    @JoinColumn(nullable = false)
     private Comentario idComentario;
 
     public Resposta(
             String texto,
             Usuario idUsuario,
-            Comentario idComentario) {
-
+            Comentario idComentario
+        ) {
         this.idResposta = GeradorUUIDUtils.gerarUuid();
         this.dataHora = ZonedDateTime.now();
 

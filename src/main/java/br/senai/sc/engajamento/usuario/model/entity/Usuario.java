@@ -3,14 +3,12 @@ package br.senai.sc.engajamento.usuario.model.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class Usuario {
     @Id
     @Column
@@ -27,10 +25,13 @@ public class Usuario {
     private String descricao;
 
     /*Se o usuário estiver inativado, o token não será enviado. Logo, não é necessário este atributo*/
-
-    public Usuario(String idUsuario, String nomePerfil,
-                   String nomeCanal, String foto,
-                   String descricao) {
+    public Usuario(
+            String idUsuario, 
+            String nomePerfil,
+            String nomeCanal, 
+            String foto,
+            String descricao
+        ) {
         this.idUsuario = idUsuario;
         this.nomePerfil = nomePerfil;
         this.nomeCanal = nomeCanal;

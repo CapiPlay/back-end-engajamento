@@ -19,35 +19,28 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/api/engajamento/resposta")
 public class RespostaController {
+    private final RespostaService respostaService;
 
-    private RespostaService respostaService;
-
-    @PostMapping()
-    private ResponseEntity<Resposta> criar(
-            @RequestBody @Valid CriarRespostaCommand cmd
-    ) {
+    @PostMapping
+    private ResponseEntity<Resposta> criar(@RequestBody CriarRespostaCommand cmd) {
         return ResponseEntity.ok(respostaService.criar(cmd));
     }
 
-    @GetMapping()
-    private ResponseEntity<Resposta> buscarUm(
-            @RequestBody @Valid BuscarUmaRespostaCommand cmd
-    ) {
+    @GetMapping
+    private ResponseEntity<Resposta> buscarUm(@RequestBody BuscarUmaRespostaCommand cmd) {
         return ResponseEntity.ok(respostaService.buscarUm(cmd));
     }
 
     /*Pega todos os comentários referentes a um vídeo*/
     @GetMapping("/buscar-todos-por-comentario")
     private ResponseEntity<List<Resposta>> buscarTodosPorComentario(
-            @RequestBody @Valid BuscarTodosPorComentarioRespostaCommand cmd
+        @RequestBody BuscarTodosPorComentarioRespostaCommand cmd
     ) {
         return ResponseEntity.ok(respostaService.buscarTodosPorComentario(cmd));
     }
 
-    @DeleteMapping()
-    private ResponseEntity<Void> deletar(
-            @RequestBody DeletarRespostaCommand cmd
-    ) {
+    @DeleteMapping
+    private ResponseEntity<Void> deletar(@RequestBody DeletarRespostaCommand cmd) {
         respostaService.deletar(cmd);
         return ResponseEntity.ok().build();
     }

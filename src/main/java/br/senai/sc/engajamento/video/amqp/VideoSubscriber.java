@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @Service
 @AllArgsConstructor
 public class VideoSubscriber {
-
     private final VideoService service;
 
 //    @RabbitListener(queues = "videos.v1.video-criado.engajamento")
