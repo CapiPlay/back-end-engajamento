@@ -55,9 +55,6 @@ public class RespostaService {
 
     public void deletar(@Valid DeletarRespostaCommand cmd) {
         Resposta resposta = retornaResposta(cmd.getIdResposta());
-        // TODO
-        // cmd.getIdUsuario().equals(resposta.getIdUsuario().getIdUsuario()
-        //         .orElseThrow(() -> new AcaoNaoPermitidaException());
         if (!(cmd.getIdUsuario().equals(resposta.getIdUsuario().getIdUsuario()))) {
             throw new AcaoNaoPermitidaException();
         }
