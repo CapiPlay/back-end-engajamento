@@ -9,10 +9,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CriarHistoricoCommand {
+
     @NotNull
     private String idUsuario;
     @NotNull
     private String idVideo;
     @NotNull
     private float percentagemSomada;
+
+    public CriarHistoricoCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

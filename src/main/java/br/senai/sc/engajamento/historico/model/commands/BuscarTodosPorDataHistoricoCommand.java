@@ -17,4 +17,9 @@ public class BuscarTodosPorDataHistoricoCommand {
 
     @NotNull
     private LocalDate data;
+
+    public BuscarTodosPorDataHistoricoCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

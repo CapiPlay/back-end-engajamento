@@ -16,4 +16,9 @@ public class CriarReacaoComentarioCommand {
     private String idComentario;
     @NotNull
     private Boolean curtida;
+
+    public CriarReacaoComentarioCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

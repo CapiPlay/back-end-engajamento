@@ -13,4 +13,9 @@ public class BuscarUmReacaoRespostaCommand {
     private String idUsuario;
     @NotNull
     private String idResposta;
+
+    public BuscarUmReacaoRespostaCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

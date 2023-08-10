@@ -5,7 +5,6 @@ import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.BuscarUmRe
 import br.senai.sc.engajamento.reacoes.model.command.reacaoComentario.CriarReacaoComentarioCommand;
 import br.senai.sc.engajamento.reacoes.model.entity.ReacaoComentario;
 import br.senai.sc.engajamento.reacoes.service.ReacaoComentarioService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,23 +20,24 @@ public class ReacaoComentarioController {
     private final ReacaoComentarioService service;
 
     @PostMapping
-    public ResponseEntity<Void> criar(@RequestBody @Valid CriarReacaoComentarioCommand cmd
-//            , @RequestHeader String usuarioId
+    public ResponseEntity<Void> criar(
+            @RequestBody CriarReacaoComentarioCommand cmd,
+            @RequestHeader String idUsuario
     ) {
-        service.criar(cmd);
+        service.criar(cmd.from(idUsuario));
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<ReacaoComentario> buscarUm(@RequestBody @Valid BuscarUmReacaoComentarioCommand cmd) {
-        return ResponseEntity.ok(service.buscarUm(cmd));
+    public ResponseEntity<ReacaoComentario> buscarUm(
+            @RequestBody BuscarUmReacaoComentarioCommand cmd,
+            @RequestHeader String idUsuario) {
+        return ResponseEntity.ok(service.buscarUm(cmd.from(idUsuario)));
     }
 
     @GetMapping("/buscar-todos-por-comentario")
     public ResponseEntity<List<ReacaoComentario>> buscarTodosPorComentario(
-            @RequestBody
-            @Valid
-            BuscarTodosPorComentarioReacaoComentarioCommand cmd) {
+            @RequestBody BuscarTodosPorComentarioReacaoComentarioCommand cmd) {
         return ResponseEntity.ok(service.buscarTodosPorComentario(cmd));
     }
 }

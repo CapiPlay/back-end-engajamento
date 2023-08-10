@@ -6,10 +6,14 @@ import br.senai.sc.engajamento.reacoes.model.command.reacao.BuscarUmReacaoComman
 import br.senai.sc.engajamento.reacoes.model.command.reacao.CriarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.entity.Reacao;
 import br.senai.sc.engajamento.reacoes.repository.ReacaoRepository;
+import br.senai.sc.engajamento.resposta.model.entity.Resposta;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
+import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
 import br.senai.sc.engajamento.usuario.service.UsuarioService;
 import br.senai.sc.engajamento.video.model.entity.Video;
+import br.senai.sc.engajamento.video.repository.VideoRepository;
 import br.senai.sc.engajamento.video.service.VideoService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,64 +23,67 @@ import java.util.List;
 @AllArgsConstructor
 public class ReacaoService {
     private final ReacaoRepository repository;
-    private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
+    private final VideoRepository videoRepository;
     private final VideoService videoService;
 
-    public void criar(CriarReacaoCommand cmd) {
-        try {
-            Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
-            Video video = videoService.retornaVideo(cmd.getIdVideo());
-            Reacao reacaoExistente = repository.findByIdUsuarioAndIdVideo(usuario, video);
-            if (reacaoExistente == null) {
-                Reacao reacao = new Reacao();
-                reacao.setIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
-                reacao.setIdVideo(videoService.retornaVideo(cmd.getIdVideo()));
-                reacao.setCurtida(cmd.getCurtida());
+    public void criar(@Valid CriarReacaoCommand cmd) {
 
-                if(cmd.getCurtida()){
-                    video.setQtdCurtidas(video.getQtdCurtidas() + 1);
-                } else {
-                    video.setQtdDescurtidas(video.getQtdDescurtidas() + 1);
-                }
-                videoService.editarPontuacao(video);
+        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
+                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));
+        Video video = videoRepository.findById(cmd.getIdVideo())
+                .orElseThrow(()-> new NaoEncontradoException("Resposta não encontrado!"));
 
-                repository.save(reacao);
-            } else if (reacaoExistente.isCurtida() == cmd.getCurtida()) {
+        Reacao reacaoExistente = repository.findByIdUsuarioAndIdVideo(usuario, video);
 
-                if(cmd.getCurtida()){
-                    video.setQtdCurtidas(video.getQtdCurtidas() - 1);
-                } else {
-                    video.setQtdDescurtidas(video.getQtdDescurtidas() - 1);
-                }
-                videoService.editarPontuacao(video);
+        if (reacaoExistente == null) {
+            Reacao reacao = new Reacao();
+            reacao.setIdUsuario(usuario);
+            reacao.setIdVideo(video);
+            reacao.setCurtida(cmd.getCurtida());
 
-                repository.deleteByIdUsuarioAndIdVideo(usuario, video);
+            if(cmd.getCurtida()){
+                video.setQtdCurtidas(video.getQtdCurtidas() + 1);
             } else {
-                reacaoExistente.setCurtida(!reacaoExistente.isCurtida());
-                repository.save(reacaoExistente);
+                video.setQtdDescurtidas(video.getQtdDescurtidas() + 1);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            videoService.editarPontuacao(video);
+
+            repository.save(reacao);
+        } else if (reacaoExistente.isCurtida() == cmd.getCurtida()) {
+
+            if(cmd.getCurtida()){
+                video.setQtdCurtidas(video.getQtdCurtidas() - 1);
+            } else {
+                video.setQtdDescurtidas(video.getQtdDescurtidas() - 1);
+            }
+            videoService.editarPontuacao(video);
+
+            repository.deleteByIdUsuarioAndIdVideo(usuario, video);
+        } else {
+            reacaoExistente.setCurtida(!reacaoExistente.isCurtida());
+            repository.save(reacaoExistente);
         }
     }
 
-    public Reacao buscarUm(BuscarUmReacaoCommand cmd) {
-        Reacao reacao = null;
-        try {
-            Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
-            Video video = videoService.retornaVideo(cmd.getIdVideo());
-            reacao = repository.findByIdUsuarioAndIdVideo(usuario, video);
-            if (reacao == null) {
-                throw new NaoEncontradoException("Reação não encontrada!");
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+    public Reacao buscarUm(@Valid BuscarUmReacaoCommand cmd) {
+        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
+                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));
+        Video video = videoRepository.findById(cmd.getIdVideo())
+                .orElseThrow(()-> new NaoEncontradoException("Resposta não encontrado!"));
+
+        Reacao reacao = repository.findByIdUsuarioAndIdVideo(usuario, video);
+        if (reacao == null) {
+            throw new NaoEncontradoException("Reação não encontrada!");
         }
+
         return reacao;
     }
 
-    public List<Reacao> buscarTodosPorVideo(BuscarTodosPorVideoReacaoCommand cmd) {
-        return repository.findAllByIdVideo(videoService.retornaVideo(cmd.getIdVideo()));
+    public List<Reacao> buscarTodosPorVideo(@Valid BuscarTodosPorVideoReacaoCommand cmd) {
+        Video video = videoRepository.findById(cmd.getIdVideo())
+                .orElseThrow(()-> new NaoEncontradoException("Resposta não encontrado!"));
+
+        return repository.findAllByIdVideo(video);
     }
 }

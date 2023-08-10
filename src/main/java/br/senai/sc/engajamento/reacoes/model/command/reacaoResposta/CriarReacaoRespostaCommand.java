@@ -15,4 +15,9 @@ public class CriarReacaoRespostaCommand {
     private String idResposta;
     @NotNull
     private Boolean curtida;
+
+    public CriarReacaoRespostaCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

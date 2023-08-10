@@ -1,9 +1,5 @@
 package br.senai.sc.engajamento;
 
-import br.senai.sc.engajamento.comentario.model.command.AdicionarRespostaComentarioCommand;
-import br.senai.sc.engajamento.comentario.model.command.BuscarUmComentarioCommand;
-import br.senai.sc.engajamento.comentario.model.command.CriarComentarioCommand;
-import br.senai.sc.engajamento.comentario.model.command.DeletarComentarioCommand;
 import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.comentario.service.ComentarioService;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
@@ -11,11 +7,6 @@ import br.senai.sc.engajamento.usuario.service.UsuarioService;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.service.VideoService;
 import lombok.AllArgsConstructor;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 @AllArgsConstructor
 public class ComentarioTest {

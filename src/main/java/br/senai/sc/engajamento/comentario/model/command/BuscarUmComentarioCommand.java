@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuscarUmComentarioCommand {
+
     @NotNull
     private String idComentario;
 

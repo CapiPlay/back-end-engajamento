@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class DeletarComentarioCommand {
+
     @NotNull
     private String idComentario;
     @NotNull

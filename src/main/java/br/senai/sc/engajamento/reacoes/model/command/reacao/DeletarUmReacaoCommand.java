@@ -4,13 +4,16 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 public class DeletarUmReacaoCommand {
     @NotNull
-    private UUID idUsuario;
+    private String idUsuario;
     @NotNull
-    private UUID idVideo;
+    private String idVideo;
+
+    public DeletarUmReacaoCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

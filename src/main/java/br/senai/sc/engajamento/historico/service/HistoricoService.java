@@ -5,9 +5,11 @@ import br.senai.sc.engajamento.historico.model.commands.*;
 import br.senai.sc.engajamento.historico.model.entity.Historico;
 import br.senai.sc.engajamento.historico.repository.HistoricoRepository;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
-import br.senai.sc.engajamento.usuario.service.UsuarioService;
+import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class HistoricoService {
 
     private final HistoricoRepository historicoRepository;
-    private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
     private final VideoRepository videoRepository;
 
-    public void criar(CriarHistoricoCommand cmd) {
-        Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
-        Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
+    public void criar(@Valid CriarHistoricoCommand cmd) {
+        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario()).orElseThrow(()->new NaoEncontradoException("Usuário não encontrado!"));
+        Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("Vídeo não encontrado!"));
+
         if(historicoRepository.findByIdUsuarioAndIdVideo(usuario, video) != null){
             Historico historico = new Historico(usuario, video, cmd.getPercentagemSomada());
             historicoRepository.save(historico);
@@ -38,15 +41,16 @@ public class HistoricoService {
         }
     }
 
-    public Historico buscarUm(BuscarUmHistoricoCommand cmd) {
+    public Historico buscarUm(@Valid BuscarUmHistoricoCommand cmd) {
         return retornaHistorico(cmd.getIdUsuario(), cmd.getIdVideo());
     }
 
-    public List<Historico> buscarTodosPorData(BuscarTodosPorDataHistoricoCommand cmd){
+    public List<Historico> buscarTodosPorData(@Valid BuscarTodosPorDataHistoricoCommand cmd) {
         List<Historico> listaHistoricosFiltrados = new ArrayList<>();
 
         List<Historico> listaHistoricos =
-                historicoRepository.findAllByIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
+                historicoRepository.findAllByIdUsuario(usuarioRepository.findById(cmd.getIdUsuario())
+                        .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!")));
         for (Historico historico: listaHistoricos) {
             if(historico.getDataHora().toLocalDate().equals(cmd.getData())) {
                 listaHistoricosFiltrados.add(historico);
@@ -55,28 +59,28 @@ public class HistoricoService {
         return listaHistoricosFiltrados;
     }
 
-    public List<Historico> buscarTodosPorUsuario(BuscarTodosPorUsuarioHistoricoCommand cmd){
-        return historicoRepository.findAllByIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
+    public List<Historico> buscarTodosPorUsuario(String idUsuario) {
+        return historicoRepository.findAllByIdUsuario(usuarioRepository.findById(idUsuario)
+                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!")));
     }
 
-    public List<Historico> buscarTodosPorVideo(Video video){
+    public List<Historico> buscarTodosPorVideo(@Valid Video video){
         return historicoRepository.findAllByIdVideo(video);
     }
 
     public Historico retornaHistorico(String idUsuario, String idVideo) {
-        Historico historico = null;
-        try {
-            Usuario usuario = usuarioService.retornaUsuario(idUsuario);
-            Video video = videoRepository.findById(idVideo).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));
 
-            historico = historicoRepository.findByIdUsuarioAndIdVideo(usuario, video);
-            if(historico == null){
-                throw new NaoEncontradoException("Histórico não encontrado!");
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+        Video video = videoRepository.findById(idVideo)
+                .orElseThrow(()-> new NaoEncontradoException("Vídeo não encontrado!"));
+
+        Historico historico = historicoRepository.findByIdUsuarioAndIdVideo(usuario, video);
+
+        if(historico == null){
+            throw new NaoEncontradoException("Histórico não encontrado!");
         }
+
         return historico;
     }
 }

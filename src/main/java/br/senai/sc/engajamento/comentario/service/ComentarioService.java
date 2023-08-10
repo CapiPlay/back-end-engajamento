@@ -10,6 +10,7 @@ import br.senai.sc.engajamento.usuario.service.UsuarioService;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
 import br.senai.sc.engajamento.video.service.VideoService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,6 @@ import java.util.*;
 
 @Service
 @AllArgsConstructor
-@Data
 public class ComentarioService {
 
     private ComentarioRepository comentarioRepository;
@@ -26,7 +26,7 @@ public class ComentarioService {
     private VideoRepository videoRepository;
     private VideoService videoService;
 
-    public Comentario criar(CriarComentarioCommand cmd) {
+    public Comentario criar(@Valid CriarComentarioCommand cmd) {
         Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
         Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
         Comentario comentario = new Comentario(
@@ -39,18 +39,18 @@ public class ComentarioService {
         return comentarioRepository.save(comentario);
     }
 
-    public Comentario buscarUm(BuscarUmComentarioCommand cmd) {
+    public Comentario buscarUm(@Valid BuscarUmComentarioCommand cmd) {
         return retornaComentario(cmd.getIdComentario());
     }
 
-    public List<Comentario> buscarTodosPorVideo(BuscarTodosPorVideoComentarioCommand cmd) {
+    public List<Comentario> buscarTodosPorVideo(@Valid BuscarTodosPorVideoComentarioCommand cmd) {
         Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
         List<Comentario> list = comentarioRepository.findAllByIdVideo(video);
         list.sort(Comparator.comparing(Comentario::getDataHora).reversed());
         return list;
     }
 
-    public List<Comentario> buscarTodosPorData(BuscarTodosPorDataComentarioCommand cmd) {
+    public List<Comentario> buscarTodosPorData(@Valid BuscarTodosPorDataComentarioCommand cmd)  {
         List<Comentario> listaComentariosFiltrados = new ArrayList<>();
         Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()-> new NaoEncontradoException("Vídeo não encontrado!"));
         List<Comentario> listaComentarios =
@@ -63,38 +63,28 @@ public class ComentarioService {
         return listaComentariosFiltrados;
     }
 
-    public Integer buscarQuantidadeRespostas(BuscarQuantidadeRepostasComentarioCommand cmd) {
+    public Integer buscarQuantidadeRespostas(@Valid BuscarQuantidadeRepostasComentarioCommand cmd) {
         return retornaComentario(cmd.getIdComentario()).getQtdRespostas();
     }
 
-    public void deletar(DeletarComentarioCommand cmd) {
-        try {
-            Comentario comentario = retornaComentario(cmd.getIdComentario());
-            Video video = videoRepository.findById(comentario.getIdVideo().getId()).orElseThrow(()-> new NaoEncontradoException("Vídeo não encontrado!"));
-            if (!(cmd.getIdUsuario().equals(comentario.getIdUsuario().getIdUsuario()))) {
-                throw new AcaoNaoPermitidaException();
-            }
-            video.setQtdComentarios(video.getQtdComentarios() - 1);
-            videoRepository.save(video);
-            comentarioRepository.delete(comentario);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+    public void deletar(@Valid DeletarComentarioCommand cmd) {
+        Comentario comentario = retornaComentario(cmd.getIdComentario());
+        Video video = videoRepository.findById(comentario.getIdVideo().getId())
+                .orElseThrow(()-> new NaoEncontradoException("Vídeo não encontrado!"));
+        if (!(cmd.getIdUsuario().equals(comentario.getIdUsuario().getIdUsuario()))) {
+            throw new AcaoNaoPermitidaException();
         }
+        video.setQtdComentarios(video.getQtdComentarios() - 1);
+        videoRepository.save(video);
+        comentarioRepository.delete(comentario);
     }
 
     public Comentario retornaComentario(String idComentario) {
-        try{
-            Optional<Comentario> optional = comentarioRepository.findById(idComentario);
-            if (optional.isPresent()) {
-                return optional.get();
-            }
-            throw new NaoEncontradoException("Comentário não encontrado!");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+        Optional<Comentario> optional = comentarioRepository.findById(idComentario);
+        if (optional.isPresent()) {
+            return optional.get();
         }
-        return null;
+        throw new NaoEncontradoException("Comentário não encontrado!");
     }
 
 }

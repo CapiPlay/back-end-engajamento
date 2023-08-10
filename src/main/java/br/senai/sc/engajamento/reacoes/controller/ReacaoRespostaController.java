@@ -21,19 +21,23 @@ public class ReacaoRespostaController {
     private ReacaoRespostaService service;
 
     @PostMapping
-    public ResponseEntity<Void> criar(@RequestBody @Valid CriarReacaoRespostaCommand cmd) {
-        service.criar(cmd);
+    public ResponseEntity<Void> criar(
+            @RequestBody CriarReacaoRespostaCommand cmd,
+            @RequestHeader String idUsuario) {
+        service.criar(cmd.from(idUsuario));
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<ReacaoRespota> buscarUm(@RequestBody @Valid BuscarUmReacaoRespostaCommand cmd) {
-        return ResponseEntity.ok(service.buscarUm(cmd));
+    public ResponseEntity<ReacaoRespota> buscarUm(
+            @RequestBody BuscarUmReacaoRespostaCommand cmd,
+            @RequestHeader String idUsuario) {
+        return ResponseEntity.ok(service.buscarUm(cmd.from(idUsuario)));
     }
 
     @GetMapping("/buscar-todos-por-resposta")
     public ResponseEntity<List<ReacaoRespota>> buscarTodos(
-            @RequestBody @Valid BuscarTodosPorComentarioReacaoRespostaCommand cmd) {
+            @RequestBody BuscarTodosPorComentarioReacaoRespostaCommand cmd) {
         return ResponseEntity.ok(service.buscarTodos(cmd));
     }
 }

@@ -27,5 +27,4 @@ public class Inscricao {
     @ManyToOne
     @Cascade(CascadeType.ALL)
     private Usuario idCanal;
-
 }

@@ -4,9 +4,7 @@ import br.senai.sc.engajamento.inscricao.model.command.BuscarUmInscricaoCommand;
 import br.senai.sc.engajamento.inscricao.model.command.CriarInscricaoCommand;
 import br.senai.sc.engajamento.inscricao.model.entity.Inscricao;
 import br.senai.sc.engajamento.inscricao.service.InscricaoService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,16 +17,17 @@ public class InscricaoController {
     private final InscricaoService service;
 
     @PostMapping
-    public ResponseEntity<Void> criar(@RequestBody @Valid CriarInscricaoCommand cmd) {
-        Inscricao inscricao = new Inscricao();
-        BeanUtils.copyProperties(cmd, inscricao);
-        service.criar(cmd);
-        
+    public ResponseEntity<Void> criar(
+            @RequestHeader String idUsuario,
+            @RequestBody CriarInscricaoCommand cmd) {
+        service.criar(cmd.from(idUsuario));
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<Inscricao> buscarUm(@RequestBody @Valid BuscarUmInscricaoCommand cmd) {
-        return ResponseEntity.ok(service.buscarUm(cmd));
+    public ResponseEntity<Inscricao> buscarUm(
+            @RequestHeader String idUsuario,
+            @RequestBody BuscarUmInscricaoCommand cmd) {
+        return ResponseEntity.ok(service.buscarUm(cmd.from(idUsuario)));
     }
 }

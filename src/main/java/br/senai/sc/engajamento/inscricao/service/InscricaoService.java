@@ -6,7 +6,8 @@ import br.senai.sc.engajamento.inscricao.model.command.CriarInscricaoCommand;
 import br.senai.sc.engajamento.inscricao.model.entity.Inscricao;
 import br.senai.sc.engajamento.inscricao.repository.InscricaoRepository;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
-import br.senai.sc.engajamento.usuario.service.UsuarioService;
+import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,39 +15,33 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class InscricaoService {
     private final InscricaoRepository repository;
-    private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
 
-    public void criar(CriarInscricaoCommand cmd) {
-        try {
-            Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
-            Usuario canal = usuarioService.retornaUsuario(cmd.getIdCanal());
-            if (repository.findByIdUsuarioAndIdCanal(usuario, canal) == null) {
-                Inscricao inscricao = new Inscricao();
-                inscricao.setIdUsuario(usuarioService.retornaUsuario(cmd.getIdUsuario()));
-                inscricao.setIdCanal(usuarioService.retornaUsuario(cmd.getIdCanal()));
-                repository.save(inscricao);
-            }
+    public void criar(@Valid CriarInscricaoCommand cmd) {
+        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
+                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));;
+        Usuario canal = usuarioRepository.findById(cmd.getIdCanal())
+                .orElseThrow(()-> new NaoEncontradoException("Canal não encontrado!"));;
+
+        if (repository.findByIdUsuarioAndIdCanal(usuario, canal) == null) {
+            Inscricao inscricao = new Inscricao();
+            inscricao.setIdUsuario(usuario);
+            inscricao.setIdCanal(canal);
+            repository.save(inscricao);
+        } else {
             repository.deleteByIdUsuarioAndIdCanal(usuario, canal);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
         }
     }
 
-    public Inscricao buscarUm(BuscarUmInscricaoCommand cmd) {
-        Inscricao inscricao = null;
-        try {
-            Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
-            Usuario canal = usuarioService.retornaUsuario(cmd.getIdCanal());
+    public Inscricao buscarUm(@Valid BuscarUmInscricaoCommand cmd) {
+        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
+                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));;
+        Usuario canal = usuarioRepository.findById(cmd.getIdCanal())
+                .orElseThrow(()-> new NaoEncontradoException("Canal não encontrado!"));;
 
-            inscricao = repository.findByIdUsuarioAndIdCanal(usuario, canal);
-            if (inscricao == null) {
-                throw new NaoEncontradoException("Inscrição não encontrado!");
-            }
-            return inscricao;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+        Inscricao inscricao = repository.findByIdUsuarioAndIdCanal(usuario, canal);
+        if (inscricao == null) {
+            throw new NaoEncontradoException("Inscrição não encontrada!");
         }
         return inscricao;
     }
