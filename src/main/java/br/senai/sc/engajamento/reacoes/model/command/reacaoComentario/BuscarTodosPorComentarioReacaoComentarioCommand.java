@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuscarTodosPorComentarioReacaoComentarioCommand {
-    @NotNull
+    @NotNull(message = "ID do comentário não informado")
     private String idComentario;
 }

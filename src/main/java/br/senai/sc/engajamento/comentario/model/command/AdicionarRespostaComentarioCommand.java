@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdicionarRespostaComentarioCommand {
-    @NotNull
+    @NotNull(message = "ID do comentário não informado")
     private String idComentario;
-
 }

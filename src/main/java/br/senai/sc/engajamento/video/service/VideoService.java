@@ -17,9 +17,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@NoArgsConstructor
+@AllArgsConstructor
 public class VideoService {
     private VideoRepository repository;
+//    @Autowired
     private HistoricoService historicoService;
 //    private Publisher publisher;
 

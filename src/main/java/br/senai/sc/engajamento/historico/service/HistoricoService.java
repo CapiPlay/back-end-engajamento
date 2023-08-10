@@ -21,20 +21,20 @@ public class HistoricoService {
 
     private final HistoricoRepository historicoRepository;
     private final UsuarioService usuarioService;
-    private final VideoService videoService;
+//    private final VideoService videoService;
 
     public void criar(CriarHistoricoCommand cmd) {
         Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
-        Video video = videoService.retornaVideo(cmd.getIdVideo());
-        if(historicoRepository.findByIdUsuarioAndIdVideo(usuario, video) != null){
-            Historico historico = new Historico(usuario, video, cmd.getPercentagemSomada());
-            historicoRepository.save(historico);
-        } else {
+//        Video video = videoService.retornaVideo(cmd.getIdVideo());
+//        if(historicoRepository.findByIdUsuarioAndIdVideo(usuario, video) != null){
+//            Historico historico = new Historico(usuario, video, cmd.getPercentagemSomada());
+//            historicoRepository.save(historico);
+//        } else {
             Historico historico = retornaHistorico(cmd.getIdUsuario(), cmd.getIdVideo());
             historico.setQtdVisualizadas(historico.getQtdVisualizadas() + 1);
             historico.setPercentagemSomada(historico.getPercentagemSomada() + cmd.getPercentagemSomada());
             historico.setDataHora(ZonedDateTime.now());
-        }
+//        }
     }
 
     public Historico buscarUm(BuscarUmHistoricoCommand cmd) {
@@ -66,9 +66,9 @@ public class HistoricoService {
         Historico historico = null;
         try {
             Usuario usuario = usuarioService.retornaUsuario(idUsuario);
-            Video video = videoService.retornaVideo(idVideo);
+//            Video video = videoService.retornaVideo(idVideo);
 
-            historico = historicoRepository.findByIdUsuarioAndIdVideo(usuario, video);
+//            historico = historicoRepository.findByIdUsuarioAndIdVideo(usuario, video);
             if(historico == null){
                 throw new NaoEncontradoException("Histórico não encontrado!");
             }

@@ -10,10 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CriarReacaoComentarioCommand {
 
-    @NotNull
+    @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
-    @NotNull
+
+    @NotNull(message = "ID do comentário não informado")
     private String idComentario;
-    @NotNull
+
+    @NotNull(message = "Curtida não informada")
     private Boolean curtida;
 }

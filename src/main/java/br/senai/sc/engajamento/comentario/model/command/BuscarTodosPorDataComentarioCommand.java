@@ -11,11 +11,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuscarTodosPorDataComentarioCommand {
-
-    @NotNull
+    @NotNull(message = "ID do vídeo não informado")
     private String idVideo;
 
-    @NotNull
+    @NotNull(message = "Data não informada")
     private LocalDate data;
-
 }

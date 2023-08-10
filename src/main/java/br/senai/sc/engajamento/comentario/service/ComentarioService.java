@@ -8,6 +8,7 @@ import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.service.UsuarioService;
 import br.senai.sc.engajamento.video.model.entity.Video;
+import br.senai.sc.engajamento.video.repository.VideoRepository;
 import br.senai.sc.engajamento.video.service.VideoService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,10 +24,11 @@ public class ComentarioService {
 
     private ComentarioRepository comentarioRepository;
     private UsuarioService usuarioService;
+    private VideoRepository videoRepository;
     private VideoService videoService;
 
     public Comentario criar(CriarComentarioCommand cmd) {
-        Video video = videoService.retornaVideo(cmd.getIdVideo());
+        Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
         Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
         Comentario comentario = new Comentario(
                 cmd.getTexto(),
@@ -43,16 +45,17 @@ public class ComentarioService {
     }
 
     public List<Comentario> buscarTodosPorVideo(BuscarTodosPorVideoComentarioCommand cmd) {
-        List<Comentario> list = comentarioRepository.findAllByIdVideo(videoService.retornaVideo(cmd.getIdVideo()));
-        Collections.sort(list, Comparator.comparing(Comentario::getDataHora).reversed());
+        Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
+        List<Comentario> list = comentarioRepository.findAllByIdVideo(video);
+        list.sort(Comparator.comparing(Comentario::getDataHora).reversed());
         return list;
     }
 
     public List<Comentario> buscarTodosPorData(BuscarTodosPorDataComentarioCommand cmd) {
         List<Comentario> listaComentariosFiltrados = new ArrayList<>();
-
+        Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
         List<Comentario> listaComentarios =
-                comentarioRepository.findAllByIdVideo(videoService.retornaVideo(cmd.getIdVideo()));
+                comentarioRepository.findAllByIdVideo(video);
         for (Comentario comentario : listaComentarios) {
             if (comentario.getDataHora().toLocalDate().equals(cmd.getData())) {
                 listaComentariosFiltrados.add(comentario);
@@ -77,7 +80,7 @@ public class ComentarioService {
     public void deletar(DeletarComentarioCommand cmd) {
         try {
             Comentario comentario = retornaComentario(cmd.getIdComentario());
-            Video video = videoService.retornaVideo(comentario.getIdVideo().getId());
+            Video video = videoRepository.findById(comentario.getIdVideo().getId()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
             if (!(cmd.getIdUsuario().equals(comentario.getIdUsuario().getIdUsuario()))) {
                 throw new AcaoNaoPermitidaException();
             }

@@ -12,9 +12,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class BuscarTodosPorDataHistoricoCommand {
 
-    @NotNull
+    @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
 
-    @NotNull
+    @NotNull(message = "Data não informada")
     private LocalDate data;
 }

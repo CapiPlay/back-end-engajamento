@@ -9,8 +9,9 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class CriarInscricaoCommand {
-    @NotNull
+    @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
-    @NotNull
+
+    @NotNull(message = "ID do canal não informado")
     private String idCanal;
 }
