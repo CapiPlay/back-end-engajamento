@@ -10,17 +10,8 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BuscarTodosPorDataHistoricoCommand {
+public class BuscarTodosPorUsuarioHistoricoCommand {
 
     @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
-
-    @NotNull(message = "Data não informada")
-    private LocalDate data;
-
-    public BuscarTodosPorDataHistoricoCommand from(String idUsuario) {
-        this.idUsuario = idUsuario;
-        return this;
-    }
 }
-

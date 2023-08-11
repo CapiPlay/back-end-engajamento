@@ -88,4 +88,18 @@ Atributos:
 - ID do vídeo visualizado
 - Data e hora (gerado automaticamente)
 
+## Exception: NaoEncontradoException
+
+Construtor:
+
+- Mensagem passada sobre o que não foi encontrado
+  <h5>obs.: quando essa exception ocorre, o retorno do endpoint pedido será o erro 404(Not Found)</h5>
+
+## Exception: AcaoNaoPermitidaException
+
+Construtor:
+
+- Mensagem passada sobre qual ação não foi permitido
+  <h5>obs.: quando essa exception ocorre, o retorno do endpoint pedido será o erro 403(Forbidden)</h5>
+
 <h5>Qualquer dúvida, tratar com Lucas e Ana </h5>

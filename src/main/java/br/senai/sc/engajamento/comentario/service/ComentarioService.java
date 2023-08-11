@@ -6,6 +6,7 @@ import br.senai.sc.engajamento.comentario.repository.ComentarioRepository;
 import br.senai.sc.engajamento.exception.AcaoNaoPermitidaException;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
+import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
 import br.senai.sc.engajamento.usuario.service.UsuarioService;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
@@ -22,13 +23,14 @@ import java.util.*;
 public class ComentarioService {
 
     private ComentarioRepository comentarioRepository;
-    private UsuarioService usuarioService;
+    private UsuarioRepository usuarioRepository;
     private VideoRepository videoRepository;
     private VideoService videoService;
 
+
     public Comentario criar(@Valid CriarComentarioCommand cmd) {
-        Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
-        Usuario usuario = usuarioService.retornaUsuario(cmd.getIdUsuario());
+        Video video = videoRepository.getById(cmd.getIdVideo());
+        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario()).orElseThrow(()->new NaoEncontradoException("Usuário nao encontrado"));;
         Comentario comentario = new Comentario(
                 cmd.getTexto(),
                 usuario,
@@ -43,6 +45,7 @@ public class ComentarioService {
         return retornaComentario(cmd.getIdComentario());
     }
 
+
     public List<Comentario> buscarTodosPorVideo(@Valid BuscarTodosPorVideoComentarioCommand cmd) {
         Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
         List<Comentario> list = comentarioRepository.findAllByIdVideo(video);
@@ -53,6 +56,7 @@ public class ComentarioService {
     public List<Comentario> buscarTodosPorData(@Valid BuscarTodosPorDataComentarioCommand cmd)  {
         List<Comentario> listaComentariosFiltrados = new ArrayList<>();
         Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()-> new NaoEncontradoException("Vídeo não encontrado!"));
+
         List<Comentario> listaComentarios =
                 comentarioRepository.findAllByIdVideo(video);
         for (Comentario comentario : listaComentarios) {

@@ -7,9 +7,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BuscarUmInscricaoCommand {
-    @NotNull
+    @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
-    @NotNull
+
+    @NotNull(message = "ID do canal não informado")
     private String idCanal;
 
     public BuscarUmInscricaoCommand from(String idUsuario) {
@@ -17,3 +18,4 @@ public class BuscarUmInscricaoCommand {
         return this;
     }
 }
+

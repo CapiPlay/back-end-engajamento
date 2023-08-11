@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BuscarUmHistoricoCommand {
 
-    @NotNull
+    @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
-    @NotNull
+
+    @NotNull(message = "ID do vídeo não informado")
     private String idVideo;
+
 
     public BuscarUmHistoricoCommand from(String idUsuario) {
         this.idUsuario = idUsuario;

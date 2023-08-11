@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuscarUmReacaoRespostaCommand {
-    @NotNull
+    @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
-    @NotNull
+
+    @NotNull(message = "ID da resposta não informado")
     private String idResposta;
 
     public BuscarUmReacaoRespostaCommand from(String idUsuario) {

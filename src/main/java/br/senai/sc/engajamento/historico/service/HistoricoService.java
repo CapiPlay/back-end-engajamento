@@ -10,7 +10,6 @@ import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -69,6 +68,7 @@ public class HistoricoService {
     }
 
     public Historico retornaHistorico(String idUsuario, String idVideo) {
+
         Usuario usuario = usuarioRepository.findById(idUsuario)
                 .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));
 

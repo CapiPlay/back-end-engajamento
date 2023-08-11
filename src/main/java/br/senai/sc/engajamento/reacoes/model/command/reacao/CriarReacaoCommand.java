@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CriarReacaoCommand {
-    @NotNull
+    @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
-    @NotNull
+
+    @NotNull(message = "ID do vídeo não informado")
     private String idVideo;
-    @NotNull
+
+    @NotNull(message = "Curtida não informada")
     private Boolean curtida;
 
     public CriarReacaoCommand from(String idUsuario) {

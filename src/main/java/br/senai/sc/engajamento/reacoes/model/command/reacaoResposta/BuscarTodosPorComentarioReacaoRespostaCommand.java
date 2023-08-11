@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuscarTodosPorComentarioReacaoRespostaCommand {
-    @NotNull
+    @NotNull(message = "ID da resposta não informado")
     private String idResposta;
 }

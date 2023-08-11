@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CriarHistoricoCommand {
 
-    @NotNull
+    @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
-    @NotNull
+
+    @NotNull(message = "ID do vídeo não informado")
     private String idVideo;
-    @NotNull
+
+    @NotNull(message = "Percentagem somada não informada")
     private float percentagemSomada;
 
     public CriarHistoricoCommand from(String idUsuario) {

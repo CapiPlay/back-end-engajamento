@@ -7,9 +7,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class DeletarUmReacaoCommand {
-    @NotNull
+    @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
-    @NotNull
+
+    @NotNull(message = "ID do vídeo não informado")
     private String idVideo;
 
     public DeletarUmReacaoCommand from(String idUsuario) {

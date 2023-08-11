@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BuscarUmComentarioCommand {
 
-    @NotNull
+    @NotNull(message = "ID do comentário não informado")
     private String idComentario;
 
 }

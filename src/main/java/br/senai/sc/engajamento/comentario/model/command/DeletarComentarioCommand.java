@@ -6,14 +6,15 @@ import lombok.Data;
 @Data
 public class DeletarComentarioCommand {
 
-    @NotNull
+    @NotNull(message = "ID do comentário não informado")
     private String idComentario;
-    @NotNull
+
+    @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
+
 
     public DeletarComentarioCommand from(String idUsuario) {
         this.idUsuario = idUsuario;
         return this;
     }
-
 }
