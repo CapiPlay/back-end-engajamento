@@ -5,6 +5,7 @@ import br.senai.sc.engajamento.historico.model.entity.Historico;
 import br.senai.sc.engajamento.historico.service.HistoricoService;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +60,7 @@ public class VideoService {
         Long qtdComentarios = video.getQtdComentarios();
         Long qtdRespostas = video.getQtdRespostas();
         float percentagemSomadaUsuario = 0f;
-        Integer qtdVistaPeloUsuario = 0
+        Integer qtdVistaPeloUsuario = 0;
 
         /*Calculo da percentagem*/
         List<Historico> listaHistorico = historicoService.buscarTodosPorVideo(video);
