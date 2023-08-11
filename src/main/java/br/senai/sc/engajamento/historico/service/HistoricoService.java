@@ -25,8 +25,8 @@ public class HistoricoService {
     private final VideoRepository videoRepository;
 
     public void criar(@Valid CriarHistoricoCommand cmd) {
-        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario()).orElseThrow(()->new NaoEncontradoException("Usuário não encontrado!"));
-        Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("Vídeo não encontrado!"));
+        Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
+        Video video = videoRepository.getById(cmd.getIdVideo());
 
         if(historicoRepository.findByIdUsuarioAndIdVideo(usuario, video) != null){
             Historico historico = new Historico(usuario, video, cmd.getPercentagemSomada());
@@ -69,11 +69,9 @@ public class HistoricoService {
 
     public Historico retornaHistorico(String idUsuario, String idVideo) {
 
-        Usuario usuario = usuarioRepository.findById(idUsuario)
-                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));
+        Usuario usuario = usuarioRepository.getById(idUsuario);
 
-        Video video = videoRepository.findById(idVideo)
-                .orElseThrow(()-> new NaoEncontradoException("Vídeo não encontrado!"));
+        Video video = videoRepository.getById(idVideo);
 
         Historico historico = historicoRepository.findByIdUsuarioAndIdVideo(usuario, video);
 

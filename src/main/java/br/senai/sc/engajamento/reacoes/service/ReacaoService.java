@@ -6,10 +6,8 @@ import br.senai.sc.engajamento.reacoes.model.command.reacao.BuscarUmReacaoComman
 import br.senai.sc.engajamento.reacoes.model.command.reacao.CriarReacaoCommand;
 import br.senai.sc.engajamento.reacoes.model.entity.Reacao;
 import br.senai.sc.engajamento.reacoes.repository.ReacaoRepository;
-import br.senai.sc.engajamento.resposta.model.entity.Resposta;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
-import br.senai.sc.engajamento.usuario.service.UsuarioService;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
 import br.senai.sc.engajamento.video.service.VideoService;
@@ -29,10 +27,8 @@ public class ReacaoService {
 
     public void criar(@Valid CriarReacaoCommand cmd) {
 
-        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
-                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));
-        Video video = videoRepository.findById(cmd.getIdVideo())
-                .orElseThrow(()-> new NaoEncontradoException("Resposta não encontrado!"));
+        Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
+        Video video = videoRepository.getById(cmd.getIdVideo());
 
         Reacao reacaoExistente = repository.findByIdUsuarioAndIdVideo(usuario, video);
 
@@ -67,10 +63,8 @@ public class ReacaoService {
     }
 
     public Reacao buscarUm(@Valid BuscarUmReacaoCommand cmd) {
-        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
-                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));
-        Video video = videoRepository.findById(cmd.getIdVideo())
-                .orElseThrow(()-> new NaoEncontradoException("Resposta não encontrado!"));
+        Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
+        Video video = videoRepository.getById(cmd.getIdVideo());
 
         Reacao reacao = repository.findByIdUsuarioAndIdVideo(usuario, video);
         if (reacao == null) {
@@ -81,8 +75,7 @@ public class ReacaoService {
     }
 
     public List<Reacao> buscarTodosPorVideo(@Valid BuscarTodosPorVideoReacaoCommand cmd) {
-        Video video = videoRepository.findById(cmd.getIdVideo())
-                .orElseThrow(()-> new NaoEncontradoException("Resposta não encontrado!"));
+        Video video = videoRepository.getById(cmd.getIdVideo());
 
         return repository.findAllByIdVideo(video);
     }

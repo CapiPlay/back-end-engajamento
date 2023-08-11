@@ -35,11 +35,9 @@ public class RespostaService {
     private final VideoService videoService;
 
     public Resposta criar(@Valid CriarRespostaCommand cmd) {
-        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
-                .orElseThrow(() -> new NaoEncontradoException("Usuário não encontrada!"));
+        Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
 
-        Comentario comentario = comentarioRepository.findById(cmd.getIdComentario())
-                .orElseThrow(() -> new NaoEncontradoException("Comentário não encontrada!"));
+        Comentario comentario = comentarioRepository.getById(cmd.getIdComentario());
 
         Resposta resposta = new Resposta(
                 cmd.getTexto(),
@@ -70,10 +68,8 @@ public class RespostaService {
     }
 
     private void editarInformacoesVideo(Resposta resposta) {
-        Comentario comentario = comentarioRepository.findById(resposta.getIdComentario().getIdComentario())
-                .orElseThrow(() -> new NaoEncontradoException("Comentário não encontrada!"));
-        Video video = videoRepository.findById(comentario.getIdVideo().getId())
-                .orElseThrow(() -> new NaoEncontradoException("Vídeo não encontrada!"));
+        Comentario comentario = comentarioRepository.getById(resposta.getIdComentario().getIdComentario());
+        Video video = videoRepository.getById(comentario.getIdVideo().getId());
 
         video.setQtdRespostas(video.getQtdRespostas() + 1);
         videoService.editarPontuacao(video);

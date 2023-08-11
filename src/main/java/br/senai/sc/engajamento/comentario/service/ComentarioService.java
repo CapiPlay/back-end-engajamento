@@ -30,7 +30,7 @@ public class ComentarioService {
 
     public Comentario criar(@Valid CriarComentarioCommand cmd) {
         Video video = videoRepository.getById(cmd.getIdVideo());
-        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario()).orElseThrow(()->new NaoEncontradoException("Usuário nao encontrado"));;
+        Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
         Comentario comentario = new Comentario(
                 cmd.getTexto(),
                 usuario,
@@ -45,9 +45,8 @@ public class ComentarioService {
         return retornaComentario(cmd.getIdComentario());
     }
 
-
     public List<Comentario> buscarTodosPorVideo(@Valid BuscarTodosPorVideoComentarioCommand cmd) {
-        Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()->new NaoEncontradoException("video nao encontrado"));
+        Video video = videoRepository.getById(cmd.getIdVideo());
         List<Comentario> list = comentarioRepository.findAllByIdVideo(video);
         list.sort(Comparator.comparing(Comentario::getDataHora).reversed());
         return list;
@@ -55,7 +54,7 @@ public class ComentarioService {
 
     public List<Comentario> buscarTodosPorData(@Valid BuscarTodosPorDataComentarioCommand cmd)  {
         List<Comentario> listaComentariosFiltrados = new ArrayList<>();
-        Video video = videoRepository.findById(cmd.getIdVideo()).orElseThrow(()-> new NaoEncontradoException("Vídeo não encontrado!"));
+        Video video = videoRepository.getById(cmd.getIdVideo());
 
         List<Comentario> listaComentarios =
                 comentarioRepository.findAllByIdVideo(video);
@@ -73,8 +72,7 @@ public class ComentarioService {
 
     public void deletar(@Valid DeletarComentarioCommand cmd) {
         Comentario comentario = retornaComentario(cmd.getIdComentario());
-        Video video = videoRepository.findById(comentario.getIdVideo().getId())
-                .orElseThrow(()-> new NaoEncontradoException("Vídeo não encontrado!"));
+        Video video = videoRepository.getById(comentario.getIdVideo().getId());
         if (!(cmd.getIdUsuario().equals(comentario.getIdUsuario().getIdUsuario()))) {
             throw new AcaoNaoPermitidaException();
         }
