@@ -3,9 +3,8 @@ package br.senai.sc.engajamento.reacoes.controller;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoResposta.BuscarTodosPorComentarioReacaoRespostaCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoResposta.BuscarUmReacaoRespostaCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoResposta.CriarReacaoRespostaCommand;
-import br.senai.sc.engajamento.reacoes.model.entity.ReacaoRespota;
+import br.senai.sc.engajamento.reacoes.model.entity.ReacaoResposta;
 import br.senai.sc.engajamento.reacoes.service.ReacaoRespostaService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,14 +28,14 @@ public class ReacaoRespostaController {
     }
 
     @GetMapping
-    public ResponseEntity<ReacaoRespota> buscarUm(
+    public ResponseEntity<ReacaoResposta> buscarUm(
             @RequestBody BuscarUmReacaoRespostaCommand cmd,
             @RequestHeader String idUsuario) {
         return ResponseEntity.ok(service.buscarUm(cmd.from(idUsuario)));
     }
 
     @GetMapping("/buscar-todos-por-resposta")
-    public ResponseEntity<List<ReacaoRespota>> buscarTodos(
+    public ResponseEntity<List<ReacaoResposta>> buscarTodos(
             @RequestBody BuscarTodosPorComentarioReacaoRespostaCommand cmd) {
         return ResponseEntity.ok(service.buscarTodos(cmd));
     }

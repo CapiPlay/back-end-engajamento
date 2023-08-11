@@ -22,8 +22,10 @@ public class RespostaController {
     private final RespostaService respostaService;
 
     @PostMapping
-    private ResponseEntity<Resposta> criar(@RequestBody CriarRespostaCommand cmd) {
-        return ResponseEntity.ok(respostaService.criar(cmd));
+    private ResponseEntity<Resposta> criar(
+            @RequestHeader String idUsuario,
+            @RequestBody CriarRespostaCommand cmd) {
+        return ResponseEntity.ok(respostaService.criar(cmd.from(idUsuario)));
     }
 
     @GetMapping
@@ -40,8 +42,10 @@ public class RespostaController {
     }
 
     @DeleteMapping
-    private ResponseEntity<Void> deletar(@RequestBody DeletarRespostaCommand cmd) {
-        respostaService.deletar(cmd);
+    private ResponseEntity<Void> deletar(
+            @RequestHeader String idUsuario,
+            @RequestBody DeletarRespostaCommand cmd) {
+        respostaService.deletar(cmd.from(idUsuario));
         return ResponseEntity.ok().build();
     }
 

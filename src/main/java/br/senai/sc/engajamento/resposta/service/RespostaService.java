@@ -1,9 +1,7 @@
 package br.senai.sc.engajamento.resposta.service;
 
-import br.senai.sc.engajamento.comentario.model.command.BuscarUmComentarioCommand;
 import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.comentario.repository.ComentarioRepository;
-import br.senai.sc.engajamento.comentario.service.ComentarioService;
 import br.senai.sc.engajamento.exception.AcaoNaoPermitidaException;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.resposta.model.command.BuscarTodosPorComentarioRespostaCommand;
@@ -14,7 +12,6 @@ import br.senai.sc.engajamento.resposta.model.entity.Resposta;
 import br.senai.sc.engajamento.resposta.repository.RespostaRepository;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
-import br.senai.sc.engajamento.usuario.service.UsuarioService;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
 import br.senai.sc.engajamento.video.service.VideoService;
@@ -36,8 +33,8 @@ public class RespostaService {
 
     public Resposta criar(@Valid CriarRespostaCommand cmd) {
         Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
-
         Comentario comentario = comentarioRepository.getById(cmd.getIdComentario());
+        Video video = videoRepository.getById(comentario.getIdVideo().getId());
 
         Resposta resposta = new Resposta(
                 cmd.getTexto(),
@@ -45,7 +42,12 @@ public class RespostaService {
                 comentario
         );
 
-        editarInformacoesVideo(resposta);
+        comentario.setQtdRespostas(comentario.getQtdRespostas() + 1);
+        comentarioRepository.save(comentario);
+
+        video.setQtdRespostas(video.getQtdRespostas() + 1);
+        videoService.editarPontuacao(video);
+
         return respostaRepository.save(resposta);
     }
 
@@ -60,19 +62,20 @@ public class RespostaService {
 
     public void deletar(@Valid DeletarRespostaCommand cmd) {
         Resposta resposta = retornaResposta(cmd.getIdResposta());
-        if (!(cmd.getIdUsuario().equals(resposta.getIdUsuario().getIdUsuario()))) {
-            throw new AcaoNaoPermitidaException();
-        }
-        editarInformacoesVideo(resposta);
-        respostaRepository.delete(resposta);
-    }
-
-    private void editarInformacoesVideo(Resposta resposta) {
         Comentario comentario = comentarioRepository.getById(resposta.getIdComentario().getIdComentario());
         Video video = videoRepository.getById(comentario.getIdVideo().getId());
 
-        video.setQtdRespostas(video.getQtdRespostas() + 1);
+        if (!(cmd.getIdUsuario().equals(resposta.getIdUsuario().getIdUsuario()))) {
+            throw new AcaoNaoPermitidaException();
+        }
+
+        video.setQtdRespostas(video.getQtdRespostas() - 1);
         videoService.editarPontuacao(video);
+
+        comentario.setQtdRespostas(comentario.getQtdRespostas() - 1);
+        comentarioRepository.save(comentario);
+
+        respostaRepository.delete(resposta);
     }
 
     private Resposta retornaResposta(String idResposta) {
@@ -82,5 +85,4 @@ public class RespostaService {
         }
         throw new NaoEncontradoException("Resposta não encontrada!");
     }
-
 }

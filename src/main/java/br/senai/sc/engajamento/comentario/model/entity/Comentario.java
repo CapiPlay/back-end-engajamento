@@ -30,9 +30,11 @@ public class Comentario {
     private Integer qtdRespostas;
 
     @ManyToOne
+    @JoinColumn(nullable = false, name = "id_usuario")
     private Usuario idUsuario;
 
     @ManyToOne
+    @JoinColumn(nullable = false, name = "id_video")
     private Video idVideo;
 
     public Comentario(

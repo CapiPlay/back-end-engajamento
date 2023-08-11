@@ -18,12 +18,12 @@ import org.hibernate.annotations.CascadeType;
 public class Reacao {
     @Id
     @ManyToOne
-    @Cascade(CascadeType.ALL)
+    @JoinColumn(nullable = false, name = "id_usuario")
     private Usuario idUsuario;
 
     @Id
     @ManyToOne
-    @Cascade(CascadeType.ALL)
+    @JoinColumn(nullable = false, name = "id_video")
     private Video idVideo;
 
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)

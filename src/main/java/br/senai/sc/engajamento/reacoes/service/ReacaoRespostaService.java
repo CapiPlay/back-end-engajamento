@@ -1,19 +1,16 @@
 package br.senai.sc.engajamento.reacoes.service;
 
-import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoResposta.BuscarTodosPorComentarioReacaoRespostaCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoResposta.BuscarUmReacaoRespostaCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoResposta.CriarReacaoRespostaCommand;
-import br.senai.sc.engajamento.reacoes.model.entity.ReacaoRespota;
+import br.senai.sc.engajamento.reacoes.model.entity.ReacaoResposta;
 import br.senai.sc.engajamento.reacoes.repository.ReacaoRespostaRepository;
-import br.senai.sc.engajamento.resposta.controller.RespostaController;
 import br.senai.sc.engajamento.resposta.model.entity.Resposta;
 import br.senai.sc.engajamento.resposta.repository.RespostaRepository;
-import br.senai.sc.engajamento.resposta.service.RespostaService;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
-import br.senai.sc.engajamento.usuario.service.UsuarioService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,14 +24,14 @@ public class ReacaoRespostaService {
     private final UsuarioRepository usuarioRepository;
     private final RespostaRepository respostaRepository;
 
+    @Transactional
     public void criar(@Valid CriarReacaoRespostaCommand cmd) {
-
         Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
         Resposta resposta = respostaRepository.getById(cmd.getIdResposta());
 
-        ReacaoRespota reacaoExistente = repository.findByIdUsuarioAndIdResposta(usuario, resposta);
+        ReacaoResposta reacaoExistente = repository.findByIdUsuarioAndIdResposta(usuario, resposta);
         if (reacaoExistente == null) {
-            ReacaoRespota reacao = new ReacaoRespota();
+            ReacaoResposta reacao = new ReacaoResposta();
             reacao.setIdResposta(resposta);
             reacao.setIdUsuario(usuario);
             reacao.setCurtida(cmd.getCurtida());
@@ -47,11 +44,11 @@ public class ReacaoRespostaService {
         }
     }
 
-    public ReacaoRespota buscarUm(@Valid BuscarUmReacaoRespostaCommand cmd) {
+    public ReacaoResposta buscarUm(@Valid BuscarUmReacaoRespostaCommand cmd) {
         Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
         Resposta resposta = respostaRepository.getById(cmd.getIdResposta());
 
-        ReacaoRespota reacao = repository.findByIdUsuarioAndIdResposta(usuario, resposta);
+        ReacaoResposta reacao = repository.findByIdUsuarioAndIdResposta(usuario, resposta);
         if (reacao == null) {
             throw new NaoEncontradoException("Reação da resposta não encontrada!");
         }
@@ -59,7 +56,7 @@ public class ReacaoRespostaService {
         return reacao;
     }
 
-    public List<ReacaoRespota> buscarTodos(@Valid BuscarTodosPorComentarioReacaoRespostaCommand cmd) {
+    public List<ReacaoResposta> buscarTodos(@Valid BuscarTodosPorComentarioReacaoRespostaCommand cmd) {
         Resposta resposta = respostaRepository.getById(cmd.getIdResposta());
 
         return repository.findAllByIdResposta(resposta);

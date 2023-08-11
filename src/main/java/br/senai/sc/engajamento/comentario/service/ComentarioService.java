@@ -30,15 +30,20 @@ public class ComentarioService {
 
     public Comentario criar(@Valid CriarComentarioCommand cmd) {
         Video video = videoRepository.getById(cmd.getIdVideo());
-        Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
-        Comentario comentario = new Comentario(
-                cmd.getTexto(),
-                usuario,
-                video
-        );
-        video.setQtdComentarios(video.getQtdComentarios() + 1);
-        videoService.editarPontuacao(video);
-        return comentarioRepository.save(comentario);
+
+        if(!video.getEhInativado()){
+            Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
+            Comentario comentario = new Comentario(
+                    cmd.getTexto(),
+                    usuario,
+                    video
+            );
+
+            video.setQtdComentarios(video.getQtdComentarios() + 1);
+            videoService.editarPontuacao(video);
+            return comentarioRepository.save(comentario);
+        }
+        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 
     public Comentario buscarUm(@Valid BuscarUmComentarioCommand cmd) {
