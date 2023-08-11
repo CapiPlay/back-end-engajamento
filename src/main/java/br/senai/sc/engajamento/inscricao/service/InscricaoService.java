@@ -18,10 +18,8 @@ public class InscricaoService {
     private final UsuarioRepository usuarioRepository;
 
     public void criar(@Valid CriarInscricaoCommand cmd) {
-        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
-                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));;
-        Usuario canal = usuarioRepository.findById(cmd.getIdCanal())
-                .orElseThrow(()-> new NaoEncontradoException("Canal não encontrado!"));;
+        Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
+        Usuario canal = usuarioRepository.getById(cmd.getIdCanal());
 
         if (repository.findByIdUsuarioAndIdCanal(usuario, canal) == null) {
             Inscricao inscricao = new Inscricao();
@@ -34,10 +32,8 @@ public class InscricaoService {
     }
 
     public Inscricao buscarUm(@Valid BuscarUmInscricaoCommand cmd) {
-        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
-                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));;
-        Usuario canal = usuarioRepository.findById(cmd.getIdCanal())
-                .orElseThrow(()-> new NaoEncontradoException("Canal não encontrado!"));;
+        Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
+        Usuario canal = usuarioRepository.getById(cmd.getIdCanal());
 
         Inscricao inscricao = repository.findByIdUsuarioAndIdCanal(usuario, canal);
         if (inscricao == null) {

@@ -29,10 +29,8 @@ public class ReacaoRespostaService {
 
     public void criar(@Valid CriarReacaoRespostaCommand cmd) {
 
-        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
-                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));
-        Resposta resposta = respostaRepository.findById(cmd.getIdResposta())
-                .orElseThrow(()-> new NaoEncontradoException("Resposta não encontrado!"));
+        Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
+        Resposta resposta = respostaRepository.getById(cmd.getIdResposta());
 
         ReacaoRespota reacaoExistente = repository.findByIdUsuarioAndIdResposta(usuario, resposta);
         if (reacaoExistente == null) {
@@ -50,10 +48,8 @@ public class ReacaoRespostaService {
     }
 
     public ReacaoRespota buscarUm(@Valid BuscarUmReacaoRespostaCommand cmd) {
-        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
-                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));
-        Resposta resposta = respostaRepository.findById(cmd.getIdResposta())
-                .orElseThrow(()-> new NaoEncontradoException("Resposta não encontrado!"));
+        Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
+        Resposta resposta = respostaRepository.getById(cmd.getIdResposta());
 
         ReacaoRespota reacao = repository.findByIdUsuarioAndIdResposta(usuario, resposta);
         if (reacao == null) {
@@ -64,8 +60,7 @@ public class ReacaoRespostaService {
     }
 
     public List<ReacaoRespota> buscarTodos(@Valid BuscarTodosPorComentarioReacaoRespostaCommand cmd) {
-        Resposta resposta = respostaRepository.findById(cmd.getIdResposta())
-                .orElseThrow(()-> new NaoEncontradoException("Resposta não encontrado!"));
+        Resposta resposta = respostaRepository.getById(cmd.getIdResposta());
 
         return repository.findAllByIdResposta(resposta);
     }

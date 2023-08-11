@@ -24,10 +24,8 @@ public class ReacaoComentarioService {
     private final ComentarioRepository comentarioRepository;
 
     public void criar(@Valid CriarReacaoComentarioCommand cmd) {
-        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
-                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));
-        Comentario comentario = comentarioRepository.findById(cmd.getIdComentario())
-                .orElseThrow(()-> new NaoEncontradoException("Comentário não encontrado!"));
+        Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
+        Comentario comentario = comentarioRepository.getById(cmd.getIdComentario());
 
         ReacaoComentario reacaoExistente = repository.findByIdUsuarioAndIdComentario(usuario, comentario);
         if (reacaoExistente == null) {
@@ -45,10 +43,8 @@ public class ReacaoComentarioService {
     }
 
     public ReacaoComentario buscarUm(@Valid BuscarUmReacaoComentarioCommand cmd) {
-        Usuario usuario = usuarioRepository.findById(cmd.getIdUsuario())
-                .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!"));
-        Comentario comentario = comentarioRepository.findById(cmd.getIdComentario())
-                .orElseThrow(()-> new NaoEncontradoException("Comentário não encontrado!"));
+        Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
+        Comentario comentario = comentarioRepository.getById(cmd.getIdComentario());
 
         ReacaoComentario reacaoComentario = repository.findByIdUsuarioAndIdComentario(usuario, comentario);
 
@@ -60,8 +56,7 @@ public class ReacaoComentarioService {
     }
 
     public List<ReacaoComentario> buscarTodosPorComentario(@Valid BuscarTodosPorComentarioReacaoComentarioCommand cmd) {
-        Comentario comentario = comentarioRepository.findById(cmd.getIdComentario())
-                .orElseThrow(()-> new NaoEncontradoException("Comentário não encontrado!"));
+        Comentario comentario = comentarioRepository.getById(cmd.getIdComentario());
         return repository.findAllByIdComentario(comentario);
     }
 }
