@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CriarHistoricoCommand {
+
     @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
 
@@ -17,4 +18,9 @@ public class CriarHistoricoCommand {
 
     @NotNull(message = "Percentagem somada não informada")
     private float percentagemSomada;
+
+    public CriarHistoricoCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

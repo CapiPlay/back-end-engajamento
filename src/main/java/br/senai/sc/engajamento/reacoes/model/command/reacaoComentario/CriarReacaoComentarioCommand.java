@@ -18,4 +18,9 @@ public class CriarReacaoComentarioCommand {
 
     @NotNull(message = "Curtida não informada")
     private Boolean curtida;
+
+    public CriarReacaoComentarioCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

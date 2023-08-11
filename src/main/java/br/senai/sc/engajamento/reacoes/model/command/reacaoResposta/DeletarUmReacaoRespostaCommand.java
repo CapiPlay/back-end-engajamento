@@ -4,14 +4,18 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 public class DeletarUmReacaoRespostaCommand {
+
     @NotNull(message = "ID do usuário não informado")
-    private UUID idUsuario;
+    private String idUsuario;
 
     @NotNull(message = "ID da resposta não informado")
-    private UUID idResposta;
+    private String idResposta;
+
+    public DeletarUmReacaoRespostaCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

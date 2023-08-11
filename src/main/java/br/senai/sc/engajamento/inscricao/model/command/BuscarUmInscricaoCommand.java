@@ -4,8 +4,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 public class BuscarUmInscricaoCommand {
@@ -14,4 +12,10 @@ public class BuscarUmInscricaoCommand {
 
     @NotNull(message = "ID do canal não informado")
     private String idCanal;
+
+    public BuscarUmInscricaoCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }
+

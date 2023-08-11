@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuscarTodosPorVideoComentarioCommand {
+
     @NotNull(message = "ID do video não informado")
     private String idVideo;
 }

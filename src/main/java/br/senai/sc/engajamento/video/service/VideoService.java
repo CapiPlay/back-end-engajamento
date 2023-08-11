@@ -3,16 +3,12 @@ package br.senai.sc.engajamento.video.service;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.historico.model.entity.Historico;
 import br.senai.sc.engajamento.historico.service.HistoricoService;
-//import br.senai.sc.engajamento.messaging.Publisher;
-import br.senai.sc.engajamento.video.amqp.events.VideoSalvoEvent;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,7 +60,7 @@ public class VideoService {
         Long qtdComentarios = video.getQtdComentarios();
         Long qtdRespostas = video.getQtdRespostas();
         float percentagemSomadaUsuario = 0f;
-        Integer qtdVistaPeloUsuario = 0
+        Integer qtdVistaPeloUsuario = 0;
 
         /*Calculo da percentagem*/
         List<Historico> listaHistorico = historicoService.buscarTodosPorVideo(video);

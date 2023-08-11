@@ -14,4 +14,9 @@ public class BuscarUmReacaoRespostaCommand {
 
     @NotNull(message = "ID da resposta não informado")
     private String idResposta;
+
+    public BuscarUmReacaoRespostaCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

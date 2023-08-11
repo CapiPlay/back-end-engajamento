@@ -3,7 +3,6 @@ package br.senai.sc.engajamento.comentario.controller;
 import br.senai.sc.engajamento.comentario.model.command.*;
 import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.comentario.service.ComentarioService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,23 +19,23 @@ public class ComentarioController {
     private ComentarioService comentarioService;
 
     @PostMapping
-    private ResponseEntity<Comentario> criar(@RequestHeader String idUsuario,
-            @RequestBody @Valid CriarComentarioCommand cmd
+    private ResponseEntity<Comentario> criar(
+            @RequestHeader String idUsuario,
+            @RequestBody CriarComentarioCommand cmd
     ) {
-        return ResponseEntity.ok(comentarioService.criar(cmd.from(idUsuario)));
+       return ResponseEntity.ok(comentarioService.criar(cmd.from(idUsuario)));
     }
 
     @GetMapping
-    private ResponseEntity<Comentario> buscarUm(
-            @RequestBody @Valid BuscarUmComentarioCommand cmd
-    ) {
-        return ResponseEntity.ok(comentarioService.buscarUm(cmd));
+    private ResponseEntity<Comentario> buscarUm(@RequestBody BuscarUmComentarioCommand cmd) {
+        Comentario comentario = comentarioService.buscarUm(cmd);
+        return ResponseEntity.ok().build();
     }
 
     /*Pega todos os comentários referentes a um vídeo*/
     @GetMapping("/buscar-todos-por-video")
     private ResponseEntity<List<Comentario>> buscarTodosPorVideo(
-            @RequestBody @Valid BuscarTodosPorVideoComentarioCommand cmd
+            @RequestBody BuscarTodosPorVideoComentarioCommand cmd
     ) {
         return ResponseEntity.ok(comentarioService.buscarTodosPorVideo(cmd));
     }
@@ -44,32 +43,25 @@ public class ComentarioController {
     /*Busca todos os comentários de um vídeo com base na data*/
     @GetMapping("/buscar-todos-por-data")
     private ResponseEntity<List<Comentario>> buscarTodosPorData(
-            @RequestBody @Valid BuscarTodosPorDataComentarioCommand cmd
+            @RequestBody BuscarTodosPorDataComentarioCommand cmd
     ) {
-        return ResponseEntity.ok(comentarioService.buscarTodosPorData(cmd));
+       return ResponseEntity.ok(comentarioService.buscarTodosPorData(cmd));
     }
 
     /*Buscar quantidade de respostas de um comentário*/
     @GetMapping("/buscar-quantidade-respostas")
     private ResponseEntity<Integer> buscarQuantidadeRespostas(
-            @RequestBody @Valid BuscarQuantidadeRepostasComentarioCommand cmd
+            @RequestBody BuscarQuantidadeRepostasComentarioCommand cmd
     ) {
         return ResponseEntity.ok(comentarioService.buscarQuantidadeRespostas(cmd));
     }
 
-    @PutMapping("/adicionar-resposta")
-    private ResponseEntity<Comentario> adicionarResposta(
-            @RequestBody @Valid AdicionarRespostaComentarioCommand cmd
-    ) {
-        comentarioService.adicionarResposta(cmd);
-        return ResponseEntity.ok().build();
-    }
-
     @DeleteMapping
     private ResponseEntity<Void> deletar(
-            @RequestBody @Valid DeletarComentarioCommand cmd
+            @RequestHeader String idUsuario,
+            @RequestBody DeletarComentarioCommand cmd
     ) {
-        comentarioService.deletar(cmd);
+        comentarioService.deletar(cmd.from(idUsuario));
         return ResponseEntity.ok().build();
     }
 

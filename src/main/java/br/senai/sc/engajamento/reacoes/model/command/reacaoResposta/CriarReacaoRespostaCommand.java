@@ -17,4 +17,9 @@ public class CriarReacaoRespostaCommand {
 
     @NotNull(message = "Curtida não informada")
     private Boolean curtida;
+
+    public CriarReacaoRespostaCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

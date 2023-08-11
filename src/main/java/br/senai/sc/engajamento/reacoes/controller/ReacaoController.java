@@ -21,18 +21,22 @@ public class ReacaoController {
     private final ReacaoService service;
 
     @PostMapping
-    public ResponseEntity<Void> criar(@RequestBody @Valid CriarReacaoCommand cmd) {
-        service.criar(cmd);
+    public ResponseEntity<Void> criar(
+            @RequestBody CriarReacaoCommand cmd,
+            @RequestHeader String idUsuario) {
+        service.criar(cmd.from(idUsuario));
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<Reacao> buscarUm(@RequestBody @Valid BuscarUmReacaoCommand cmd) {
-        return ResponseEntity.ok(service.buscarUm(cmd));
+    public ResponseEntity<Reacao> buscarUm(
+            @RequestBody BuscarUmReacaoCommand cmd,
+            @RequestHeader String idUsuario) {
+        return ResponseEntity.ok(service.buscarUm(cmd.from(idUsuario)));
     }
 
     @GetMapping("/buscar-todos-por-video")
-    public ResponseEntity<List<Reacao>> buscarTodosPorVideo(@RequestBody @Valid BuscarTodosPorVideoReacaoCommand cmd) {
+    public ResponseEntity<List<Reacao>> buscarTodosPorVideo(@RequestBody BuscarTodosPorVideoReacaoCommand cmd) {
         return ResponseEntity.ok(service.buscarTodosPorVideo(cmd));
     }
 }

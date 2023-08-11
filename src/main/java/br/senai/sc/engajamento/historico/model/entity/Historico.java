@@ -19,7 +19,6 @@ import static java.time.ZoneOffset.UTC;
 @Data
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @IdClass(HistoricoId.class)
 public class Historico {
 

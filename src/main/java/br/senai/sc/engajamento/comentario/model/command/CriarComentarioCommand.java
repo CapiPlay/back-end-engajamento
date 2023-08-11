@@ -1,11 +1,9 @@
 package br.senai.sc.engajamento.comentario.model.command;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class CriarComentarioCommand {
 
     @NotNull(message = "ID do usuário não informado")

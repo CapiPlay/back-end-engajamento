@@ -17,4 +17,10 @@ public class BuscarTodosPorDataHistoricoCommand {
 
     @NotNull(message = "Data não informada")
     private LocalDate data;
+
+    public BuscarTodosPorDataHistoricoCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }
+
