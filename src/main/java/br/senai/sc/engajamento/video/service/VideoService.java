@@ -1,6 +1,5 @@
 package br.senai.sc.engajamento.video.service;
 
-import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.historico.model.entity.Historico;
 import br.senai.sc.engajamento.historico.service.HistoricoService;
 import br.senai.sc.engajamento.video.model.entity.Video;
@@ -10,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
