@@ -15,6 +15,7 @@ import org.hibernate.annotations.CascadeType;
 @AllArgsConstructor
 @IdClass(InscricaoId.class)
 public class Inscricao {
+
     @Id
     @ManyToOne
     @Cascade(CascadeType.ALL)

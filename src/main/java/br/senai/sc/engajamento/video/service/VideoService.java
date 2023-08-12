@@ -51,8 +51,8 @@ public class VideoService {
      * - U é a quantidade de usuários que assistiram o vídeo.
     **/
     public void editarPontuacao(@Valid Video video) {
-        Double pontuacao;
-        Long visualizacao;
+        double pontuacao;
+        long visualizacao;
         Long qtdCurtidas = video.getQtdCurtidas();
         Long qtdDescurtidas = video.getQtdDescurtidas();
         Long qtdComentarios = video.getQtdComentarios();

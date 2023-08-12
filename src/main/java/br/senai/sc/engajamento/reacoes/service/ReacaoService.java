@@ -11,6 +11,7 @@ import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
 import br.senai.sc.engajamento.video.service.VideoService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,8 @@ public class ReacaoService {
     private final VideoRepository videoRepository;
     private final VideoService videoService;
 
+    @Transactional
     public void criar(@Valid CriarReacaoCommand cmd) {
-
         Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
         Video video = videoRepository.getById(cmd.getIdVideo());
 

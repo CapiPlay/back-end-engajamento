@@ -28,8 +28,9 @@ public class HistoricoService {
         Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
         Video video = videoRepository.getById(cmd.getIdVideo());
 
-        if(historicoRepository.findByIdUsuarioAndIdVideo(usuario, video) != null){
+        if(historicoRepository.findByIdUsuarioAndIdVideo(usuario, video) == null){
             Historico historico = new Historico(usuario, video, cmd.getPercentagemSomada());
+            System.out.println(cmd.getPercentagemSomada());
             historicoRepository.save(historico);
         } else {
             Historico historico = retornaHistorico(cmd.getIdUsuario(), cmd.getIdVideo());
@@ -68,13 +69,10 @@ public class HistoricoService {
     }
 
     public Historico retornaHistorico(String idUsuario, String idVideo) {
-
         Usuario usuario = usuarioRepository.getById(idUsuario);
-
         Video video = videoRepository.getById(idVideo);
 
         Historico historico = historicoRepository.findByIdUsuarioAndIdVideo(usuario, video);
-
         if(historico == null){
             throw new NaoEncontradoException("Histórico não encontrado!");
         }
