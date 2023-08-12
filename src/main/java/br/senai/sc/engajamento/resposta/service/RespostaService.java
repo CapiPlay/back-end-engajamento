@@ -36,28 +36,43 @@ public class RespostaService {
         Comentario comentario = comentarioRepository.getById(cmd.getIdComentario());
         Video video = videoRepository.getById(comentario.getIdVideo().getId());
 
-        Resposta resposta = new Resposta(
-                cmd.getTexto(),
-                usuario,
-                comentario
-        );
+        if (!video.getEhInativado()) {
+            Resposta resposta = new Resposta(
+                    cmd.getTexto(),
+                    usuario,
+                    comentario
+            );
 
-        comentario.setQtdRespostas(comentario.getQtdRespostas() + 1);
-        comentarioRepository.save(comentario);
+            comentario.setQtdRespostas(comentario.getQtdRespostas() + 1);
+            comentarioRepository.save(comentario);
 
-        video.setQtdRespostas(video.getQtdRespostas() + 1);
-        videoService.editarPontuacao(video);
+            video.setQtdRespostas(video.getQtdRespostas() + 1);
+            videoService.editarPontuacao(video);
 
-        return respostaRepository.save(resposta);
+            return respostaRepository.save(resposta);
+        }
+        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 
     public Resposta buscarUm(@Valid BuscarUmaRespostaCommand cmd) {
-        return retornaResposta(cmd.getIdResposta());
+        Resposta resposta = respostaRepository.getById(cmd.getIdResposta());
+        Video video = videoRepository.getById(resposta.getIdComentario().getIdVideo().getId());
+
+        if (!video.getEhInativado()) {
+            return retornaResposta(cmd.getIdResposta());
+        }
+        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 
     public List<Resposta> buscarTodosPorComentario(@Valid BuscarTodosPorComentarioRespostaCommand cmd) {
-        return respostaRepository.findAllByIdComentario(comentarioRepository.findById(cmd.getIdComentario())
-                .orElseThrow(() -> new NaoEncontradoException("Usuário não encontrada!")));
+        Comentario comentario = comentarioRepository.getById(cmd.getIdComentario());
+        Video video = videoRepository.getById(comentario.getIdVideo().getId());
+
+        if (!video.getEhInativado()) {
+            return respostaRepository.findAllByIdComentario(comentarioRepository.findById(cmd.getIdComentario())
+                    .orElseThrow(() -> new NaoEncontradoException("Usuário não encontrado")));
+        }
+        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 
     public void deletar(@Valid DeletarRespostaCommand cmd) {
@@ -65,17 +80,20 @@ public class RespostaService {
         Comentario comentario = comentarioRepository.getById(resposta.getIdComentario().getIdComentario());
         Video video = videoRepository.getById(comentario.getIdVideo().getId());
 
-        if (!(cmd.getIdUsuario().equals(resposta.getIdUsuario().getIdUsuario()))) {
-            throw new AcaoNaoPermitidaException();
+        if (!video.getEhInativado()) {
+            if (!(cmd.getIdUsuario().equals(resposta.getIdUsuario().getIdUsuario()))) {
+                throw new AcaoNaoPermitidaException();
+            }
+
+            video.setQtdRespostas(video.getQtdRespostas() - 1);
+            videoService.editarPontuacao(video);
+
+            comentario.setQtdRespostas(comentario.getQtdRespostas() - 1);
+            comentarioRepository.save(comentario);
+
+            respostaRepository.delete(resposta);
         }
-
-        video.setQtdRespostas(video.getQtdRespostas() - 1);
-        videoService.editarPontuacao(video);
-
-        comentario.setQtdRespostas(comentario.getQtdRespostas() - 1);
-        comentarioRepository.save(comentario);
-
-        respostaRepository.delete(resposta);
+        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 
     private Resposta retornaResposta(String idResposta) {
@@ -83,6 +101,6 @@ public class RespostaService {
         if (resposta.isPresent()) {
             return resposta.get();
         }
-        throw new NaoEncontradoException("Resposta não encontrada!");
+        throw new NaoEncontradoException("Resposta não encontrada");
     }
 }

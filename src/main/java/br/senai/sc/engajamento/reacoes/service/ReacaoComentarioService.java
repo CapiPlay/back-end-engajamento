@@ -10,6 +10,7 @@ import br.senai.sc.engajamento.reacoes.model.entity.ReacaoComentario;
 import br.senai.sc.engajamento.reacoes.repository.ReacaoComentarioRepository;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
+import br.senai.sc.engajamento.video.model.entity.Video;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -28,37 +29,50 @@ public class ReacaoComentarioService {
     public void criar(@Valid CriarReacaoComentarioCommand cmd) {
         Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
         Comentario comentario = comentarioRepository.getById(cmd.getIdComentario());
+        Video video = comentario.getIdVideo();
 
-        ReacaoComentario reacaoExistente = repository.findByIdUsuarioAndIdComentario(usuario, comentario);
-        if (reacaoExistente == null) {
-            ReacaoComentario reacao = new ReacaoComentario();
-            reacao.setIdComentario(comentario);
-            reacao.setIdUsuario(usuario);
-            reacao.setCurtida(cmd.getCurtida());
-            repository.save(reacao);
-        } else if (reacaoExistente.isCurtida() == cmd.getCurtida()) {
-            repository.deleteByIdUsuarioAndIdComentario(usuario, comentario);
+        if (!video.getEhInativado()) {
+            ReacaoComentario reacaoExistente = repository.findByIdUsuarioAndIdComentario(usuario, comentario);
+            if (reacaoExistente == null) {
+                ReacaoComentario reacao = new ReacaoComentario();
+                reacao.setIdComentario(comentario);
+                reacao.setIdUsuario(usuario);
+                reacao.setCurtida(cmd.getCurtida());
+                repository.save(reacao);
+            } else if (reacaoExistente.isCurtida() == cmd.getCurtida()) {
+                repository.deleteByIdUsuarioAndIdComentario(usuario, comentario);
+            } else {
+                reacaoExistente.setCurtida(!reacaoExistente.isCurtida());
+                repository.save(reacaoExistente);
+            }
         } else {
-            reacaoExistente.setCurtida(!reacaoExistente.isCurtida());
-            repository.save(reacaoExistente);
+            throw new NaoEncontradoException("Vídeo não encontrado");
         }
     }
 
     public ReacaoComentario buscarUm(@Valid BuscarUmReacaoComentarioCommand cmd) {
         Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
         Comentario comentario = comentarioRepository.getById(cmd.getIdComentario());
+        Video video = comentario.getIdVideo();
 
-        ReacaoComentario reacaoComentario = repository.findByIdUsuarioAndIdComentario(usuario, comentario);
+        if (!video.getEhInativado()) {
+            ReacaoComentario reacaoComentario = repository.findByIdUsuarioAndIdComentario(usuario, comentario);
 
-        if (reacaoComentario == null) {
-            throw new NaoEncontradoException("Reação do comentário não encontrado!");
+            if (reacaoComentario == null) {
+                throw new NaoEncontradoException("Reação do comentário não encontrado!");
+            }
+            return reacaoComentario;
         }
-
-        return reacaoComentario;
+        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 
     public List<ReacaoComentario> buscarTodosPorComentario(@Valid BuscarTodosPorComentarioReacaoComentarioCommand cmd) {
         Comentario comentario = comentarioRepository.getById(cmd.getIdComentario());
-        return repository.findAllByIdComentario(comentario);
+        Video video = comentario.getIdVideo();
+
+        if (!video.getEhInativado()) {
+            return repository.findAllByIdComentario(comentario);
+        }
+        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 }
