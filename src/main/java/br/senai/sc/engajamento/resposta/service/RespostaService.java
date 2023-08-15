@@ -17,6 +17,9 @@ import br.senai.sc.engajamento.video.repository.VideoRepository;
 import br.senai.sc.engajamento.video.service.VideoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,13 +67,17 @@ public class RespostaService {
         throw new NaoEncontradoException("Vídeo não encontrado");
     }
 
-    public List<Resposta> buscarTodosPorComentario(@Valid BuscarTodosPorComentarioRespostaCommand cmd) {
+    public Page<Resposta> buscarTodosPorComentario(
+            @Valid BuscarTodosPorComentarioRespostaCommand cmd, int page) {
         Comentario comentario = comentarioRepository.getById(cmd.getIdComentario());
         Video video = videoRepository.getById(comentario.getIdVideo().getId());
 
         if (!video.getEhInativado()) {
-            return respostaRepository.findAllByIdComentario(comentarioRepository.findById(cmd.getIdComentario())
-                    .orElseThrow(() -> new NaoEncontradoException("Usuário não encontrado")));
+            Pageable pageable = PageRequest.of(page, 5);
+            Page<Resposta> list = respostaRepository.findAllByIdComentarioOrderByDataHora(
+                    comentarioRepository.findById(cmd.getIdComentario())
+                    .orElseThrow(() -> new NaoEncontradoException("Comentário não encontrado")), pageable);
+            return list;
         }
         throw new NaoEncontradoException("Vídeo não encontrado");
     }

@@ -8,6 +8,7 @@ import br.senai.sc.engajamento.resposta.model.entity.Resposta;
 import br.senai.sc.engajamento.resposta.service.RespostaService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -34,11 +35,12 @@ public class RespostaController {
     }
 
     /*Pega todos os comentários referentes a um vídeo*/
-    @GetMapping("/buscar-todos-por-comentario")
-    private ResponseEntity<List<Resposta>> buscarTodosPorComentario(
-        @RequestBody BuscarTodosPorComentarioRespostaCommand cmd
+    @GetMapping("/buscar-todos-por-comentario/{page}")
+    private ResponseEntity<Page<Resposta>> buscarTodosPorComentario(
+        @RequestBody BuscarTodosPorComentarioRespostaCommand cmd,
+        @PathVariable int page
     ) {
-        return ResponseEntity.ok(respostaService.buscarTodosPorComentario(cmd));
+        return ResponseEntity.ok(respostaService.buscarTodosPorComentario(cmd, page));
     }
 
     @DeleteMapping
