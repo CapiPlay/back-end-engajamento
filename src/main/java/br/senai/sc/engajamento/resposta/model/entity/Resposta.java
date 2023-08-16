@@ -1,6 +1,7 @@
 package br.senai.sc.engajamento.resposta.model.entity;
 
 import br.senai.sc.engajamento.comentario.model.entity.Comentario;
+import br.senai.sc.engajamento.reacoes.model.entity.ReacaoComentario;
 import br.senai.sc.engajamento.reacoes.model.entity.ReacaoResposta;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.utils.GeradorUUIDUtils;
@@ -35,6 +36,9 @@ public class Resposta {
     @ManyToOne
     @JoinColumn(nullable = false, name = "id_comentario")
     private Comentario idComentario;
+
+    @OneToMany(mappedBy = "idResposta")
+    private List<ReacaoResposta> reacaoRespostaList;
 
     public Resposta(
             String texto,

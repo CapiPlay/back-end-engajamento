@@ -68,7 +68,7 @@ public class VideoService {
             qtdVistaPeloUsuario += historico.getQtdVisualizadas();
         }
 
-        /*Quando um usuário visualiza mais de uma vez o mesmo vídeo a sua pontuação 
+        /*Quando um usuário visualiza mais de uma vez o mesmo vídeo a sua pontuação
         é duplicada para cada visualização a partir da primeira*/
         visualizacao =  qtdVistaPeloUsuario * 2L - listaHistorico.size();
 

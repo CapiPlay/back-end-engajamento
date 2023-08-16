@@ -18,13 +18,11 @@ import org.hibernate.annotations.CascadeType;
 public class ReacaoComentario {
     @Id
     @ManyToOne
-    @Cascade(CascadeType.ALL)
     @JoinColumn(nullable = false, name = "id_usuario")
     private Usuario idUsuario;
 
     @Id
     @ManyToOne
-    @Cascade(CascadeType.ALL)
     @JoinColumn(nullable = false, name = "id_comentario")
     private Comentario idComentario;
 

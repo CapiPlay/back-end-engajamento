@@ -4,6 +4,7 @@ import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.comentario.repository.ComentarioRepository;
 import br.senai.sc.engajamento.exception.AcaoNaoPermitidaException;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
+import br.senai.sc.engajamento.reacoes.repository.ReacaoRespostaRepository;
 import br.senai.sc.engajamento.resposta.model.command.BuscarTodosPorComentarioRespostaCommand;
 import br.senai.sc.engajamento.resposta.model.command.BuscarUmaRespostaCommand;
 import br.senai.sc.engajamento.resposta.model.command.CriarRespostaCommand;
@@ -28,9 +29,10 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class RespostaService {
+    private final ReacaoRespostaRepository reacaoRespostaRepository;
+    private final ComentarioRepository comentarioRepository;
     private final RespostaRepository respostaRepository;
     private final UsuarioRepository usuarioRepository;
-    private final ComentarioRepository comentarioRepository;
     private final VideoRepository videoRepository;
     private final VideoService videoService;
 
@@ -98,9 +100,11 @@ public class RespostaService {
             comentario.setQtdRespostas(comentario.getQtdRespostas() - 1);
             comentarioRepository.save(comentario);
 
+            reacaoRespostaRepository.deleteAll(resposta.getReacaoRespostaList());
             respostaRepository.delete(resposta);
+        } else {
+            throw new NaoEncontradoException("Vídeo não encontrado");
         }
-        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 
     private Resposta retornaResposta(String idResposta) {

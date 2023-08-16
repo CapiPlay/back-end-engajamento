@@ -18,13 +18,11 @@ public class Inscricao {
 
     @Id
     @ManyToOne
-    @Cascade(CascadeType.ALL)
     @JoinColumn(nullable = false, name = "id_usuario")
     private Usuario idUsuario;
 
     @Id
     @ManyToOne
-    @Cascade(CascadeType.ALL)
     @JoinColumn(nullable = false, name = "id_canal")
     private Usuario idCanal;
 }

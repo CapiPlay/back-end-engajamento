@@ -5,6 +5,10 @@ import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.comentario.repository.ComentarioRepository;
 import br.senai.sc.engajamento.exception.AcaoNaoPermitidaException;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
+import br.senai.sc.engajamento.reacoes.repository.ReacaoComentarioRepository;
+import br.senai.sc.engajamento.reacoes.repository.ReacaoRespostaRepository;
+import br.senai.sc.engajamento.resposta.model.entity.Resposta;
+import br.senai.sc.engajamento.resposta.repository.RespostaRepository;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
 import br.senai.sc.engajamento.video.model.entity.Video;
@@ -24,11 +28,13 @@ import java.util.*;
 @AllArgsConstructor
 public class ComentarioService {
 
+    private ReacaoComentarioRepository reacaoComentarioRepository;
+    private ReacaoRespostaRepository reacaoRespostaRepository;
     private ComentarioRepository comentarioRepository;
+    private RespostaRepository respostaRepository;
     private UsuarioRepository usuarioRepository;
     private VideoRepository videoRepository;
     private VideoService videoService;
-
 
     public Comentario criar(@Valid CriarComentarioCommand cmd) {
         Video video = videoRepository.getById(cmd.getIdVideo());
@@ -103,9 +109,17 @@ public class ComentarioService {
             }
             video.setQtdComentarios(video.getQtdComentarios() - 1);
             videoRepository.save(video);
+
+            reacaoComentarioRepository.deleteAll(comentario.getReacaoComentarioList());
+            List<Resposta> respostas = comentario.getRespostas();
+            for (Resposta resposta : respostas) {
+                reacaoRespostaRepository.deleteAll(resposta.getReacaoRespostaList());
+            }
+            respostaRepository.deleteAll(respostas);
             comentarioRepository.delete(comentario);
+        } else {
+            throw new NaoEncontradoException("Vídeo não encontrado");
         }
-        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 
     public Comentario retornaComentario(String idComentario) {

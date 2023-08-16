@@ -83,7 +83,7 @@ public class HistoricoService {
     }
 
     public List<Historico> buscarTodosPorVideo(@Valid Video video){
-        if(video.getEhInativado()){
+        if(!video.getEhInativado()){
             return historicoRepository.findAllByIdVideo(video);
         }
         throw new NaoEncontradoException("Vídeo não encontrado");
