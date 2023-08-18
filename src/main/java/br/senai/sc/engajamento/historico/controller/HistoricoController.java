@@ -23,7 +23,7 @@ public class HistoricoController {
     @PostMapping()
     public ResponseEntity<Void> criar(
             @RequestBody CriarHistoricoCommand cmd,
-            @RequestHeader String idUsuario) {
+            @RequestHeader("usuarioId") String idUsuario) {
         historicoService.criar(cmd.from(idUsuario));
         return ResponseEntity.ok().build();
     }
@@ -31,7 +31,7 @@ public class HistoricoController {
     @GetMapping()
     public ResponseEntity<Historico> buscarUm(
             @RequestBody BuscarUmHistoricoCommand cmd,
-            @RequestHeader String idUsuario) {
+            @RequestHeader("usuarioId") String idUsuario) {
         return ResponseEntity.ok(historicoService.buscarUm(cmd.from(idUsuario)));
     }
 
@@ -39,14 +39,14 @@ public class HistoricoController {
     @GetMapping("/buscar-todos-históricos-por-data")
     public ResponseEntity<List<Historico>> buscarTodosHistoricosPorData(
             @RequestBody BuscarTodosPorDataHistoricoCommand cmd,
-            @RequestHeader String idUsuario
+            @RequestHeader("usuarioId") String idUsuario
     ) {
         return ResponseEntity.ok(historicoService.buscarTodosPorData(cmd.from(idUsuario)));
     }
 
     /*Buscar históricos de um usuário*/
     @GetMapping("/buscar-todos-históricos-por-usuario")
-    public ResponseEntity<List<Historico>> buscarTodosHistoricosPorUsuario(@RequestHeader String idUsuario) {
+    public ResponseEntity<List<Historico>> buscarTodosHistoricosPorUsuario(@RequestHeader("usuarioId") String idUsuario) {
         return ResponseEntity.ok(historicoService.buscarTodosPorUsuario(idUsuario));
     }
 }

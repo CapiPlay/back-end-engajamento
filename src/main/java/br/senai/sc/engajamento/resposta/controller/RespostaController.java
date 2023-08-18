@@ -24,7 +24,7 @@ public class RespostaController {
 
     @PostMapping
     private ResponseEntity<Resposta> criar(
-            @RequestHeader String idUsuario,
+            @RequestHeader("usuarioId") String idUsuario,
             @RequestBody CriarRespostaCommand cmd) {
         return ResponseEntity.ok(respostaService.criar(cmd.from(idUsuario)));
     }
@@ -45,7 +45,7 @@ public class RespostaController {
 
     @DeleteMapping
     private ResponseEntity<Void> deletar(
-            @RequestHeader String idUsuario,
+            @RequestHeader("usuarioId") String idUsuario,
             @RequestBody DeletarRespostaCommand cmd) {
         respostaService.deletar(cmd.from(idUsuario));
         return ResponseEntity.ok().build();

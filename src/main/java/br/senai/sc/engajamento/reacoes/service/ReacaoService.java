@@ -65,6 +65,7 @@ public class ReacaoService {
                     video.setQtdCurtidas(video.getQtdCurtidas() - 1);
                     video.setQtdDescurtidas(video.getQtdDescurtidas() + 1);
                 }
+                videoService.editarPontuacao(video);
                 repository.save(reacaoExistente);
             }
         } else {
@@ -85,7 +86,6 @@ public class ReacaoService {
         }
         throw new NaoEncontradoException("Vídeo não encontrado");
     }
-
     public List<Reacao> buscarTodosPorVideo(@Valid BuscarTodosPorVideoReacaoCommand cmd) {
         Video video = videoRepository.getById(cmd.getIdVideo());
         if (!video.getEhInativado()) {

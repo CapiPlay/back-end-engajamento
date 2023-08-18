@@ -13,14 +13,19 @@ public class Usuario {
     @Id
     @Column
     private String idUsuario;
+
     @Column(nullable = false)
     private String nomePerfil;
+
     @Column(nullable = false)
     private String nomeCanal;
+
     @Column(nullable = false)
     private String foto;
+
     @Column(nullable = false)
     private int quantidadeInscritos;
+
     @Column(nullable = false)
     private String descricao;
 

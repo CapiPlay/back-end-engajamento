@@ -30,9 +30,12 @@ public class Historico {
     @Cascade(CascadeType.ALL)
     @JoinColumn(nullable = false, name = "id_video")
     private Video idVideo;
+
     /*Formato no MYSQL 'YYYY-MM-DD HH:MM:SS'*/
     private ZonedDateTime dataHora;
+
     private Integer qtdVisualizadas;
+
     private float percentagemSomada;
 
     public Historico(

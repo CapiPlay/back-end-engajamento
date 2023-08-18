@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @Controller
 @CrossOrigin
@@ -29,7 +28,7 @@ public class ComentarioController {
     @GetMapping
     private ResponseEntity<Comentario> buscarUm(@RequestBody BuscarUmComentarioCommand cmd) {
         Comentario comentario = comentarioService.buscarUm(cmd);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(comentario);
     }
 
     /*Pega todos os comentários referentes a um vídeo*/

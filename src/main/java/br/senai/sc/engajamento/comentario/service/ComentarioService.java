@@ -109,6 +109,7 @@ public class ComentarioService {
             }
             video.setQtdComentarios(video.getQtdComentarios() - 1);
             videoRepository.save(video);
+            videoService.editarPontuacao(video);
 
             reacaoComentarioRepository.deleteAll(comentario.getReacaoComentarioList());
             List<Resposta> respostas = comentario.getRespostas();

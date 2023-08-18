@@ -22,7 +22,7 @@ public class ReacaoRespostaController {
     @PostMapping
     public ResponseEntity<Void> criar(
             @RequestBody CriarReacaoRespostaCommand cmd,
-            @RequestHeader String idUsuario) {
+            @RequestHeader("usuarioId") String idUsuario) {
         service.criar(cmd.from(idUsuario));
         return ResponseEntity.ok().build();
     }
@@ -30,7 +30,7 @@ public class ReacaoRespostaController {
     @GetMapping
     public ResponseEntity<ReacaoResposta> buscarUm(
             @RequestBody BuscarUmReacaoRespostaCommand cmd,
-            @RequestHeader String idUsuario) {
+            @RequestHeader("usuarioId") String idUsuario) {
         return ResponseEntity.ok(service.buscarUm(cmd.from(idUsuario)));
     }
 

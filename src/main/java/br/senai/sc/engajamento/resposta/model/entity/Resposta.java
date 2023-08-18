@@ -5,6 +5,7 @@ import br.senai.sc.engajamento.reacoes.model.entity.ReacaoComentario;
 import br.senai.sc.engajamento.reacoes.model.entity.ReacaoResposta;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.utils.GeradorUUIDUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,7 @@ public class Resposta {
     private Comentario idComentario;
 
     @OneToMany(mappedBy = "idResposta")
+    @JsonIgnore
     private List<ReacaoResposta> reacaoRespostaList;
 
     public Resposta(

@@ -8,8 +8,11 @@ import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
+import br.senai.sc.engajamento.video.service.VideoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -23,6 +26,7 @@ public class HistoricoService {
     private final HistoricoRepository historicoRepository;
     private final UsuarioRepository usuarioRepository;
     private final VideoRepository videoRepository;
+    private final VideoService videoService;
 
     public void criar(@Valid CriarHistoricoCommand cmd) {
         Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
@@ -31,7 +35,6 @@ public class HistoricoService {
         if (!video.getEhInativado()) {
             if (historicoRepository.findByIdUsuarioAndIdVideo(usuario, video) == null) {
                 Historico historico = new Historico(usuario, video, cmd.getPercentagemSomada());
-                System.out.println(cmd.getPercentagemSomada());
                 historicoRepository.save(historico);
             } else {
                 Historico historico = retornaHistorico(cmd.getIdUsuario(), cmd.getIdVideo());
@@ -40,6 +43,7 @@ public class HistoricoService {
                 historico.setDataHora(ZonedDateTime.now());
                 historicoRepository.save(historico);
             }
+            videoService.editarPontuacao(video);
         } else {
             throw new NaoEncontradoException("Vídeo não encontrado ");
         }
