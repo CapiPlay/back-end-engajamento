@@ -13,7 +13,7 @@ public class VideoSubscriber {
     private final VideoService service;
 
     @RabbitListener(queues = "videos.v1.video-salvo.engajamento")
-    public void on(@RequestHeader VideoSalvoEvent event){
+    public void on(VideoSalvoEvent event){
         service.handle(event);
     }
 

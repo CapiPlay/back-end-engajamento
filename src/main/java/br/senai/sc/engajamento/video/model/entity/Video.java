@@ -6,6 +6,10 @@ import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
+import static java.util.Objects.requireNonNullElse;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -24,12 +28,20 @@ public class Video {
 
     private Long qtdRespostas;
 
-    @Column(nullable = false)
     private Boolean ehInativado;
 
     private Double pontuacao;
 
     private Double percentagemSomada;
+
+    public void setEhInativado(Boolean ehInativado) {
+        this.ehInativado = requireNonNullElse(ehInativado, false);
+    }
+
+    public Video(String id) {
+        this.id = id;
+        this.ehInativado = false;
+    }
 
     public Video(String id, Boolean ehInativado) {
         this.id = id;

@@ -18,7 +18,7 @@ public class InscricaoController {
 
     @PostMapping
     public ResponseEntity<Void> criar(
-            @RequestHeader String idUsuario,
+            @RequestHeader("usuarioId") String idUsuario,
             @RequestBody CriarInscricaoCommand cmd) {
         service.criar(cmd.from(idUsuario));
         return ResponseEntity.ok().build();
@@ -26,7 +26,7 @@ public class InscricaoController {
 
     @GetMapping
     public ResponseEntity<Inscricao> buscarUm(
-            @RequestHeader String idUsuario,
+            @RequestHeader("usuarioId") String idUsuario,
             @RequestBody BuscarUmInscricaoCommand cmd) {
         return ResponseEntity.ok(service.buscarUm(cmd.from(idUsuario)));
     }
