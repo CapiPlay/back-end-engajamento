@@ -14,28 +14,21 @@ public class Video {
     @Column
     private String id;
 
-    @Column(nullable = false)
     private Long visualizacao;
 
-    @Column(nullable = false)
     private Long qtdCurtidas;
 
-    @Column(nullable = false)
     private Long qtdDescurtidas;
 
-    @Column(nullable = false)
     private Long qtdComentarios;
 
-    @Column(nullable = false)
     private Long qtdRespostas;
 
     @Column(nullable = false)
     private Boolean ehInativado;
 
-    @Column(nullable = false)
     private Double pontuacao;
 
-    @Column(nullable = false)
     private Double percentagemSomada;
 
     public Video(String id, Boolean ehInativado) {
@@ -47,5 +40,6 @@ public class Video {
         this.qtdRespostas = 0L;
         this.ehInativado = ehInativado;
         this.pontuacao = 0.0;
+        this.percentagemSomada = 0.0;
     }
 }
