@@ -92,5 +92,6 @@ public class ReacaoService {
             return repository.findAllByIdVideo(video);
         }
         throw new NaoEncontradoException("Vídeo não encontrado");
+
     }
 }

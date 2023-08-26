@@ -3,6 +3,8 @@ package br.senai.sc.engajamento.inscricao.repository;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.inscricao.model.entity.Inscricao;
 import br.senai.sc.engajamento.inscricao.model.id.InscricaoId;
+import br.senai.sc.engajamento.reacoes.model.entity.ReacaoRespota;
+import br.senai.sc.engajamento.reacoes.model.id.ReacaoRespostaId;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

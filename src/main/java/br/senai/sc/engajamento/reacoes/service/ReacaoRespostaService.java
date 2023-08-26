@@ -1,6 +1,5 @@
 package br.senai.sc.engajamento.reacoes.service;
 
-import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoResposta.BuscarTodosPorComentarioReacaoRespostaCommand;
 import br.senai.sc.engajamento.reacoes.model.command.reacaoResposta.BuscarUmReacaoRespostaCommand;
