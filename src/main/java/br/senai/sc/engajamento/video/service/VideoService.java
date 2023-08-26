@@ -22,13 +22,10 @@ public class VideoService {
 
     public void handle(VideoSalvoEvent event) {
         repository.findById(event.id()).ifPresentOrElse((video) -> {
-            //existe
             video.setEhInativado(event.ehInativado());
             repository.save(video);
         }, () -> {
-            //não existe
-            Video video = new Video(event.id(), event.ehInativado());
-            repository.save(video);
+            repository.save(new Video(event.id()));
         });
     }
 

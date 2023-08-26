@@ -19,7 +19,7 @@ public class ComentarioController {
 
     @PostMapping
     private ResponseEntity<Comentario> criar(
-            @RequestHeader String idUsuario,
+            @RequestHeader("usuarioId") String idUsuario,
             @RequestBody CriarComentarioCommand cmd
     ) {
        return ResponseEntity.ok(comentarioService.criar(cmd.from(idUsuario)));
@@ -59,7 +59,7 @@ public class ComentarioController {
 
     @DeleteMapping
     private ResponseEntity<Void> deletar(
-            @RequestHeader String idUsuario,
+            @RequestHeader("usuarioId") String idUsuario,
             @RequestBody DeletarComentarioCommand cmd
     ) {
         comentarioService.deletar(cmd.from(idUsuario));
