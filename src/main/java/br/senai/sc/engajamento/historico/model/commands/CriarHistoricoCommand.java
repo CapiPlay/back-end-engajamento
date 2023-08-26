@@ -17,7 +17,7 @@ public class CriarHistoricoCommand {
     private String idVideo;
 
     @NotNull(message = "Percentagem somada não informada")
-    private float percentagemSomada;
+    private Float percentagemSomada;
 
     public CriarHistoricoCommand from(String idUsuario) {
         this.idUsuario = idUsuario;

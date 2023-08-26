@@ -43,6 +43,7 @@ public class HistoricoService {
                 historico.setDataHora(ZonedDateTime.now());
                 historicoRepository.save(historico);
             }
+
             videoService.editarPontuacao(video);
         } else {
             throw new NaoEncontradoException("Vídeo não encontrado ");

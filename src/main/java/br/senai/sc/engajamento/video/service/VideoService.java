@@ -2,7 +2,9 @@ package br.senai.sc.engajamento.video.service;
 
 import br.senai.sc.engajamento.historico.model.entity.Historico;
 import br.senai.sc.engajamento.historico.repository.HistoricoRepository;
-import br.senai.sc.engajamento.historico.service.HistoricoService;
+import br.senai.sc.engajamento.messaging.Publisher;
+import br.senai.sc.engajamento.video.amqp.events.VideoAtualizadoEvent;
+import br.senai.sc.engajamento.video.amqp.events.VideoSalvoEvent;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
 import jakarta.validation.Valid;
@@ -16,19 +18,19 @@ import java.util.List;
 public class VideoService {
     private VideoRepository repository;
     private HistoricoRepository historicoRepository;
-//    private Publisher publisher;
+    private Publisher publisher;
 
-//    public void handle(VideoSalvoEvent event) {
-//        repository.findById(event.id()).ifPresentOrElse((video) -> {
-//            //existe
-//            video.setEhInativado(event.ehInativado());
-//            repository.save(video);
-//        }, () -> {
-//            //não existe
-//            Video video = new Video(event.id(), event.ehInativado());
-//            repository.save(video);
-//        });
-//    }
+    public void handle(VideoSalvoEvent event) {
+        repository.findById(event.id()).ifPresentOrElse((video) -> {
+            //existe
+            video.setEhInativado(event.ehInativado());
+            repository.save(video);
+        }, () -> {
+            //não existe
+            Video video = new Video(event.id(), event.ehInativado());
+            repository.save(video);
+        });
+    }
 
     /**
      * 1. Visualizações: peso 1 (cada visualização conta como 1 ponto)
@@ -68,6 +70,7 @@ public class VideoService {
             percentagemSomadaUsuario += historico.getPercentagemSomada();
             qtdVistaPeloUsuario += historico.getQtdVisualizadas();
         }
+        video.setVisualizacao(qtdVistaPeloUsuario.longValue());
 
         /*Quando um usuário visualiza mais de uma vez o mesmo vídeo a sua pontuação
         é duplicada para cada visualização a partir da primeira*/
@@ -78,6 +81,11 @@ public class VideoService {
 
         video.setPontuacao(pontuacao);
         repository.save(video);
-//        publisher.publish(video);
+        VideoAtualizadoEvent videoEvent = new VideoAtualizadoEvent(
+                video.getId(), visualizacao,
+                qtdCurtidas, qtdComentarios,
+                pontuacao
+        );
+        publisher.publish(videoEvent);
     }
 }
