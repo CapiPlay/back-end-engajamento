@@ -8,8 +8,11 @@ import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
+import br.senai.sc.engajamento.video.service.VideoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -23,25 +26,37 @@ public class HistoricoService {
     private final HistoricoRepository historicoRepository;
     private final UsuarioRepository usuarioRepository;
     private final VideoRepository videoRepository;
+    private final VideoService videoService;
 
     public void criar(@Valid CriarHistoricoCommand cmd) {
         Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
         Video video = videoRepository.getById(cmd.getIdVideo());
 
-        if(historicoRepository.findByIdUsuarioAndIdVideo(usuario, video) != null){
-            Historico historico = new Historico(usuario, video, cmd.getPercentagemSomada());
-            historicoRepository.save(historico);
+        if (!video.getEhInativado()) {
+            if (historicoRepository.findByIdUsuarioAndIdVideo(usuario, video) == null) {
+                Historico historico = new Historico(usuario, video, cmd.getPercentagemSomada());
+                historicoRepository.save(historico);
+            } else {
+                Historico historico = retornaHistorico(cmd.getIdUsuario(), cmd.getIdVideo());
+                historico.setQtdVisualizadas(historico.getQtdVisualizadas() + 1);
+                historico.setPercentagemSomada(historico.getPercentagemSomada() + cmd.getPercentagemSomada());
+                historico.setDataHora(ZonedDateTime.now());
+                historicoRepository.save(historico);
+            }
+
+            videoService.editarPontuacao(video);
         } else {
-            Historico historico = retornaHistorico(cmd.getIdUsuario(), cmd.getIdVideo());
-            historico.setQtdVisualizadas(historico.getQtdVisualizadas() + 1);
-            historico.setPercentagemSomada(historico.getPercentagemSomada() + cmd.getPercentagemSomada());
-            historico.setDataHora(ZonedDateTime.now());
-            historicoRepository.save(historico);
+            throw new NaoEncontradoException("Vídeo não encontrado ");
         }
     }
 
     public Historico buscarUm(@Valid BuscarUmHistoricoCommand cmd) {
-        return retornaHistorico(cmd.getIdUsuario(), cmd.getIdVideo());
+        Video video = videoRepository.getById(cmd.getIdVideo());
+
+        if (!video.getEhInativado()) {
+            return retornaHistorico(cmd.getIdUsuario(), cmd.getIdVideo());
+        }
+        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 
     public List<Historico> buscarTodosPorData(@Valid BuscarTodosPorDataHistoricoCommand cmd) {
@@ -51,7 +66,8 @@ public class HistoricoService {
                 historicoRepository.findAllByIdUsuario(usuarioRepository.findById(cmd.getIdUsuario())
                         .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!")));
         for (Historico historico: listaHistoricos) {
-            if(historico.getDataHora().toLocalDate().equals(cmd.getData())) {
+            Video video = videoRepository.getById(historico.getIdVideo().getId());
+            if(historico.getDataHora().toLocalDate().equals(cmd.getData()) && !(video.getEhInativado())) {
                 listaHistoricosFiltrados.add(historico);
             }
         }
@@ -59,27 +75,39 @@ public class HistoricoService {
     }
 
     public List<Historico> buscarTodosPorUsuario(String idUsuario) {
-        return historicoRepository.findAllByIdUsuario(usuarioRepository.findById(idUsuario)
+        List<Historico> list = historicoRepository.findAllByIdUsuario(usuarioRepository.findById(idUsuario)
                 .orElseThrow(()-> new NaoEncontradoException("Usuário não encontrado!")));
+        List<Historico> validList = new ArrayList<>();
+
+        for(Historico historico: list){
+            if(!historico.getIdVideo().getEhInativado()){
+                validList.add(historico);
+            }
+        }
+        return validList;
     }
 
     public List<Historico> buscarTodosPorVideo(@Valid Video video){
-        return historicoRepository.findAllByIdVideo(video);
+        if(!video.getEhInativado()){
+            return historicoRepository.findAllByIdVideo(video);
+        }
+        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 
     public Historico retornaHistorico(String idUsuario, String idVideo) {
-
         Usuario usuario = usuarioRepository.getById(idUsuario);
-
         Video video = videoRepository.getById(idVideo);
 
-        Historico historico = historicoRepository.findByIdUsuarioAndIdVideo(usuario, video);
+        if(!video.getEhInativado()){
+            Historico historico = historicoRepository.findByIdUsuarioAndIdVideo(usuario, video);
+            if(historico == null){
+                throw new NaoEncontradoException("Histórico não encontrado!");
+            }
 
-        if(historico == null){
-            throw new NaoEncontradoException("Histórico não encontrado!");
+            return historico;
         }
 
-        return historico;
+        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 }
 

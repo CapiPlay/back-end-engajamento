@@ -14,4 +14,9 @@ public class DeletarRespostaCommand {
 
     @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
+
+    public DeletarRespostaCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

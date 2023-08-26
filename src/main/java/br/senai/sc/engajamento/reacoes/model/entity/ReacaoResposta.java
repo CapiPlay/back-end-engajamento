@@ -15,15 +15,16 @@ import org.hibernate.annotations.CascadeType;
 @NoArgsConstructor
 @AllArgsConstructor
 @IdClass(ReacaoRespostaId.class)
-public class ReacaoRespota {
+public class ReacaoResposta {
+
     @Id
     @ManyToOne
-    @Cascade(CascadeType.ALL)
+    @JoinColumn(nullable = false, name = "id_usuario")
     private Usuario idUsuario;
-    
+
     @Id
     @ManyToOne
-    @Cascade(CascadeType.ALL)
+    @JoinColumn(nullable = false, name = "id_resposta")
     private Resposta idResposta;
 
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)

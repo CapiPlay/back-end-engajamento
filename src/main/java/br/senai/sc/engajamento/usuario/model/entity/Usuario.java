@@ -1,5 +1,7 @@
 package br.senai.sc.engajamento.usuario.model.entity;
 
+import br.senai.sc.engajamento.usuario.amqp.events.AnonimoSalvoEvent;
+import br.senai.sc.engajamento.usuario.amqp.events.UsuarioSalvoEvent;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -13,18 +15,39 @@ public class Usuario {
     @Id
     @Column
     private String idUsuario;
-    @Column(nullable = false)
+
     private String nomePerfil;
-    @Column(nullable = false)
+
     private String nomeCanal;
-    @Column(nullable = false)
+
     private String foto;
+
     @Column(nullable = false)
     private int quantidadeInscritos;
-    @Column(nullable = false)
+
+    @Column(length = 250)
     private String descricao;
 
-    /*Se o usuário estiver inativado, o token não será enviado. Logo, não é necessário este atributo*/
+    public Usuario editar(UsuarioSalvoEvent event) {
+        this.idUsuario = event.id();
+        this.nomePerfil = event.nome();
+        this.nomeCanal = event.perfil();
+        this.foto = event.foto();
+        this.descricao = event.descricao();
+
+        return this;
+    }
+
+    public static Usuario criar(UsuarioSalvoEvent event) {
+        Usuario usuario = new Usuario(event.id());
+        usuario.editar(event);
+        return usuario;
+    }
+
+    public static Usuario criar(AnonimoSalvoEvent event) {
+        return new Usuario(event.id());
+    }
+
     public Usuario(
             String idUsuario, 
             String nomePerfil,
@@ -38,5 +61,12 @@ public class Usuario {
         this.foto = foto;
         this.quantidadeInscritos = 0;
         this.descricao = descricao;
+    }
+
+    public Usuario(
+            String idUsuario
+    ) {
+        this.idUsuario = idUsuario;
+        this.quantidadeInscritos = 0;
     }
 }

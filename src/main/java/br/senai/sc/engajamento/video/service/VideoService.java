@@ -1,8 +1,10 @@
 package br.senai.sc.engajamento.video.service;
 
-import br.senai.sc.engajamento.exception.NaoEncontradoException;
 import br.senai.sc.engajamento.historico.model.entity.Historico;
-import br.senai.sc.engajamento.historico.service.HistoricoService;
+import br.senai.sc.engajamento.historico.repository.HistoricoRepository;
+import br.senai.sc.engajamento.messaging.Publisher;
+import br.senai.sc.engajamento.video.amqp.events.VideoAtualizadoEvent;
+import br.senai.sc.engajamento.video.amqp.events.VideoSalvoEvent;
 import br.senai.sc.engajamento.video.model.entity.Video;
 import br.senai.sc.engajamento.video.repository.VideoRepository;
 import jakarta.validation.Valid;
@@ -10,26 +12,25 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class VideoService {
     private VideoRepository repository;
-    private HistoricoService historicoService;
-//    private Publisher publisher;
+    private HistoricoRepository historicoRepository;
+    private Publisher publisher;
 
-//    public void handle(VideoSalvoEvent event) {
-//        repository.findById(event.id()).ifPresentOrElse((video) -> {
-//            //existe
-//            video.setEhInativado(event.ehInativado());
-//            repository.save(video);
-//        }, () -> {
-//            //não existe
-//            Video video = new Video(event.id(), event.ehInativado());
-//            repository.save(video);
-//        });
-//    }
+    public void handle(VideoSalvoEvent event) {
+        repository.findById(event.id()).ifPresentOrElse((video) -> {
+            //existe
+            video.setEhInativado(event.ehInativado());
+            repository.save(video);
+        }, () -> {
+            //não existe
+            Video video = new Video(event.id(), event.ehInativado());
+            repository.save(video);
+        });
+    }
 
     /**
      * 1. Visualizações: peso 1 (cada visualização conta como 1 ponto)
@@ -41,7 +42,7 @@ public class VideoService {
 
      * Calcular a "qualidade" de um vídeo, soma-se todas essas interações multiplicadas por seus respectivos pesos.
      * Ou seja, a qualidade de um vídeo (Q) seria calculada da seguinte maneira:
-     * Q = (2 * V - U) + 2*C - 2*D + 3*Co + 2*R + 0.25*P;
+     * Q = (V - 0.5 * U) + C - D + 1.5*Co + R + 0.175*P;
 
      * Onde:
      * - V é o número de visualizações;
@@ -53,8 +54,8 @@ public class VideoService {
      * - U é a quantidade de usuários que assistiram o vídeo.
     **/
     public void editarPontuacao(@Valid Video video) {
-        Double pontuacao;
-        Long visualizacao;
+        double pontuacao;
+        long visualizacao;
         Long qtdCurtidas = video.getQtdCurtidas();
         Long qtdDescurtidas = video.getQtdDescurtidas();
         Long qtdComentarios = video.getQtdComentarios();
@@ -63,40 +64,28 @@ public class VideoService {
         Integer qtdVistaPeloUsuario = 0;
 
         /*Calculo da percentagem*/
-        List<Historico> listaHistorico = historicoService.buscarTodosPorVideo(video);
+        List<Historico> listaHistorico = historicoRepository.findAllByIdVideo(video);
 
         for(Historico historico : listaHistorico){
             percentagemSomadaUsuario += historico.getPercentagemSomada();
             qtdVistaPeloUsuario += historico.getQtdVisualizadas();
         }
+        video.setVisualizacao(qtdVistaPeloUsuario.longValue());
 
-        /*Quando um usuário visualiza mais de uma vez o mesmo vídeo a sua pontuação 
+        /*Quando um usuário visualiza mais de uma vez o mesmo vídeo a sua pontuação
         é duplicada para cada visualização a partir da primeira*/
-        visualizacao =  qtdVistaPeloUsuario * 2L - listaHistorico.size();
+        visualizacao =  qtdVistaPeloUsuario * 2L - (listaHistorico.size());
 
-        pontuacao = visualizacao + 2 * qtdCurtidas - 2 * qtdDescurtidas + 3 *
-                qtdComentarios + 2 * qtdRespostas + 0.25 * percentagemSomadaUsuario;
+        pontuacao = visualizacao * 0.5 + qtdCurtidas - qtdDescurtidas + 1.5 *
+                qtdComentarios + qtdRespostas + 0.175 * percentagemSomadaUsuario;
 
         video.setPontuacao(pontuacao);
         repository.save(video);
-//        publisher.publish(video);
+        VideoAtualizadoEvent videoEvent = new VideoAtualizadoEvent(
+                video.getId(), visualizacao,
+                qtdCurtidas, qtdComentarios,
+                pontuacao
+        );
+        publisher.publish(videoEvent);
     }
-
-    // public Video retornaVideo(String idVideo) {
-    //     Optional<Video> optionalVideo = repository.findById(idVideo);
-    //     try {
-    //         if (optionalVideo.isPresent()) {
-    //             if(!optionalVideo.get().getEhInativado()){
-    //                 return optionalVideo.get();
-    //             }
-    //         }
-    //         throw new NaoEncontradoException("Vídeo não encontrado");
-    //     } catch (NaoEncontradoException e) {
-    //         System.out.print(e.getMessage());
-    //         e.printStackTrace();
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-    //     return null;
-    // }
 }

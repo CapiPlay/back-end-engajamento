@@ -4,11 +4,10 @@ import br.senai.sc.engajamento.comentario.model.command.*;
 import br.senai.sc.engajamento.comentario.model.entity.Comentario;
 import br.senai.sc.engajamento.comentario.service.ComentarioService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @CrossOrigin
@@ -29,23 +28,25 @@ public class ComentarioController {
     @GetMapping
     private ResponseEntity<Comentario> buscarUm(@RequestBody BuscarUmComentarioCommand cmd) {
         Comentario comentario = comentarioService.buscarUm(cmd);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(comentario);
     }
 
     /*Pega todos os comentários referentes a um vídeo*/
-    @GetMapping("/buscar-todos-por-video")
-    private ResponseEntity<List<Comentario>> buscarTodosPorVideo(
-            @RequestBody BuscarTodosPorVideoComentarioCommand cmd
+    @GetMapping("/buscar-todos-por-video/{page}")
+    private ResponseEntity<Page<Comentario>> buscarTodosPorVideo(
+            @RequestBody BuscarTodosPorVideoComentarioCommand cmd,
+            @PathVariable int page
     ) {
-        return ResponseEntity.ok(comentarioService.buscarTodosPorVideo(cmd));
+        return ResponseEntity.ok().body(comentarioService.buscarTodosPorVideo(cmd, page));
     }
 
     /*Busca todos os comentários de um vídeo com base na data*/
-    @GetMapping("/buscar-todos-por-data")
-    private ResponseEntity<List<Comentario>> buscarTodosPorData(
-            @RequestBody BuscarTodosPorDataComentarioCommand cmd
+    @GetMapping("/buscar-todos-por-data/{page}")
+    private ResponseEntity<Page<Comentario>> buscarTodosPorData(
+            @RequestBody BuscarTodosPorDataComentarioCommand cmd,
+            @PathVariable int page
     ) {
-       return ResponseEntity.ok(comentarioService.buscarTodosPorData(cmd));
+       return ResponseEntity.ok(comentarioService.buscarTodosPorData(cmd, page));
     }
 
     /*Buscar quantidade de respostas de um comentário*/

@@ -17,4 +17,9 @@ public class CriarRespostaCommand {
 
     @NotNull(message = "Texto da resposta não informado")
     private String texto;
+
+    public CriarRespostaCommand from(String idUsuario) {
+        this.idUsuario = idUsuario;
+        return this;
+    }
 }

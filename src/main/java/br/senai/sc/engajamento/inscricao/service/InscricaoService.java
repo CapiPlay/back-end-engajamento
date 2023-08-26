@@ -7,6 +7,7 @@ import br.senai.sc.engajamento.inscricao.model.entity.Inscricao;
 import br.senai.sc.engajamento.inscricao.repository.InscricaoRepository;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
 import br.senai.sc.engajamento.usuario.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class InscricaoService {
     private final InscricaoRepository repository;
     private final UsuarioRepository usuarioRepository;
 
+    @Transactional
     public void criar(@Valid CriarInscricaoCommand cmd) {
         Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
         Usuario canal = usuarioRepository.getById(cmd.getIdCanal());
