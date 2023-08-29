@@ -1,293 +1,722 @@
 ## Comentário
 
-<details>
-<summary>Salvar</summary>
-  
-##### Mapeamento:
-```ruby
-/api/engajamento/comentario
-```
-##### Parâmetros/Headers:
-```ruby
-@RequestHeader String idUsuario,
-@RequestBody CriarComentarioCommand cmd
+        <details>
+            <summary>Salvar</summary>
+            
+            ##### Mapeamento:
+            ```ruby
+            /api/engajamento/comentario
+            ```
+            ##### Parâmetros/Headers:
+            ```ruby
+            @RequestHeader String idUsuario,
+            @RequestBody CriarComentarioCommand cmd
+            CriarComentarioCommand (
+                String idVideo;
+                String texto;
+            )
+            ```
+            ##### Retorno:
+            ```ruby
+            ResponseEntity<Comentario>
+            Comentario(
+                String idComentario;
+                String texto;
+                ZonedDateTime dataHora;
+                Integer qtdRespostas;
+                Usuario idUsuario;
+                Video idVideo;
+            )
+            ```
+        </details>
 
-CriarComentarioCommand (
-    String idVideo;
-    String texto;
-)
-```
+        <details>
+            <summary>Buscar um</summary>
+            
+            ##### Mapeamento:
+            ```ruby
+            /api/engajamento/comentario
+            ```
+            ##### Parâmetros/Headers:
+            ```ruby
+            @RequestBody BuscarUmComentarioCommand cmd
+            BuscarUmComentarioCommand (
+                String idComentario;
+            )
+            ```
+            ##### Retorno:
+            ```ruby
+            ResponseEntity<Comentario>
+            Comentario(
+                String idComentario;
+                String texto;
+                ZonedDateTime dataHora;
+                Integer qtdRespostas;
+                Usuario idUsuario;
+                Video idVideo;
+            )
+            ```
+        </details>
 
-##### Retorno:
-```ruby
-ResponseEntity<Comentario>
+        <details>
+            <summary>Buscar todos por vídeo</summary>
+        
+            ##### Mapeamento:
+            ```ruby
+            /api/engajamento/comentario/buscar-todos-por-video/{page}
+            ```
+            ##### Parâmetros/Headers:
+            ```ruby
+            @RequestBody BuscarTodosPorVideoComentarioCommand cmd,
+            @PathVariable int page
+            BuscarTodosPorVideoComentarioCommand (
+                String idVideo;
+            )
+            ```
+            ##### Retorno:
+            ```ruby
+            ResponseEntity<Page<Comentario>
+            Comentario(
+                String idComentario;
+                String texto;
+                ZonedDateTime dataHora;
+                Integer qtdRespostas;
+                Usuario idUsuario;
+                Video idVideo;
+            )
+            ```
+        </details>
 
-Comentario(
-    String idComentario;
-    String texto;
-    ZonedDateTime dataHora;
-    Integer qtdRespostas;
-    Usuario idUsuario;
-    Video idVideo;
-)
+        <details>
+            <summary>Buscar todos por data</summary>
+            
+            ##### Mapeamento:
+            ```ruby
+            /api/engajamento/comentario/buscar-todos-por-data/{page}
+            ```
+            ##### Parâmetros/Headers:
+            ```ruby
+            @RequestBody BuscarTodosPorDataComentarioCommand cmd,
+            @PathVariable int page
 
-```
-</details>
-<details>
-<summary>Buscar um</summary>
-  
-##### Mapeamento:
-```ruby
-/api/engajamento/comentario
-```
-##### Parâmetros/Headers:
-```ruby
-@RequestBody BuscarUmComentarioCommand cmd
+            BuscarTodosPorDataComentarioCommand (
+                String idVideo;
+                LocalDate data;
+            )
+            ```
+            ##### Retorno:
+            ```ruby
+            ResponseEntity<Page<Comentario>>
+            Comentario(
+                String idComentario;
+                String texto;
+                ZonedDateTime dataHora;
+                Integer qtdRespostas;
+                Usuario idUsuario;
+                Video idVideo;
+            )
 
-BuscarUmComentarioCommand (
-    String idComentario;
-)
-```
+            ```
+        </details>
 
-##### Retorno:
-```ruby
-ResponseEntity<Comentario>
+        <details>
+            <summary>Buscar quantidade de respostas</summary>
+            
+            ##### Mapeamento:
+            ```ruby
+            /api/engajamento/comentario/buscar-quantidade-respostas
+            ```
+            ##### Parâmetros/Headers:
+            ```ruby
+            @RequestBody BuscarQuantidadeRepostasComentarioCommand cmd
 
-Comentario(
-    String idComentario;
-    String texto;
-    ZonedDateTime dataHora;
-    Integer qtdRespostas;
-    Usuario idUsuario;
-    Video idVideo;
-)
+            BuscarQuantidadeRepostasComentarioCommand (
+                String idComentario;
+            )
+            ```
+            ##### Retorno:
+            ```ruby
+            ResponseEntity<Integer>
 
-```
+            ```
+        </details>
 
-</details>
-<details>
-<summary>Buscar todos por vídeo</summary>
-  
-##### Mapeamento:
-```ruby
-/api/engajamento/comentario/buscar-todos-por-video/{page}
-```
-##### Parâmetros/Headers:
-```ruby
- @RequestBody BuscarTodosPorVideoComentarioCommand cmd,
- @PathVariable int page
+        <details>
+            <summary>Deletar</summary>
+            
+            ##### Mapeamento:
+            ```ruby
+            /api/engajamento/comentario/buscar-quantidade-respostas
+            ```
+            ##### Parâmetros/Headers:
+            ```ruby
+            @RequestHeader String idUsuario,
+            @RequestBody DeletarComentarioCommand cmd
 
-BuscarTodosPorVideoComentarioCommand (
-    String idVideo;
-)
-```
+            DeletarComentarioCommand (
+                String idComentario;
+                String idUsuario;
+            )
+            ```
 
-##### Retorno:
-```ruby
-ResponseEntity<Page<Comentario>>
+            ##### Retorno:
+            ```ruby
+            ResponseEntity<Void>
 
-Comentario(
-    String idComentario;
-    String texto;
-    ZonedDateTime dataHora;
-    Integer qtdRespostas;
-    Usuario idUsuario;
-    Video idVideo;
-)
-```
+            ```
+        </details>
 
-</details>
-<details>
-<summary>Buscar todos por data</summary>
-  
-##### Mapeamento:
-```ruby
-/api/engajamento/comentario/buscar-todos-por-data/{page}
-```
-##### Parâmetros/Headers:
-```ruby
-@RequestBody BuscarTodosPorDataComentarioCommand cmd,
-@PathVariable int page
+## Histórico
+        <details>
+            <summary>Salvar</summary>
 
-BuscarTodosPorDataComentarioCommand (
-    String idVideo;
-    LocalDate data;
-)
-```
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/historico
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody CriarHistoricoCommand cmd,
+                @RequestHeader("usuarioId") String idUsuario
 
-##### Retorno:
-```ruby
-ResponseEntity<Page<Comentario>>
+            CriarHistoricoCommand {
+                String idUsuario;
+                String idVideo;
+                Float percentagemSomada;
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<Void>
+                ```
+        </details>
 
-Comentario(
-    String idComentario;
-    String texto;
-    ZonedDateTime dataHora;
-    Integer qtdRespostas;
-    Usuario idUsuario;
-    Video idVideo;
-)
+        <details>
+            <summary>Buscar um</summary>
 
-```
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/historico
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody BuscarUmHistoricoCommand cmd,
+                @RequestHeader("usuarioId") String idUsuario
 
-</details>
-<details>
-<summary>Buscar quantidade de respostas</summary>
-  
-##### Mapeamento:
-```ruby
-/api/engajamento/comentario/buscar-quantidade-respostas
-```
-##### Parâmetros/Headers:
-```ruby
- @RequestBody BuscarQuantidadeRepostasComentarioCommand cmd
+            BuscarUmHistoricoCommand {
+                String idUsuario;
+                String idVideo;
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<Historico>
 
-BuscarQuantidadeRepostasComentarioCommand (
-    String idComentario;
-)
-```
+                Historico{
+                    Usuario idUsuario;
+                    Video idVideo;
+                    ZonedDateTime dataHora;
+                    Integer qtdVisualizadas;
+                    float percentagemSomada;
+                }
+                ```
+        </details>
 
-##### Retorno:
-```ruby
-ResponseEntity<Integer>
+        <details>
+            <summary>Buscar todos históricos por data</summary>
 
-```
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/historico/buscar-todos-históricos-por-data
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody BuscarTodosPorDataHistoricoCommand cmd,
+                @RequestHeader("usuarioId") String idUsuario
 
-</details>
-<details>
-<summary>Deletar comentário</summary>
-  
-##### Mapeamento:
-```ruby
-/api/engajamento/comentario/buscar-quantidade-respostas
-```
-##### Parâmetros/Headers:
-```ruby
-@RequestHeader String idUsuario,
-@RequestBody DeletarComentarioCommand cmd
+                BuscarUmHistoricoCommand {
+                    String idUsuario;
+                    LocalDate data;
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<List<Historico>>
 
-DeletarComentarioCommand (
-    String idComentario;
-    String idUsuario;
-)
-```
+                Historico{
+                    Usuario idUsuario;
+                    Video idVideo;
+                    ZonedDateTime dataHora;
+                    Integer qtdVisualizadas;
+                    float percentagemSomada;
+                }
+                ```
+        </details>
 
-##### Retorno:
-```ruby
-ResponseEntity<Void>
+        <details>
+            <summary>Buscar todos históricos por usuário</summary>
 
-```
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/historico/buscar-todos-históricos-por-usuario
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestHeader("usuarioId") String idUsuario
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<List<Historico>>
 
-</details>
+                Historico{
+                    Usuario idUsuario;
+                    Video idVideo;
+                    ZonedDateTime dataHora;
+                    Integer qtdVisualizadas;
+                    float percentagemSomada;
+                }
+                ```
+        </details>
 
-<h3>Estamos fazendo ainda :)</h3>
+## Inscrição
+        <details>
+            <summary>Salvar</summary>
 
-<details>
-<summary>Entidades</summary>
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/inscricao
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestHeader("usuarioId") String idUsuario,
+                @RequestBody CriarInscricaoCommand cmd
 
-## Entidade: Usuário
+                CriarInscricaoCommand {
+                    String idUsuario;
+                    String idCanal;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<Void>
+                ```
+        </details>
 
-<h5>obs.: um canal é uma entidade usuário</h5>
+        <details>
+            <summary>Buscar um</summary>
 
-Atributos:
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/inscricao
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestHeader("usuarioId") String idUsuario,
+                @RequestBody BuscarUmInscricaoCommand cmd
 
-- ID de usuário
-- Nome
-- Foto de perfil
-- Inscrições
-- Inscritos
-- Ativado
+                BuscarUmInscricaoCommand {
+                    String idUsuario;
+                    String idCanal;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<Inscricao>
 
-## Entidade: Vídeo
+                Inscricao{
+                    Usuario idUsuario;
+                    Usuario idCanal;  
+                }
+                ```
+        </details>
 
-Atributos:
 
-- ID de vídeo
-- Qtd. visualização
-- Qtd. like
-- ehInativado
+## Reação Comentário
 
-## Entidade: Comentário
+        <details>
+            <summary>Salvar</summary>
 
-Atributos:
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/reacaoComentario
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody CriarReacaoComentarioCommand cmd,
+                @RequestHeader("usuarioId") String idUsuario
 
-- ID do comentário
-- Texto
-- Data e hora (gerado automaticamente)
-- Quantidade de respostas
-- ID do usuário que fez o comentário
-- ID do vídeo em que o comentário foi feito
+                CriarReacaoComentarioCommand {
+                    String idUsuario;
+                    String idComentario;
+                    Boolean curtida;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<Void>
+                ```
+        </details>
 
-## Entidade: Resposta
+        <details>
+            <summary>Buscar um</summary>
 
-<h5>obs.: trata-se de uma entidade que lida com as respostas de comentários e também de outras respostas</h5>
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/reacaoComentario
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody BuscarUmReacaoComentarioCommand cmd,
+                @RequestHeader("usuarioId") String idUsuario
 
-Atributos:
+                BuscarUmReacaoComentarioCommand {
+                    String idUsuario;
+                    String idComentario;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<ReacaoComentario>
 
-- ID da resposta
-- Texto
-- Data e hora (gerado automaticamente)
-- ID do usuário que fez o comentário
-- ID do comentário
+                ReacaoComentario {
+                    Usuario idUsuario;
+                    Comentario idComentario;
+                    Boolean curtida;
+                }
+                ```
+        </details>
 
-## Entidade: Inscrição
+       <details>
+            <summary>Buscar todos por comentário</summary>
 
-Atributos:
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/reacaoComentario/buscar-todos-por-comentario
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody BuscarTodosPorComentarioReacaoComentarioCommand cmd
 
-- ID do usuário que realizou a inscrição
-- ID do usuário que recebeu a inscrição
+                BuscarTodosPorComentarioReacaoComentarioCommand {
+                    String idComentario;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<List<ReacaoComentario>>
 
-## Entidade: Reação (vídeo)
+                ReacaoComentario {
+                    Usuario idUsuario;
+                    Comentario idComentario;
+                    Boolean curtida;
+                }
+                ```
+        </details>
 
-Atributos:
+## Reação 
 
-- ID do usuário que realizou a reação
-- ID do vídeo curtido
-- Curtida
+        <details>
+            <summary>Salvar</summary>
+
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/reacao
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody CriarReacaoCommand cmd,
+                @RequestHeader("usuarioId") String idUsuario
+
+                CriarReacaoCommand {
+                    String idUsuario;
+                    String idVideo;
+                    Boolean curtida;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<Void>
+                ```
+        </details>
+
+        <details>
+            <summary>Buscar um</summary>
+
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/reacao
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody BuscarUmReacaoCommand cmd,
+                @RequestHeader("usuarioId") String idUsuario
+
+                BuscarUmReacaoCommand {
+                    String idUsuario;
+                    String idVideo;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<Reacao>
+
+                ReacaoComentario {
+                    Usuario idUsuario;
+                    Video idVideo;
+                    Boolean curtida;
+                }
+                ```
+        </details>
+
+       <details>
+            <summary>Buscar todos por vídeo</summary>
+
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/reacao/buscar-todos-por-video
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody BuscarTodosPorVideoReacaoCommand cmd
+
+                BuscarTodosPorComentarioReacaoComentarioCommand {
+                    String idVideo;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<List<Reacao>>
+
+                ReacaoComentario {
+                    Usuario idUsuario;
+                    Video idVideo;
+                    Boolean curtida;
+                }
+                ```
+        </details>
+
+## Reação resposta
+
+        <details>
+            <summary>Salvar</summary>
+
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/reacaoResposta
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody CriarReacaoRespostaCommand cmd,
+                @RequestHeader("usuarioId") String idUsuario
+
+                CriarReacaoRespostaCommand {
+                    String idUsuario;
+                    String idResposta;
+                    Boolean curtida;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<Void>
+                ```
+        </details>
+
+        <details>
+            <summary>Buscar um</summary>
+
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/reacaoResposta
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody BuscarUmReacaoRespostaCommand cmd,
+                @RequestHeader("usuarioId") String idUsuario
+
+                BuscarUmReacaoCommand {
+                    String idUsuario;
+                    String idResposta;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<ReacaoResposta>
+
+                ReacaoResposta {
+                    Usuario idUsuario;
+                    Resposta idResposta;
+                    Boolean curtida;
+                }
+                ```
+        </details>
+
+       <details>
+            <summary>Buscar todos por comentário</summary>
+
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/reacaoResposta/buscar-todos-por-resposta
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody BuscarTodosPorComentarioReacaoRespostaCommand cmd
+
+                BuscarTodosPorComentarioReacaoComentarioCommand {
+                    String idResposta;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<List<ReacaoResposta>>
+
+                ReacaoResposta {
+                    Usuario idUsuario;
+                    Resposta idResposta;
+                    Boolean curtida;
+                }
+                ```
+        </details>
+
+## Resposta
+
+        <details>
+            <summary>Salvar</summary>
+
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/resposta
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody CriarRespostaCommand cmd,
+                @RequestHeader("usuarioId") String idUsuario
+
+                CriarRespostaCommand {
+                    String idUsuario;
+                    String idComentario;
+                    String texto;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<Resposta>
+
+                Resposta{
+                    String idResposta;
+                    String texto;
+                    ZonedDateTime dataHora;
+                    Usuario idUsuario;
+                    Comentario idComentario;
+                }
+                ```
+        </details>
+
+
+        <details>
+            <summary>Buscar um</summary>
+
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/resposta
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody BuscarUmaRespostaCommand cmd
+
+                BuscarUmaRespostaCommand {
+                    String idResposta;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<Resposta>
+
+                Resposta{
+                    String idResposta;
+                    String texto;
+                    ZonedDateTime dataHora;
+                    Usuario idUsuario;
+                    Comentario idComentario;
+                }
+                ```
+        </details>
+
+        <details>
+            <summary>Buscar todos por comentário</summary>
+
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/resposta/buscar-todos-por-comentario/{page}
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestBody BuscarTodosPorComentarioRespostaCommand cmd,
+                @PathVariable int page
+
+                BuscarTodosPorComentarioRespostaCommand {
+                    String idComentario;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<Page<Resposta>>
+
+                Resposta{
+                    String idResposta;
+                    String texto;
+                    ZonedDateTime dataHora;
+                    Usuario idUsuario;
+                    Comentario idComentario;
+                }
+                ```
+        </details>
+
+        <details>
+            <summary>Deletar</summary>
+
+            ##### Mapeamento:
+                ```ruby
+                /api/engajamento/resposta
+                ```
+            ##### Parâmetros/Headers:
+                ```ruby
+                @RequestHeader("usuarioId") String idUsuario,
+                @RequestBody DeletarRespostaCommand cmd
+
+                DeletarRespostaCommand {
+                    String idUsuario;
+                    String idResposta;
+                }
+                ```
+            ##### Retorno:
+                ```ruby
+                ResponseEntity<Void>
+                ```
+        </details>
+
+## Lógica pontuação vídeo
+
+        <details>
+            <summary>Deletar</summary>
+
+            1. Visualizações: peso 1 (cada visualização conta como 1 ponto)
+            2. Curtidas: peso 2 (cada curtida conta como 2 pontos)
+            3. Descurtidas: peso -2 (cada descurtida retira 2 pontos)
+            4. Comentários: peso 3 (cada comentário conta como 3 pontos)
+            5. Respostas de comentários: peso 2 (cada resposta a um comentário conta como 2 pontos)
+            6. Cada por cento do vídeo assistido: peso 0.5 (cada 1% do vídeo assistido conta como 0.5 ponto)
+
+            Calcular a "qualidade" de um vídeo, soma-se todas essas interações multiplicadas por seus respectivos pesos.
+            Ou seja, a qualidade de um vídeo (Q) seria calculada da seguinte maneira:
+            Q = (V - 0.5 * U) + C - D + 1.5*Co + R + 0.175*P;
+
+            Onde:
+            - V é o número de visualizações;
+            - C é o número de curtidas;
+            - D é o número de descurtidas;
+            - Co é o número de comentários;
+            - R é o número de respostas de comentários;
+            - P é o número total de percentagem do vídeo assistido;
+            - U é a quantidade de usuários que assistiram o vídeo.
+        </details>
+
+
   <h5>obs.: a curtida é um boolean que quando o atributo existe, quer dizer que há uma reação, se ele for true, quer
   dizer que é uma curtida e se for false quer dizer que é uma descurtida</h5>
-
-## Entidade: Reação Comentário
-
-Atributos:
-
-- ID do usuário que realizou a reação
-- ID do comentário curtido
-- Curtida
-  <h5>obs.: a curtida é um boolean que quando o atributo existe, quer dizer que há uma reação, se ele for true, quer
-  dizer que é uma curtida e se for false quer dizer que é uma descurtida</h5>
-
-## Entidade: Reação Resposta
-
-Atributos:
-
-- ID do usuário que realizou a reação
-- ID da resposta curtida
-- Curtida
-  <h5>obs.: a curtida é um boolean que quando o atributo existe, quer dizer que há uma reação, se ele for true, quer
-  dizer que é uma curtida e se for false quer dizer que é uma descurtida</h5>
-
-## Entidade: Histórico
-
-Atributos:
-
-- ID do usuário que realizou a visualização
-- ID do vídeo visualizado
-- Data e hora (gerado automaticamente)
-
-## Exception: NaoEncontradoException
-
-Construtor:
-
-- Mensagem passada sobre o que não foi encontrado
-  <h5>obs.: quando essa exception ocorre, o retorno do endpoint pedido será o erro 404(Not Found)</h5>
-
-## Exception: AcaoNaoPermitidaException
-
-Construtor:
-
-- Mensagem passada sobre qual ação não foi permitido
-  <h5>obs.: quando essa exception ocorre, o retorno do endpoint pedido será o erro 403(Forbidden)</h5>
-
-<h5>Qualquer dúvida, tratar com Lucas e Ana </h5>
-</details>
