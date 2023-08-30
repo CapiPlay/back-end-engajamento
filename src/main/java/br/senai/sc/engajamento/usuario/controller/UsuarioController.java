@@ -17,9 +17,9 @@ public class UsuarioController {
 
     @GetMapping("/{usuarioId}")
     public ResponseEntity<Usuario> buscar(
-            @PathVariable String usuarioId
+            @RequestHeader("usuarioId") String idUsuario
     ) {
-        return ResponseEntity.ok(service.retornaUsuario(usuarioId));
+        return ResponseEntity.ok(service.retornaUsuario(idUsuario));
     }
 
 }

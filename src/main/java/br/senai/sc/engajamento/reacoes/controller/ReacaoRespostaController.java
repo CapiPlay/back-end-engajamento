@@ -34,7 +34,7 @@ public class ReacaoRespostaController {
         return ResponseEntity.ok(service.buscarUm(cmd.from(idUsuario)));
     }
 
-    @GetMapping("/buscar-todos-por-resposta")
+    @GetMapping("/buscar-todos-por-comentario")
     public ResponseEntity<List<ReacaoResposta>> buscarTodos(
             @RequestBody BuscarTodosPorComentarioReacaoRespostaCommand cmd) {
         return ResponseEntity.ok(service.buscarTodos(cmd));

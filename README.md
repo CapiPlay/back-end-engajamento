@@ -146,7 +146,7 @@ ResponseEntity<Integer>
 
 ##### Mapeamento:
 ```ruby
-/api/engajamento/comentario/buscar-quantidade-respostas
+/api/engajamento/comentario
 ```
 ##### Parâmetros/Headers:
 ```ruby
@@ -550,7 +550,7 @@ ReacaoResposta {
 
 ##### Mapeamento:
 ```ruby
-/api/engajamento/reacaoResposta/buscar-todos-por-resposta
+/api/engajamento/reacaoResposta/buscar-todos-por-comentario
 ```
 ##### Parâmetros/Headers:
 ```ruby
@@ -687,6 +687,36 @@ DeletarRespostaCommand {
 ```ruby
 ResponseEntity<Void>
 ```
+</details>
+
+## Usuário
+
+<details>
+<summary>Buscar</summary>
+
+##### Mapeamento:
+```ruby
+/api/engajamento/usuario
+```
+##### Parâmetros/Headers:
+```ruby
+ @RequestHeader("usuarioId") String idUsuario
+```
+##### Retorno:
+```ruby
+
+ResponseEntity<Usuario>
+
+Usuario(
+  String idUsuario;
+  String nomePerfil;
+  String nomeCanal;
+  String foto;
+  int quantidadeInscritos;
+  String descricao;
+)
+```
+
 </details>
 
 ## Lógica pontuação vídeo
