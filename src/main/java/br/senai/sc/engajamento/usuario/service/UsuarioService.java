@@ -30,4 +30,8 @@ public class UsuarioService {
     private Usuario salvar(Usuario usuario) {
         return repository.save(usuario);
     }
+
+    public Usuario retornaUsuario(String uuid){
+        return repository.getById(uuid);
+    }
 }

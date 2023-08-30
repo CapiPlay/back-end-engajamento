@@ -6,14 +6,11 @@ import br.senai.sc.engajamento.resposta.model.command.CriarRespostaCommand;
 import br.senai.sc.engajamento.resposta.model.command.DeletarRespostaCommand;
 import br.senai.sc.engajamento.resposta.model.entity.Resposta;
 import br.senai.sc.engajamento.resposta.service.RespostaService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @CrossOrigin
