@@ -18,15 +18,15 @@ public class Video {
     @Column
     private String id;
 
-    private Long visualizacao;
+    private long visualizacao;
 
-    private Long qtdCurtidas;
+    private long qtdCurtidas;
 
-    private Long qtdDescurtidas;
+    private long qtdDescurtidas;
 
-    private Long qtdComentarios;
+    private long qtdComentarios;
 
-    private Long qtdRespostas;
+    private long qtdRespostas;
 
     private Boolean ehInativado;
 
@@ -54,4 +54,6 @@ public class Video {
         this.pontuacao = 0.0;
         this.percentagemSomada = 0.0;
     }
+
+
 }

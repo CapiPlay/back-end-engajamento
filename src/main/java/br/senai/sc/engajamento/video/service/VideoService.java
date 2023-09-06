@@ -21,11 +21,12 @@ public class VideoService {
     private Publisher publisher;
 
     public void handle(VideoSalvoEvent event) {
+        System.out.println(event);
         repository.findById(event.id()).ifPresentOrElse((video) -> {
             video.setEhInativado(event.ehInativado());
             repository.save(video);
         }, () -> {
-            repository.save(new Video(event.id()));
+            repository.save(new Video(event.id(),event.ehInativado()));
         });
     }
 
@@ -79,9 +80,7 @@ public class VideoService {
         video.setPontuacao(pontuacao);
         repository.save(video);
         VideoAtualizadoEvent videoEvent = new VideoAtualizadoEvent(
-                video.getId(), visualizacao,
-                qtdCurtidas, qtdComentarios,
-                pontuacao
+                video.getId(), qtdCurtidas, qtdComentarios, pontuacao
         );
         publisher.publish(videoEvent);
     }

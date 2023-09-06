@@ -30,13 +30,13 @@ public class ReacaoController {
 
     @GetMapping
     public ResponseEntity<Reacao> buscarUm(
-            @RequestBody BuscarUmReacaoCommand cmd,
+            @ModelAttribute BuscarUmReacaoCommand cmd,
             @RequestHeader("usuarioId") String idUsuario) {
         return ResponseEntity.ok(service.buscarUm(cmd.from(idUsuario)));
     }
 
     @GetMapping("/buscar-todos-por-video")
-    public ResponseEntity<List<Reacao>> buscarTodosPorVideo(@RequestBody BuscarTodosPorVideoReacaoCommand cmd) {
+    public ResponseEntity<List<Reacao>> buscarTodosPorVideo(@ModelAttribute BuscarTodosPorVideoReacaoCommand cmd) {
         return ResponseEntity.ok(service.buscarTodosPorVideo(cmd));
     }
 }

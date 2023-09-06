@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @AllArgsConstructor
+@CrossOrigin
 @RequestMapping("/api/engajamento/usuario")
 public class UsuarioController {
 
     private UsuarioService service;
 
-    @GetMapping("/{usuarioId}")
+    @GetMapping
     public ResponseEntity<Usuario> buscar(
             @RequestHeader("usuarioId") String idUsuario
     ) {

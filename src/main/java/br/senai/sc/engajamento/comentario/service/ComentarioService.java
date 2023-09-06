@@ -37,8 +37,9 @@ public class ComentarioService {
     private VideoService videoService;
 
     public Comentario criar(@Valid CriarComentarioCommand cmd) {
+        System.out.println(cmd);
         Video video = videoRepository.getById(cmd.getIdVideo());
-
+        System.out.println(video.getEhInativado());
         if(!video.getEhInativado()){
             Usuario usuario = usuarioRepository.getById(cmd.getIdUsuario());
             Comentario comentario = new Comentario(
@@ -63,8 +64,8 @@ public class ComentarioService {
     }
 
     public Page<Comentario> buscarTodosPorVideo(
-            @Valid BuscarTodosPorVideoComentarioCommand cmd, int page) {
-        Video video = videoRepository.getById(cmd.getIdVideo());
+            @Valid String idVideo, int page) {
+        Video video = videoRepository.getById(idVideo);
         if(!video.getEhInativado()){
             Pageable pageable = PageRequest.of(page, 5);
             Page<Comentario> list = comentarioRepository.findAllByIdVideoOrderByDataHora(video, pageable);

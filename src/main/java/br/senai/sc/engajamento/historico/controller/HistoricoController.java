@@ -36,7 +36,7 @@ public class HistoricoController {
     }
 
     /*Buscar históricos de um usuário por data*/
-    @GetMapping("/buscar-todos-históricos-por-data")
+    @GetMapping("/buscar-todos-historicos-por-data")
     public ResponseEntity<List<Historico>> buscarTodosHistoricosPorData(
             @RequestBody BuscarTodosPorDataHistoricoCommand cmd,
             @RequestHeader("usuarioId") String idUsuario
@@ -45,7 +45,7 @@ public class HistoricoController {
     }
 
     /*Buscar históricos de um usuário*/
-    @GetMapping("/buscar-todos-históricos-por-usuario")
+    @GetMapping("/buscar-todos-historicos-por-usuario")
     public ResponseEntity<List<Historico>> buscarTodosHistoricosPorUsuario(@RequestHeader("usuarioId") String idUsuario) {
         return ResponseEntity.ok(historicoService.buscarTodosPorUsuario(idUsuario));
     }

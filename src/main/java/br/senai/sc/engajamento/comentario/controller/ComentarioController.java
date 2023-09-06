@@ -32,16 +32,16 @@ public class ComentarioController {
     }
 
     /*Pega todos os comentários referentes a um vídeo*/
-    @GetMapping("/buscar-todos-por-video/{page}")
+    @GetMapping("/buscar-todos-por-video/{page}/{idVideo}")
     private ResponseEntity<Page<Comentario>> buscarTodosPorVideo(
-            @RequestBody BuscarTodosPorVideoComentarioCommand cmd,
+            @PathVariable String idVideo,
             @PathVariable int page
     ) {
-        return ResponseEntity.ok().body(comentarioService.buscarTodosPorVideo(cmd, page));
+        return ResponseEntity.ok().body(comentarioService.buscarTodosPorVideo(idVideo, page));
     }
 
     /*Busca todos os comentários de um vídeo com base na data*/
-    @GetMapping("/buscar-todos-por-data/{page}")
+    @PutMapping("/buscar-todos-por-data/{page}")
     private ResponseEntity<Page<Comentario>> buscarTodosPorData(
             @RequestBody BuscarTodosPorDataComentarioCommand cmd,
             @PathVariable int page
