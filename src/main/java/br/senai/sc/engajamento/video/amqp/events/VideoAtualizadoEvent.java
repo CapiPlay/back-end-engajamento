@@ -2,7 +2,8 @@ package br.senai.sc.engajamento.video.amqp.events;
 
 public record VideoAtualizadoEvent(
         String id,
-        Long qtdCurtida,
+        Long qtdCurtidas,
         Long qtdComentarios,
-        Double pontuacao) {
+        Double pontuacao
+) {
 }
