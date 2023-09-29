@@ -71,9 +71,11 @@ public class RespostaService {
     public Page<Resposta> buscarTodosPorComentario(
             String idComentario, int page) {
         Comentario comentario = comentarioRepository.getById(idComentario);
+        System.out.println(comentario);
         Video video = videoRepository.getById(comentario.getIdVideo().getId());
 
         if (!video.getEhInativado()) {
+            System.out.println("AAAA");
             Pageable pageable = PageRequest.of(page, 5);
             Page<Resposta> list = respostaRepository.findAllByIdComentarioOrderByDataHora(
                     comentarioRepository.findById(idComentario)
