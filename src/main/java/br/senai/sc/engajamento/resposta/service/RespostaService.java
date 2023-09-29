@@ -69,14 +69,14 @@ public class RespostaService {
     }
 
     public Page<Resposta> buscarTodosPorComentario(
-            @Valid BuscarTodosPorComentarioRespostaCommand cmd, int page) {
-        Comentario comentario = comentarioRepository.getById(cmd.getIdComentario());
+            String idComentario, int page) {
+        Comentario comentario = comentarioRepository.getById(idComentario);
         Video video = videoRepository.getById(comentario.getIdVideo().getId());
 
         if (!video.getEhInativado()) {
             Pageable pageable = PageRequest.of(page, 5);
             Page<Resposta> list = respostaRepository.findAllByIdComentarioOrderByDataHora(
-                    comentarioRepository.findById(cmd.getIdComentario())
+                    comentarioRepository.findById(idComentario)
                     .orElseThrow(() -> new NaoEncontradoException("Comentário não encontrado")), pageable);
             return list;
         }

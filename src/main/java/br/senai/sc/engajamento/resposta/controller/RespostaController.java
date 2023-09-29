@@ -37,9 +37,7 @@ public class RespostaController {
         @PathVariable("idComentario") String idComentario,
         @PathVariable("page") int page
     ) {
-        BuscarTodosPorComentarioRespostaCommand cmd = new BuscarTodosPorComentarioRespostaCommand();
-        System.out.println(cmd);
-        return ResponseEntity.ok(respostaService.buscarTodosPorComentario(cmd.from(idComentario), page));
+        return ResponseEntity.ok(respostaService.buscarTodosPorComentario(idComentario, page));
     }
 
     @DeleteMapping
