@@ -32,12 +32,13 @@ public class RespostaController {
     }
 
     /*Pega todos os comentários referentes a um vídeo*/
-    @GetMapping("/buscar-todos-por-comentario/{page}")
+    @GetMapping("/buscar-todos-por-comentario/{idComentario}")
     private ResponseEntity<Page<Resposta>> buscarTodosPorComentario(
-        @RequestBody BuscarTodosPorComentarioRespostaCommand cmd,
-        @PathVariable int page
+        @PathVariable String idComentario,
+        @RequestParam("page") int page
     ) {
-        return ResponseEntity.ok(respostaService.buscarTodosPorComentario(cmd, page));
+        BuscarTodosPorComentarioRespostaCommand cmd = new BuscarTodosPorComentarioRespostaCommand();
+        return ResponseEntity.ok(respostaService.buscarTodosPorComentario(cmd.from(idComentario), page));
     }
 
     @DeleteMapping
