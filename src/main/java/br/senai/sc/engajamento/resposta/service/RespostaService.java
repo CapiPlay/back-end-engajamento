@@ -70,19 +70,19 @@ public class RespostaService {
 
     public Page<Resposta> buscarTodosPorComentario(
             String idComentario, int page) {
-        Comentario comentario = comentarioRepository.getById(idComentario);
-        System.out.println(comentario);
-        Video video = videoRepository.getById(comentario.getIdVideo().getId());
+//        Comentario comentario = comentarioRepository.getById(idComentario);
+//        System.out.println(comentario);
+//        Video video = videoRepository.getById(comentario.getIdVideo().getId());
 
-        if (!video.getEhInativado()) {
+//        if (!video.getEhInativado()) {
             System.out.println("AAAA");
             Pageable pageable = PageRequest.of(page, 5);
             Page<Resposta> list = respostaRepository.findAllByIdComentarioOrderByDataHora(
                     comentarioRepository.findById(idComentario)
                     .orElseThrow(() -> new NaoEncontradoException("Comentário não encontrado")), pageable);
             return list;
-        }
-        throw new NaoEncontradoException("Vídeo não encontrado");
+//        }
+//        throw new NaoEncontradoException("Vídeo não encontrado");
     }
 
     public void deletar(@Valid DeletarRespostaCommand cmd) {

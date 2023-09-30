@@ -24,10 +24,10 @@ public class InscricaoController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("/{idCanal}")
     public ResponseEntity<Inscricao> buscarUm(
             @RequestHeader("usuarioId") String idUsuario,
-            @RequestBody BuscarUmInscricaoCommand cmd) {
-        return ResponseEntity.ok(service.buscarUm(cmd.from(idUsuario)));
+            @PathVariable String idCanal) {
+        return ResponseEntity.ok(service.buscarUm(new BuscarUmInscricaoCommand(idUsuario, idCanal)));
     }
 }

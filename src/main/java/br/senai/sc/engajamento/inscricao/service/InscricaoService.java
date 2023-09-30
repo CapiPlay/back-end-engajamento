@@ -11,9 +11,11 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Service
 @AllArgsConstructor
+@CrossOrigin
 public class InscricaoService {
     private final InscricaoRepository repository;
     private final UsuarioRepository usuarioRepository;

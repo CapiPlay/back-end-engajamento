@@ -37,6 +37,7 @@ public class RespostaController {
         @PathVariable("idComentario") String idComentario,
         @PathVariable("page") int page
     ) {
+        System.out.println("AAAAAAAA");
         return ResponseEntity.ok(respostaService.buscarTodosPorComentario(idComentario, page));
     }
 
