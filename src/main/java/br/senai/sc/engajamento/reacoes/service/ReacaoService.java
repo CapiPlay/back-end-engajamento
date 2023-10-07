@@ -79,6 +79,7 @@ public class ReacaoService {
 
         if (!video.getEhInativado()) {
             Reacao reacao = repository.findByIdUsuarioAndIdVideo(usuario, video);
+            System.out.println("Entrei nessa reação");
             if (reacao == null) {
                 throw new NaoEncontradoException("Reação não encontrada!");
             }
