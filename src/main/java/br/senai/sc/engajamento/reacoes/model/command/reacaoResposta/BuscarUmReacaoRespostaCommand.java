@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class BuscarUmReacaoRespostaCommand {
     @NotNull(message = "ID do usuário não informado")
     private String idUsuario;
@@ -15,8 +14,14 @@ public class BuscarUmReacaoRespostaCommand {
     @NotNull(message = "ID da resposta não informado")
     private String idResposta;
 
-    public BuscarUmReacaoRespostaCommand from(String idUsuario) {
+    public BuscarUmReacaoRespostaCommand from(String idUsuario, String idResposta) {
         this.idUsuario = idUsuario;
+        this.idResposta = idResposta;
         return this;
+    }
+
+    public BuscarUmReacaoRespostaCommand(String idUsuario, String idResposta) {
+        this.idUsuario = idUsuario;
+        this.idResposta = idResposta;
     }
 }

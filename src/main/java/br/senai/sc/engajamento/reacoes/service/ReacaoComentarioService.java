@@ -32,16 +32,20 @@ public class ReacaoComentarioService {
         Video video = comentario.getIdVideo();
 
         if (!video.getEhInativado()) {
+            System.out.println("N é inativo");
             ReacaoComentario reacaoExistente = repository.findByIdUsuarioAndIdComentario(usuario, comentario);
             if (reacaoExistente == null) {
+                System.out.println("Reação não existe");
                 ReacaoComentario reacao = new ReacaoComentario();
                 reacao.setIdComentario(comentario);
                 reacao.setIdUsuario(usuario);
                 reacao.setCurtida(cmd.getCurtida());
                 repository.save(reacao);
             } else if (reacaoExistente.isCurtida() == cmd.getCurtida()) {
+                System.out.println("Reação existe");
                 repository.deleteByIdUsuarioAndIdComentario(usuario, comentario);
             } else {
+                System.out.println("Não sei ");
                 reacaoExistente.setCurtida(!reacaoExistente.isCurtida());
                 repository.save(reacaoExistente);
             }
@@ -57,10 +61,9 @@ public class ReacaoComentarioService {
 
         if (!video.getEhInativado()) {
             ReacaoComentario reacaoComentario = repository.findByIdUsuarioAndIdComentario(usuario, comentario);
-
-            if (reacaoComentario == null) {
-                throw new NaoEncontradoException("Reação do comentário não encontrado!");
-            }
+//            if (reacaoComentario == null) {
+//                throw new NaoEncontradoException("Reação do comentário não encontrado!");
+//            }
             return reacaoComentario;
         }
         throw new NaoEncontradoException("Vídeo não encontrado");

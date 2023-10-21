@@ -27,11 +27,12 @@ public class ReacaoRespostaController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("/{idResposta}")
     public ResponseEntity<ReacaoResposta> buscarUm(
-            @RequestBody BuscarUmReacaoRespostaCommand cmd,
+            @PathVariable String idResposta,
             @RequestHeader("usuarioId") String idUsuario) {
-        return ResponseEntity.ok(service.buscarUm(cmd.from(idUsuario)));
+        BuscarUmReacaoRespostaCommand cmd = new BuscarUmReacaoRespostaCommand(idUsuario,idResposta);
+        return ResponseEntity.ok(service.buscarUm(cmd));
     }
 
     @GetMapping("/buscar-todos-por-comentario")

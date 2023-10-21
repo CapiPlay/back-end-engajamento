@@ -25,10 +25,10 @@ public class ComentarioController {
        return ResponseEntity.ok(comentarioService.criar(cmd.from(idUsuario)));
     }
 
-    @GetMapping
-    private ResponseEntity<Comentario> buscarUm(@RequestBody BuscarUmComentarioCommand cmd) {
-        Comentario comentario = comentarioService.buscarUm(cmd);
-        return ResponseEntity.ok(comentario);
+    @GetMapping("/{idComentario}")
+    private ResponseEntity<Comentario> buscarUm(@PathVariable String idComentario) {
+        BuscarUmComentarioCommand cmd = new BuscarUmComentarioCommand(idComentario);
+        return ResponseEntity.ok(comentarioService.buscarUm(cmd));
     }
 
     /*Pega todos os comentários referentes a um vídeo*/

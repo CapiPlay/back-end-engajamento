@@ -57,9 +57,9 @@ public class ReacaoRespostaService {
 
         if (!video.getEhInativado()) {
             ReacaoResposta reacao = repository.findByIdUsuarioAndIdResposta(usuario, resposta);
-            if (reacao == null) {
-                throw new NaoEncontradoException("Reação da resposta não encontrada!");
-            }
+//            if (reacao == null) {
+//                throw new NaoEncontradoException("Reação da resposta não encontrada!");
+//            }
             return reacao;
         }
         throw new NaoEncontradoException("Vídeo não encontrado");

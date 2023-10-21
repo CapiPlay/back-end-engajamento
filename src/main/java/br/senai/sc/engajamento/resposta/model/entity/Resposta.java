@@ -39,7 +39,6 @@ public class Resposta {
     private Comentario idComentario;
 
     @OneToMany(mappedBy = "idResposta")
-    @JsonIgnore
     private List<ReacaoResposta> reacaoRespostaList;
 
     public Resposta(

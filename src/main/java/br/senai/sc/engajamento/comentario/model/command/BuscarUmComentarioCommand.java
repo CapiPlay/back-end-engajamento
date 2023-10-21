@@ -13,5 +13,7 @@ public class BuscarUmComentarioCommand {
     @NotNull(message = "ID do comentário não informado")
     private String idComentario;
 
+
+
 }
 

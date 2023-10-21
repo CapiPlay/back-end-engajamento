@@ -26,8 +26,9 @@ public class RespostaController {
         return ResponseEntity.ok(respostaService.criar(cmd.from(idUsuario)));
     }
 
-    @GetMapping
-    private ResponseEntity<Resposta> buscarUm(@RequestBody BuscarUmaRespostaCommand cmd) {
+    @GetMapping("/{idResposta}")
+    private ResponseEntity<Resposta> buscarUm(@PathVariable String idResposta) {
+        BuscarUmaRespostaCommand cmd = new BuscarUmaRespostaCommand(idResposta);
         return ResponseEntity.ok(respostaService.buscarUm(cmd));
     }
 
@@ -37,7 +38,6 @@ public class RespostaController {
         @PathVariable("idComentario") String idComentario,
         @PathVariable("page") int page
     ) {
-        System.out.println("AAAAAAAA");
         return ResponseEntity.ok(respostaService.buscarTodosPorComentario(idComentario, page));
     }
 

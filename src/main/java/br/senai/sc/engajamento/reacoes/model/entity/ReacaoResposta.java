@@ -3,6 +3,7 @@ package br.senai.sc.engajamento.reacoes.model.entity;
 import br.senai.sc.engajamento.reacoes.model.id.ReacaoRespostaId;
 import br.senai.sc.engajamento.resposta.model.entity.Resposta;
 import br.senai.sc.engajamento.usuario.model.entity.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class ReacaoResposta {
     @Id
     @ManyToOne
     @JoinColumn(nullable = false, name = "id_resposta")
+    @JsonIgnore
     private Resposta idResposta;
 
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)

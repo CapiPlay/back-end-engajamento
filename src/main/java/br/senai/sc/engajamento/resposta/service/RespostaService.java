@@ -75,7 +75,7 @@ public class RespostaService {
 //        Video video = videoRepository.getById(comentario.getIdVideo().getId());
 
 //        if (!video.getEhInativado()) {
-            System.out.println("AAAA");
+
             Pageable pageable = PageRequest.of(page, 5);
             Page<Resposta> list = respostaRepository.findAllByIdComentarioOrderByDataHora(
                     comentarioRepository.findById(idComentario)

@@ -42,7 +42,7 @@ public class Comentario {
     private Video idVideo;
 
     @OneToMany(mappedBy = "idComentario")
-    @JsonIgnore
+
     private List<ReacaoComentario> reacaoComentarioList;
 
     @OneToMany(mappedBy = "idComentario")
